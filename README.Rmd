@@ -39,8 +39,19 @@ Since RJDemetra requires Java SE 8 or later version, the same requirements are a
 
 ```{r, eval = FALSE}
 # Install development version from GitHub
-# install.packages("devtools")
-devtools::install_github("AQLT/ggdemetra3")
+# install.packages("remotes")
+# Install dependencies
+remotes::install_github("AQLT/rjd3toolkit")
+remotes::install_github("AQLT/rjd3modelling")
+remotes::install_github("AQLT/rjd3sa")
+remotes::install_github("AQLT/rjd3arima")
+remotes::install_github("AQLT/rjd3x13")
+remotes::install_github("AQLT/rjd3tramoseats")
+remotes::install_github("AQLT/rjdemetra3")
+remotes::install_github("AQLT/rjd3sts")
+remotes::install_github("AQLT/rjd3highfreq")
+# install ggdemetra3
+remotes::install_github("AQLT/ggdemetra3")
 ```
 
 If you have troubles with the installation of RJDemetra, check the [installation manual](https://github.com/jdemetra/rjdemetra/wiki/Installation-manual).
@@ -52,7 +63,7 @@ If no new data or seasonal adjustment specification is specified (method or spec
 In the following examples, the seasonal adjustment will be perform with X-13-ARIMA with working day adjustment and no gradual easter effect adjustment (it is the specification that has the most economic sense for the industrial production index).
 
 To add the seasonal adjusted series and the forecasts of the input data and of the seasonal adjusted series:
-```{r, warning=FALSE, message=FALSE}
+```{r sa, warning=FALSE, message=FALSE}
 library(ggplot2)
 library(ggdemetra3)
 spec <- rjd3x13::spec_x13_default("rsa3")
@@ -70,7 +81,7 @@ p_sa
 ```
 
 To add the outliers at the bottom of the plot with an arrow to the data point and the estimated coefficients:
-```{r}
+```{r out}
 p_sa + 
     geom_outlier(geom = "label_repel",
                  coefficients = TRUE,
@@ -82,7 +93,7 @@ p_sa +
 
 To add the ARIMA model:
 
-```{r}
+```{r arima}
 p_sa + 
     geom_arima(geom = "label",
                x_arima = -Inf, y_arima = -Inf, 
@@ -90,7 +101,7 @@ p_sa +
 ```
 
 To add a table of diagnostics below the plot:
-```{r}
+```{r diag}
 diagnostics <- c(`Q-M2` = "m-statistics.q-m2",
                  `Residual qs-test (p-value)` = "diagnostics.seas-sa-qs",
                  `Residual f-test (p-value)` = "diagnostics.seas-sa-f")
@@ -113,3 +124,20 @@ For example, the data `ipi_c_eu_df` used in this package is obtained by applying
 ```{r, eval = FALSE}
 ipi_c_eu_df <- ts2df(ipi_c_eu)
 ```
+
+## High-frequency seasonal adjustment
+
+The `geom_sa()` function is also compatible with some methods that can be used for high-frequency seasonal adjustment (`"x11-extended"`, `"fractionalairline"`, `"multiairline"` or `"stl"`)
+
+```{r hf}
+p_us_init_claims<- ggplot(data = usclaims, mapping = aes(x = date, y = `Initial claims`)) +
+    geom_line() +
+    labs(title = "US initial claims",
+         x = NULL, y = NULL)
+p_sa <- p_us_init_claims +
+    geom_sa(component = "sa", linetype = 2,frequency = 52,
+            method ="multiairline",
+            col = "red") 
+p_sa
+```
+

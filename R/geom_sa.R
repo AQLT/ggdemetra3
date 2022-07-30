@@ -14,15 +14,23 @@ StatSa <- ggproto("StatSa", Stat,
                                                     frequency = frequency,
                                                     message = message,
                                                     new_data = new_data)
+                      method = method[1]
                       data <- result[["data"]]
                       sa <- result[["sa"]]
                       component <- component[1]
-                      component_ts <- rjd3toolkit::result(sa, component)
-                      if (!is.ts(component_ts)) {
-                          warning(sprintf("The component %s isn't a time series!", component))
-                          return(NULL)
+                      if (method %in% c("x13", "tramoseats")){
+                          component_ts <- rjd3toolkit::result(sa, component)
+                          if (!is.ts(component_ts)) {
+                              warning(sprintf("The component %s isn't a time series!", component))
+                              return(NULL)
+                          }
+                          component_df <- ts2dataframe(component_ts)
+                      } else {
+                          component_ts <- sa$decomposition[[component]]
+                          component_df <- data.frame(x = data$x, y = component_ts)
                       }
-                      component_df <- ts2dataframe(component_ts)
+                      
+                      
                       
                       # if the ts is a forecast we add the last observed value:
                       if (length(grep("^.*_f$", component)) > 0) {
@@ -94,7 +102,8 @@ StatSa <- ggproto("StatSa", Stat,
 #' @export
 geom_sa <- function(mapping = NULL, data = NULL, stat = "sa",
                     position = "identity", ...,
-                    method = c("x13", "tramoseats"), 
+                    method = c("x13","tramoseats",
+                               "x11-extended", "fractionalairline", "multiairline", "stl"), 
                     spec = NULL,
                     frequency = NULL,
                     message = TRUE,
@@ -115,7 +124,8 @@ geom_sa <- function(mapping = NULL, data = NULL, stat = "sa",
 #' @export
 stat_sa <- function(mapping = NULL, data = NULL, geom = "line",
                     position = "identity", ...,
-                    method = c("x13", "tramoseats"), 
+                    method = c("x13","tramoseats",
+                               "x11-extended", "fractionalairline", "multiairline", "stl"), 
                     spec = NULL,
                     frequency = NULL,
                     message = TRUE,

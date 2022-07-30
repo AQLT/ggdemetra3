@@ -43,8 +43,19 @@ requirements are also needed for ggdemetra.
 
 ``` r
 # Install development version from GitHub
-# install.packages("devtools")
-devtools::install_github("AQLT/ggdemetra3")
+# install.packages("remotes")
+# Install dependencies
+remotes::install_github("AQLT/rjd3toolkit")
+remotes::install_github("AQLT/rjd3modelling")
+remotes::install_github("AQLT/rjd3sa")
+remotes::install_github("AQLT/rjd3arima")
+remotes::install_github("AQLT/rjd3x13")
+remotes::install_github("AQLT/rjd3tramoseats")
+remotes::install_github("AQLT/rjdemetra3")
+remotes::install_github("AQLT/rjd3sts")
+remotes::install_github("AQLT/rjd3highfreq")
+# install ggdemetra3
+remotes::install_github("AQLT/ggdemetra3")
 ```
 
 If you have troubles with the installation of RJDemetra, check the
@@ -84,7 +95,7 @@ p_sa <- p_ipi_fr +
 p_sa
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-sa-1.png" width="100%" style="display: block; margin: auto;" />
 
 To add the outliers at the bottom of the plot with an arrow to the data
 point and the estimated coefficients:
@@ -97,9 +108,12 @@ p_sa +
                  arrow = arrow(length = unit(0.03, "npc"),
                                type = "closed", ends = "last"),
                  digits = 2)
+#> Warning in f(...): The component y_f(12) isn't a time series!
+#> Warning in f(...): The component sa isn't a time series!
+#> Warning in f(...): The component sa_f isn't a time series!
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-out-1.png" width="100%" style="display: block; margin: auto;" />
 
 To add the ARIMA model:
 
@@ -108,9 +122,12 @@ p_sa +
     geom_arima(geom = "label",
                x_arima = -Inf, y_arima = -Inf, 
                vjust = -1, hjust = -0.1)
+#> Warning in f(...): The component y_f(12) isn't a time series!
+#> Warning in f(...): The component sa isn't a time series!
+#> Warning in f(...): The component sa_f isn't a time series!
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-arima-1.png" width="100%" style="display: block; margin: auto;" />
 
 To add a table of diagnostics below the plot:
 
@@ -126,9 +143,12 @@ p_diag <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     
 gridExtra::grid.arrange(p_sa, p_diag,
              nrow = 2, heights  = c(4, 1.5))
+#> Warning in f(...): The component y_f(12) isn't a time series!
+#> Warning in f(...): The component sa isn't a time series!
+#> Warning in f(...): The component sa_f isn't a time series!
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-diag-1.png" width="100%" style="display: block; margin: auto;" />
 
 See the
 [vignette](https://aqlt.github.io/ggdemetra3/articles/ggdemetra3.html)
@@ -143,3 +163,25 @@ available in RJDemetra:
 ``` r
 ipi_c_eu_df <- ts2df(ipi_c_eu)
 ```
+
+## High-frequency seasonal adjustment
+
+The `geom_sa()` function is also compatible with some methods that can
+be used for high-frequency seasonal adjustment (`"x11-extended"`,
+`"fractionalairline"`, `"multiairline"` or `"stl"`)
+
+``` r
+p_us_init_claims<- ggplot(data = usclaims, mapping = aes(x = date, y = `Initial claims`)) +
+    geom_line() +
+    labs(title = "US initial claims",
+         x = NULL, y = NULL)
+p_sa <- p_us_init_claims +
+    geom_sa(component = "sa", linetype = 2,frequency = 52,
+            method ="multiairline",
+            col = "red") 
+p_sa
+#> Warning: Computation failed in `stat_sa()`:
+#> 'arg' should be one of "x13", "tramoseats"
+```
+
+<img src="man/figures/README-hf-1.png" width="100%" style="display: block; margin: auto;" />
