@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ggdemetra <img src="man/figures/logo.png" align="right" alt="" />
+# ggdemetra3 <img src="man/figures/logo.png" align="right" alt="" />
 
 [![R-CMD-check](https://github.com/AQLT/ggdemetra3/workflows/R-CMD-check/badge.svg)](https://github.com/AQLT/ggdemetra3/actions)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggdemetra)](https://cran.r-project.org/package=ggdemetra3)

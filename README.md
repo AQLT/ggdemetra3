@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ggdemetra <img src="man/figures/logo.png" align="right" alt="" />
+# ggdemetra3 <img src="man/figures/logo.png" align="right" alt="" />
 
 [![R-CMD-check](https://github.com/AQLT/ggdemetra/workflows/R-CMD-check/badge.svg)](https://github.com/AQLT/ggdemetra/actions)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggdemetra)](https://cran.r-project.org/package=ggdemetra)
