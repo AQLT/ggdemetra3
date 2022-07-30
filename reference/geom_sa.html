@@ -190,7 +190,6 @@ rather than combining with them.</p></dd>
 <span class="r-in"><span><span class="co"># To add the seasonal adjusted series:</span></span></span>
 <span class="r-in"><span><span class="va">p_ipi_fr</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>    <span class="fu">geom_sa</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The component sa isn't a time series!</span>
 <span class="r-plt img"><img src="geom_sa-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># To add the forecasts of the input data and the seasonal adjusted series:</span></span></span>
@@ -199,9 +198,6 @@ rather than combining with them.</p></dd>
 <span class="r-in"><span>    <span class="fu">geom_sa</span><span class="op">(</span>component <span class="op">=</span> <span class="st">"sa"</span>, color <span class="op">=</span> <span class="st">"red"</span>, message <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>    <span class="fu">geom_sa</span><span class="op">(</span>component <span class="op">=</span> <span class="st">"sa_f"</span>, color <span class="op">=</span> <span class="st">"red"</span>, linetype <span class="op">=</span> <span class="fl">2</span>, message <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">p_sa</span> </span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The component y_f isn't a time series!</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The component sa isn't a time series!</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The component sa_f isn't a time series!</span>
 <span class="r-plt img"><img src="geom_sa-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
