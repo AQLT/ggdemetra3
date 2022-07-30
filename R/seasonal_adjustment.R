@@ -36,17 +36,21 @@ seasonal_adjustment <- function(data,
                 sa <- rjd3tramoseats::jtramoseats(data_ts, spec = spec)
             }
         } else if (method == "fractionalairline") {
-            if (is.null(spec)) {
-                sa <- rjd3highfreq::fractionalAirlineDecomposition(data_ts,period = frequency)
-            } else {
-                sa <- rjd3highfreq::fractionalAirlineDecomposition(data_ts, spec = spec)
-            }
+            spec$y = data_ts
+            spec$period = frequency
+            sa <- do.call(rjd3highfreq::fractionalAirlineDecomposition, spec)
         } else if (method == "multiairline") {
-            if (is.null(spec)) {
-                sa <- rjd3highfreq::multiAirlineDecomposition(data_ts, period = frequency)
-            } else {
-                sa <- rjd3highfreq::multiAirlineDecomposition(data_ts, spec = spec)
-            }
+            spec$y = data_ts
+            spec$period = frequency
+            sa <- do.call(rjd3highfreq::multiAirlineDecomposition, spec)
+        } else if (method == "x11-extended") {
+            spec$y = data_ts
+            spec$period = frequency
+            sa <- do.call(rjd3highfreq::x11, spec)
+        } else if (method == "stl") {
+            spec$y = data_ts
+            spec$period = frequency
+            sa <- do.call(rjd3highfreq::stl, spec)
         }
         .demetra$sa <- sa
         .demetra$spec <- spec

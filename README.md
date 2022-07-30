@@ -3,21 +3,18 @@
 
 # ggdemetra3 <img src="man/figures/logo.png" align="right" alt="" />
 
-[![R-CMD-check](https://github.com/AQLT/ggdemetra/workflows/R-CMD-check/badge.svg)](https://github.com/AQLT/ggdemetra/actions)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggdemetra)](https://cran.r-project.org/package=ggdemetra)
-[![CRAN last
-release](http://www.r-pkg.org/badges/last-release/ggdemetra)](https://cran.r-project.org/package=ggdemetra)
-[![CRAN monthly
-downloads](http://cranlogs.r-pkg.org/badges/ggdemetra?color=lightgrey)](https://cran.r-project.org/package=ggdemetra)
-[![CRAN
-downloads](http://cranlogs.r-pkg.org/badges/grand-total/ggdemetra?color=lightgrey)](https://cran.r-project.org/package=ggdemetra)
+[![R-CMD-check](https://github.com/AQLT/ggdemetra3/workflows/R-CMD-check/badge.svg)](https://github.com/AQLT/ggdemetra3/actions)
+<!-- [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggdemetra)](https://cran.r-project.org/package=ggdemetra3) -->
+<!-- [![CRAN last release](http://www.r-pkg.org/badges/last-release/ggdemetra)](https://cran.r-project.org/package=ggdemetra3) -->
+<!-- [![CRAN monthly downloads](http://cranlogs.r-pkg.org/badges/ggdemetra?color=lightgrey)](https://cran.r-project.org/package=ggdemetra3) -->
+<!-- [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/ggdemetra?color=lightgrey)](https://cran.r-project.org/package=ggdemetra3) -->
 
 ## Overview
 
-ggdemetra is an extension of
+ggdemetra3 is an extension of
 [ggplot2](https://github.com/tidyverse/ggplot2) to add seasonal
 adjustment statistics to your plots. The seasonal adjustment process is
-done with [RJDemetra](https://github.com/jdemetra/rjdemetra) that is an
+done with [RJDemetra3](https://github.com/palatej/rjdemetra3) that is an
 R interface to [JDemetra+](https://github.com/jdemetra/jdemetra-app),
 the seasonal adjustment software [officially
 recommended](https://ec.europa.eu/eurostat/cros/system/files/Jdemetra_%20release.pdf)
@@ -45,12 +42,9 @@ Since RJDemetra requires Java SE 8 or later version, the same
 requirements are also needed for ggdemetra.
 
 ``` r
-# Install release version from CRAN
-install.packages("ggdemetra")
-
 # Install development version from GitHub
 # install.packages("devtools")
-devtools::install_github("AQLT/ggdemetra")
+devtools::install_github("AQLT/ggdemetra3")
 ```
 
 If you have troubles with the installation of RJDemetra, check the
@@ -75,14 +69,15 @@ and of the seasonal adjusted series:
 
 ``` r
 library(ggplot2)
-library(ggdemetra)
-spec <- RJDemetra::x13_spec("RSA3", tradingdays.option = "WorkingDays")
+library(ggdemetra3)
+spec <- rjd3x13::spec_x13_default("rsa3")
+spec <- rjd3arima::set_tradingdays(spec, option = "WorkingDays")
 p_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     geom_line() +
     labs(title = "Seasonal adjustment of the French industrial production index",
          x = NULL, y = NULL)
 p_sa <- p_ipi_fr +
-    geom_sa(component = "y_f", linetype = 2,
+    geom_sa(component = "y_f(12)", linetype = 2,
             spec = spec) + 
     geom_sa(component = "sa", color = "red") +
     geom_sa(component = "sa_f", color = "red", linetype = 2)
@@ -98,7 +93,6 @@ point and the estimated coefficients:
 p_sa + 
     geom_outlier(geom = "label_repel",
                  coefficients = TRUE,
-                 vjust = 4,
                  ylim = c(NA, 65), force = 10,
                  arrow = arrow(length = unit(0.03, "npc"),
                                type = "closed", ends = "last"),
@@ -121,9 +115,9 @@ p_sa +
 To add a table of diagnostics below the plot:
 
 ``` r
-diagnostics <- c(`Combined test` = "diagnostics.combined.all.summary",
-                 `Residual qs-test (p-value)` = "diagnostics.qs",
-                 `Residual f-test (p-value)` = "diagnostics.ftest")
+diagnostics <- c(`Q-M2` = "m-statistics.q-m2",
+                 `Residual qs-test (p-value)` = "diagnostics.seas-sa-qs",
+                 `Residual f-test (p-value)` = "diagnostics.seas-sa-f")
 p_diag <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     geom_diagnostics(diagnostics = diagnostics,
                      table_theme = gridExtra::ttheme_default(base_size = 8),
@@ -137,8 +131,8 @@ gridExtra::grid.arrange(p_sa, p_diag,
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" />
 
 See the
-[vignette](https://aqlt.github.io/ggdemetra/articles/ggdemetra.html) for
-more details.
+[vignette](https://aqlt.github.io/ggdemetra3/articles/ggdemetra3.html)
+for more details.
 
 Note that `ts` objects cannot be directly used in `ggplot2`. To convert
 `ts` or `mts` object to `data.frame`, you can use the `ts2df()`
