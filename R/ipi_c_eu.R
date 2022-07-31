@@ -64,3 +64,9 @@
 # save(ipi_c_eu,file = "data/ipi_c_eu.rda", version = 2)
 # save(ipi_c_eu_df,file = "data/ipi_c_eu_df.rda", version = 2)
 
+
+#' US Claims
+#'
+#' Weekly US claims
+#' @docType data
+"usclaims"
