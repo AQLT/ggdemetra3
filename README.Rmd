@@ -4,7 +4,7 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -13,20 +13,24 @@ knitr::opts_chunk$set(
   fig.dim = c(7,4)*1.4,
   out.width = "100%"
 )
+library(ggdemetra3)
 ```
 
 # ggdemetra3 <img src="man/figures/logo.png" align="right" alt="" />
 
 [![R-CMD-check](https://github.com/AQLT/ggdemetra3/workflows/R-CMD-check/badge.svg)](https://github.com/AQLT/ggdemetra3/actions)
-<!-- [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggdemetra)](https://cran.r-project.org/package=ggdemetra3) -->
-<!-- [![CRAN last release](http://www.r-pkg.org/badges/last-release/ggdemetra)](https://cran.r-project.org/package=ggdemetra3) -->
-<!-- [![CRAN monthly downloads](http://cranlogs.r-pkg.org/badges/ggdemetra?color=lightgrey)](https://cran.r-project.org/package=ggdemetra3) -->
-<!-- [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/ggdemetra?color=lightgrey)](https://cran.r-project.org/package=ggdemetra3) -->
+<!-- [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggdemetra3)](https://cran.r-project.org/package=ggdemetra3) -->
+<!-- [![CRAN last release](http://www.r-pkg.org/badges/last-release/ggdemetra3)](https://cran.r-project.org/package=ggdemetra3) -->
+<!-- [![CRAN monthly downloads](http://cranlogs.r-pkg.org/badges/ggdemetra3?color=lightgrey)](https://cran.r-project.org/package=ggdemetra3) -->
+<!-- [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/ggdemetra3?color=lightgrey)](https://cran.r-project.org/package=ggdemetra3) -->
 
 ## Overview
-ggdemetra3 is an extension of [ggplot2](https://github.com/tidyverse/ggplot2) to add seasonal adjustment statistics to your plots. The seasonal adjustment process is done with [RJDemetra3](https://github.com/palatej/rjdemetra3) that is an R interface to [JDemetra+](https://github.com/jdemetra/jdemetra-app), the seasonal adjustment software [officially recommended](https://ec.europa.eu/eurostat/cros/system/files/Jdemetra_%20release.pdf) to the members of the European Statistical System (ESS) and the European System of Central Banks. RJDemetra implements the two leading seasonal adjustment methods [TRAMO/SEATS+](http://gretl.sourceforge.net/tramo/tramo-seats.html) and [X-12ARIMA/X-13ARIMA-SEATS](https://www.census.gov/data/software/x13as.html).
 
-There are 4 main functionnalities in `ggdemetra` depending of what you want to add in the graphic:
+ggdemetra3 is an extension of [ggplot2](https://github.com/tidyverse/ggplot2) to add seasonal adjustment statistics to your plots. 
+The seasonal adjustment process is done with [RJDemetra3](https://github.com/palatej/rjdemetra3) that is an R interface to [JDemetra+](https://github.com/jdemetra/jdemetra-app), the seasonal adjustment software [officially recommended](https://ec.europa.eu/eurostat/cros/system/files/Jdemetra_%20release.pdf) to the members of the European Statistical System (ESS) and the European System of Central Banks. 
+RJDemetra3 implements the two leading seasonal adjustment methods [TRAMO/SEATS+](http://gretl.sourceforge.net/tramo/tramo-seats.html) and [X-12ARIMA/X-13ARIMA-SEATS](https://www.census.gov/data/software/x13as.html).
+
+There are 4 main functionnalities in `ggdemetra3` depending of what you want to add in the graphic:
 
 - `geom_sa()`: to add a time series compute during the seasonal adjustment (the trend, the seasonal adjusted time series, etc.).  
 - `geom_outlier()`: to add the outliers used in the pre-adjustment process of the seasonal adjustment.
@@ -35,7 +39,7 @@ There are 4 main functionnalities in `ggdemetra` depending of what you want to a
 
 ## Installation
 
-Since RJDemetra requires Java SE 8 or later version, the same requirements are also needed for ggdemetra.
+Since RJDemetra3 requires Java SE 17 or later version, the same requirements are also needed for ggdemetra3.
 
 ```{r, eval = FALSE}
 # Install development version from GitHub
@@ -54,7 +58,7 @@ remotes::install_github("AQLT/rjd3highfreq")
 remotes::install_github("AQLT/ggdemetra3")
 ```
 
-If you have troubles with the installation of RJDemetra, check the [installation manual](https://github.com/jdemetra/rjdemetra/wiki/Installation-manual).
+If you have troubles with the installation of ggdemetra3, check the [installation manual](https://github.com/jdemetra/rjdemetra/wiki/Installation-manual).
 
 ## Usage
 
@@ -64,7 +68,6 @@ In the following examples, the seasonal adjustment will be perform with X-13-ARI
 
 To add the seasonal adjusted series and the forecasts of the input data and of the seasonal adjusted series:
 ```{r sa, warning=FALSE, message=FALSE}
-library(ggplot2)
 library(ggdemetra3)
 spec <- rjd3x13::spec_x13_default("rsa3")
 spec <- rjd3arima::set_tradingdays(spec, option = "WorkingDays")
@@ -120,7 +123,6 @@ See the [vignette](https://aqlt.github.io/ggdemetra3/articles/ggdemetra3.html) f
 
 Note that `ts` objects cannot be directly used in `ggplot2`.
 To convert `ts` or `mts` object to `data.frame`, you can use the `ts2df()` function.
-For example, the data `ipi_c_eu_df` used in this package is obtained by applying the  `ts2df()`function to the `ipi_c_eu` data available in RJDemetra:
 ```{r, eval = FALSE}
 ipi_c_eu_df <- ts2df(ipi_c_eu)
 ```
@@ -129,7 +131,7 @@ ipi_c_eu_df <- ts2df(ipi_c_eu)
 
 The `geom_sa()` function is also compatible with some methods that can be used for high-frequency seasonal adjustment (`"x11-extended"`, `"fractionalairline"`, `"multiairline"` or `"stl"`)
 
-```{r hf}
+```{r hf, warning=FALSE, message=FALSE}
 p_us_init_claims<- ggplot(data = usclaims, mapping = aes(x = date, y = `Initial claims`)) +
     geom_line() +
     labs(title = "US initial claims",

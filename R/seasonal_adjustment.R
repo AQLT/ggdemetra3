@@ -1,5 +1,4 @@
 #' @importFrom stats ts is.mts is.ts time
-#' @importFrom rjd3highfreq fractionalAirlineDecomposition multiAirlineDecomposition
 seasonal_adjustment <- function(data,
                                 method = c("x13","tramoseats",
                                            "x11-extended", "fractionalairline", "multiairline", "stl"),
@@ -8,8 +7,7 @@ seasonal_adjustment <- function(data,
                                 message = TRUE,
                                 new_data = TRUE){
     method <- match.arg(tolower(method[1]),
-                        choices = c("x13","tramoseats",
-                                    "x11-extended", "fractionalairline", "multiairline", "stl"))
+                        choices = c("x13","tramoseats","x11-extended", "fractionalairline", "multiairline", "stl"))
     data <- data[order(data$x), ]
     
     use_previous_model <- pre_check_param(frequency = frequency, method = method,
@@ -134,7 +132,7 @@ pre_check_param <- function(frequency = NULL,
         return(use_previous_model)
     }
     
-    method <- match.arg(method)
+    method <- method[1]
     
     if((is.null(spec) || identical(spec, .demetra$spec)) & 
        (is.null(method) || identical(method, .demetra$method)) & 

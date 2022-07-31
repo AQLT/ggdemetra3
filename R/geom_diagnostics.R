@@ -4,7 +4,7 @@
 #'
 #' @inheritParams geom_sa
 #' @param diagnostics vector of character containing the name of the diagnostics to plot.
-#'    See [user_defined_variables()][RJDemetra::user_defined_variables] for the available
+#'    See [rjd3x13::userdefined_variables_x13()] or [rjd3tramoseats::userdefined_variables_tramoseats()] for the available
 #'    parameters.
 #' @param digits integer indicating the number of decimal places to be used for numeric diagnostics. By default `digits = 2`.
 #' @param xmin,xmax x location (in data coordinates) giving horizontal

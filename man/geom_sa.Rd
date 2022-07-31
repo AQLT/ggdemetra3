@@ -58,7 +58,7 @@ often aesthetics, used to set an aesthetic to a fixed value, like
 \item{method}{the method used for the seasonal adjustment. \code{"x13"} (by default) for the X-13ARIMA method and \code{"tramoseats"} for TRAMO-SEATS.}
 
 \item{spec}{the specification used for the seasonal adjustment.
-See \link[RJDemetra:x13]{x13()} or \link[RJDemetra:tramoseats]{tramoseats()}.}
+See \code{\link[rjd3x13:x13]{rjd3x13::x13()}} or \code{\link[rjd3tramoseats:tramoseats]{rjd3tramoseats::tramoseats()}}.}
 
 \item{frequency}{the frequency of the time series. By default (\code{frequency = NULL}),
 the frequency is computed automatically.}
@@ -66,7 +66,7 @@ the frequency is computed automatically.}
 \item{message}{a \code{boolean} indicating if a message is printed with the frequency used.}
 
 \item{component}{a \code{character} equals to the component to plot. The result must be a time series.
-See \link[RJDemetra:user_defined_variables]{user_defined_variables()} for the available
+See \code{\link[rjd3x13:userdefined_variables_x13]{rjd3x13::userdefined_variables_x13()}} or \code{\link[rjd3tramoseats:userdefined_variables_tramoseats]{rjd3tramoseats::userdefined_variables_tramoseats()}}for the available
 parameters. By default (\code{component = 'sa'}) the seasonal adjusted component is plotted.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?

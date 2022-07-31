@@ -4,10 +4,10 @@
 # ggdemetra3 <img src="man/figures/logo.png" align="right" alt="" />
 
 [![R-CMD-check](https://github.com/AQLT/ggdemetra3/workflows/R-CMD-check/badge.svg)](https://github.com/AQLT/ggdemetra3/actions)
-<!-- [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggdemetra)](https://cran.r-project.org/package=ggdemetra3) -->
-<!-- [![CRAN last release](http://www.r-pkg.org/badges/last-release/ggdemetra)](https://cran.r-project.org/package=ggdemetra3) -->
-<!-- [![CRAN monthly downloads](http://cranlogs.r-pkg.org/badges/ggdemetra?color=lightgrey)](https://cran.r-project.org/package=ggdemetra3) -->
-<!-- [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/ggdemetra?color=lightgrey)](https://cran.r-project.org/package=ggdemetra3) -->
+<!-- [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggdemetra3)](https://cran.r-project.org/package=ggdemetra3) -->
+<!-- [![CRAN last release](http://www.r-pkg.org/badges/last-release/ggdemetra3)](https://cran.r-project.org/package=ggdemetra3) -->
+<!-- [![CRAN monthly downloads](http://cranlogs.r-pkg.org/badges/ggdemetra3?color=lightgrey)](https://cran.r-project.org/package=ggdemetra3) -->
+<!-- [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/ggdemetra3?color=lightgrey)](https://cran.r-project.org/package=ggdemetra3) -->
 
 ## Overview
 
@@ -19,12 +19,12 @@ R interface to [JDemetra+](https://github.com/jdemetra/jdemetra-app),
 the seasonal adjustment software [officially
 recommended](https://ec.europa.eu/eurostat/cros/system/files/Jdemetra_%20release.pdf)
 to the members of the European Statistical System (ESS) and the European
-System of Central Banks. RJDemetra implements the two leading seasonal
+System of Central Banks. RJDemetra3 implements the two leading seasonal
 adjustment methods
 [TRAMO/SEATS+](http://gretl.sourceforge.net/tramo/tramo-seats.html) and
 [X-12ARIMA/X-13ARIMA-SEATS](https://www.census.gov/data/software/x13as.html).
 
-There are 4 main functionnalities in `ggdemetra` depending of what you
+There are 4 main functionnalities in `ggdemetra3` depending of what you
 want to add in the graphic:
 
 -   `geom_sa()`: to add a time series compute during the seasonal
@@ -38,8 +38,8 @@ want to add in the graphic:
 
 ## Installation
 
-Since RJDemetra requires Java SE 8 or later version, the same
-requirements are also needed for ggdemetra.
+Since RJDemetra3 requires Java SE 17 or later version, the same
+requirements are also needed for ggdemetra3.
 
 ``` r
 # Install development version from GitHub
@@ -58,7 +58,7 @@ remotes::install_github("AQLT/rjd3highfreq")
 remotes::install_github("AQLT/ggdemetra3")
 ```
 
-If you have troubles with the installation of RJDemetra, check the
+If you have troubles with the installation of ggdemetra3, check the
 [installation
 manual](https://github.com/jdemetra/rjdemetra/wiki/Installation-manual).
 
@@ -79,7 +79,6 @@ To add the seasonal adjusted series and the forecasts of the input data
 and of the seasonal adjusted series:
 
 ``` r
-library(ggplot2)
 library(ggdemetra3)
 spec <- rjd3x13::spec_x13_default("rsa3")
 spec <- rjd3arima::set_tradingdays(spec, option = "WorkingDays")
@@ -108,9 +107,6 @@ p_sa +
                  arrow = arrow(length = unit(0.03, "npc"),
                                type = "closed", ends = "last"),
                  digits = 2)
-#> Warning in f(...): The component y_f(12) isn't a time series!
-#> Warning in f(...): The component sa isn't a time series!
-#> Warning in f(...): The component sa_f isn't a time series!
 ```
 
 <img src="man/figures/README-out-1.png" width="100%" style="display: block; margin: auto;" />
@@ -122,9 +118,6 @@ p_sa +
     geom_arima(geom = "label",
                x_arima = -Inf, y_arima = -Inf, 
                vjust = -1, hjust = -0.1)
-#> Warning in f(...): The component y_f(12) isn't a time series!
-#> Warning in f(...): The component sa isn't a time series!
-#> Warning in f(...): The component sa_f isn't a time series!
 ```
 
 <img src="man/figures/README-arima-1.png" width="100%" style="display: block; margin: auto;" />
@@ -143,9 +136,6 @@ p_diag <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     
 gridExtra::grid.arrange(p_sa, p_diag,
              nrow = 2, heights  = c(4, 1.5))
-#> Warning in f(...): The component y_f(12) isn't a time series!
-#> Warning in f(...): The component sa isn't a time series!
-#> Warning in f(...): The component sa_f isn't a time series!
 ```
 
 <img src="man/figures/README-diag-1.png" width="100%" style="display: block; margin: auto;" />
@@ -156,9 +146,7 @@ for more details.
 
 Note that `ts` objects cannot be directly used in `ggplot2`. To convert
 `ts` or `mts` object to `data.frame`, you can use the `ts2df()`
-function. For example, the data `ipi_c_eu_df` used in this package is
-obtained by applying the `ts2df()`function to the `ipi_c_eu` data
-available in RJDemetra:
+function.
 
 ``` r
 ipi_c_eu_df <- ts2df(ipi_c_eu)
@@ -180,8 +168,6 @@ p_sa <- p_us_init_claims +
             method ="multiairline",
             col = "red") 
 p_sa
-#> Warning: Computation failed in `stat_sa()`:
-#> 'arg' should be one of "x13", "tramoseats"
 ```
 
 <img src="man/figures/README-hf-1.png" width="100%" style="display: block; margin: auto;" />

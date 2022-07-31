@@ -66,12 +66,12 @@ StatSa <- ggproto("StatSa", Stat,
 #'   `colour = "red"` or `size = 3`.
 #' @param method the method used for the seasonal adjustment. `"x13"` (by default) for the X-13ARIMA method and `"tramoseats"` for TRAMO-SEATS.
 #' @param spec the specification used for the seasonal adjustment. 
-#'    See [x13()][RJDemetra::x13] or [tramoseats()][RJDemetra::tramoseats].
+#'    See [rjd3x13::x13()] or [rjd3tramoseats::tramoseats()].
 #' @param frequency the frequency of the time series. By default (`frequency = NULL`),
 #'    the frequency is computed automatically.
 #' @param message a `boolean` indicating if a message is printed with the frequency used.
 #' @param component a `character` equals to the component to plot. The result must be a time series. 
-#'    See [user_defined_variables()][RJDemetra::user_defined_variables] for the available
+#'    See [rjd3x13::userdefined_variables_x13()] or [rjd3tramoseats::userdefined_variables_tramoseats()]for the available
 #'    parameters. By default (`component = 'sa'`) the seasonal adjusted component is plotted.
 #' @param show.legend logical. Should this layer be included in the legends?
 #'   `NA`, the default, includes if any aesthetics are mapped.

@@ -46,7 +46,7 @@ often aesthetics, used to set an aesthetic to a fixed value, like
 \item{method}{the method used for the seasonal adjustment. \code{"x13"} (by default) for the X-13ARIMA method and \code{"tramoseats"} for TRAMO-SEATS.}
 
 \item{spec}{the specification used for the seasonal adjustment.
-See \link[RJDemetra:x13]{x13()} or \link[RJDemetra:tramoseats]{tramoseats()}.}
+See \code{\link[rjd3x13:x13]{rjd3x13::x13()}} or \code{\link[rjd3tramoseats:tramoseats]{rjd3tramoseats::tramoseats()}}.}
 
 \item{frequency}{the frequency of the time series. By default (\code{frequency = NULL}),
 the frequency is computed automatically.}
