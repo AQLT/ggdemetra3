@@ -26,7 +26,7 @@ StatSa <- ggproto("StatSa", Stat,
                               return(NULL)
                           }
                           component_df <- ts2dataframe(component_ts)
-                      } if (method == "fractionalairlineestimation") {
+                      } else if (method == "fractionalairlineestimation") {
                           component_ts <- rslt$model$linearized
                           component_df <- data.frame(x = data$x, y = component_ts)
                       } else {
