@@ -7,7 +7,8 @@ seasonal_adjustment <- function(data,
                                 message = TRUE,
                                 new_data = TRUE){
     method <- match.arg(tolower(method[1]),
-                        choices = c("x13","tramoseats","x11-extended", "fractionalairline", "multiairline", "stl"))
+                        choices = c("x13","tramoseats","x11-extended", "fractionalairline",
+                                    "fractionalairlineestimation",  "multiairline", "stl"))
     data <- data[order(data$x), ]
     
     use_previous_model <- pre_check_param(frequency = frequency, method = method,
@@ -33,6 +34,10 @@ seasonal_adjustment <- function(data,
             }else{
                 sa <- rjd3tramoseats::jtramoseats(data_ts, spec = spec)
             }
+        } else if (method == "fractionalairlineestimation") {
+            spec$y = data_ts
+            spec$period = frequency
+            sa <- do.call(rjd3highfreq::fractionalAirlineEstimation, spec)
         } else if (method == "fractionalairline") {
             spec$y = data_ts
             spec$period = frequency

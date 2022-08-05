@@ -2,7 +2,8 @@ StatSa <- ggproto("StatSa", Stat,
                   required_aes = c("x", "y"),
                   compute_group = function(data, scales,
                                            method = c("x13","tramoseats",
-                                                      "x11-extended", "fractionalairline", "multiairline", "stl"), 
+                                                      "x11-extended", "fractionalairline",
+                                                      "fractionalairlineestimation", "multiairline", "stl"), 
                                            spec = NULL,
                                            frequency = NULL,
                                            message = TRUE,
@@ -25,6 +26,9 @@ StatSa <- ggproto("StatSa", Stat,
                               return(NULL)
                           }
                           component_df <- ts2dataframe(component_ts)
+                      } if (method == "fractionalairlineestimation") {
+                          component_ts <- rslt$model$linearized
+                          component_df <- data.frame(x = data$x, y = component_ts)
                       } else {
                           component_ts <- sa$decomposition[[component]]
                           component_df <- data.frame(x = data$x, y = component_ts)
@@ -103,7 +107,8 @@ StatSa <- ggproto("StatSa", Stat,
 geom_sa <- function(mapping = NULL, data = NULL, stat = "sa",
                     position = "identity", ...,
                     method = c("x13","tramoseats",
-                               "x11-extended", "fractionalairline", "multiairline", "stl"), 
+                               "x11-extended", "fractionalairline", 
+                               "fractionalairlineestimation", "multiairline", "stl"), 
                     spec = NULL,
                     frequency = NULL,
                     message = TRUE,
@@ -125,7 +130,8 @@ geom_sa <- function(mapping = NULL, data = NULL, stat = "sa",
 stat_sa <- function(mapping = NULL, data = NULL, geom = "line",
                     position = "identity", ...,
                     method = c("x13","tramoseats",
-                               "x11-extended", "fractionalairline", "multiairline", "stl"), 
+                               "x11-extended", "fractionalairline", 
+                               "fractionalairlineestimation", "multiairline", "stl"), 
                     spec = NULL,
                     frequency = NULL,
                     message = TRUE,
