@@ -13,13 +13,13 @@ Depends:
 Imports:
     ggrepel,
     gridExtra,
-    rjd3arima,
     rjd3x13,
     rjd3tramoseats,
     rjd3highfreq
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    rjd3arima
 SystemRequirements: Java JRE 17 or higher.
 License: EUPL
 URL: https://github.com/AQLT/ggdemetra3
