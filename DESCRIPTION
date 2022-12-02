@@ -13,6 +13,7 @@ Depends:
 Imports:
     ggrepel,
     gridExtra,
+    rjd3toolkit,
     rjd3x13,
     rjd3tramoseats,
     rjd3highfreq
@@ -26,6 +27,6 @@ URL: https://github.com/AQLT/ggdemetra3
 BugReports: https://github.com/AQLT/ggdemetra3/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
