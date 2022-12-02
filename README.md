@@ -27,14 +27,14 @@ adjustment methods
 There are 4 main functionnalities in `ggdemetra3` depending of what you
 want to add in the graphic:
 
--   `geom_sa()`: to add a time series compute during the seasonal
-    adjustment (the trend, the seasonal adjusted time series, etc.).  
--   `geom_outlier()`: to add the outliers used in the pre-adjustment
-    process of the seasonal adjustment.
--   `geom_arima()`: to add the ARIMA model used in the pre-adjustment
-    process of the seasonal adjustment.
--   `geom_diagnostics()`: to add a table containing some diagnostics on
-    the seasonal adjustment process.
+- `geom_sa()`: to add a time series compute during the seasonal
+  adjustment (the trend, the seasonal adjusted time series, etc.).  
+- `geom_outlier()`: to add the outliers used in the pre-adjustment
+  process of the seasonal adjustment.
+- `geom_arima()`: to add the ARIMA model used in the pre-adjustment
+  process of the seasonal adjustment.
+- `geom_diagnostics()`: to add a table containing some diagnostics on
+  the seasonal adjustment process.
 
 ## Installation
 
@@ -81,7 +81,7 @@ and of the seasonal adjusted series:
 ``` r
 library(ggdemetra3)
 spec <- rjd3x13::spec_x13_default("rsa3")
-spec <- rjd3arima::set_tradingdays(spec, option = "WorkingDays")
+spec <- rjd3modelling::set_tradingdays(spec, option = "WorkingDays")
 p_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     geom_line() +
     labs(title = "Seasonal adjustment of the French industrial production index",
@@ -171,3 +171,26 @@ p_sa
 ```
 
 <img src="man/figures/README-hf-1.png" width="100%" style="display: block; margin: auto;" />
+
+## autoplot()
+
+`ggdemetra3` also provides `autoplot()` functions to plot seasonal
+adjustment models:
+
+``` r
+mod <- rjd3x13::x13(ipi_c_eu[,"FR"])
+autoplot(mod)
+```
+
+<img src="man/figures/README-autoplot-1.png" width="100%" style="display: block; margin: auto;" />
+
+The different components of seasonal adjustment models can also be
+extracted through `calendar()`, `calendaradj()`, `irregular()`,
+`trendcycle()`, `seasonal()`, `seasonaladj()`, `trendcycle()` and
+`raw()`:
+
+``` r
+monthplot(seasonal(mod))
+```
+
+<img src="man/figures/README-monthplot-1.png" width="100%" style="display: block; margin: auto;" />

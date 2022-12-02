@@ -70,7 +70,7 @@ To add the seasonal adjusted series and the forecasts of the input data and of t
 ```{r sa, warning=FALSE, message=FALSE}
 library(ggdemetra3)
 spec <- rjd3x13::spec_x13_default("rsa3")
-spec <- rjd3arima::set_tradingdays(spec, option = "WorkingDays")
+spec <- rjd3modelling::set_tradingdays(spec, option = "WorkingDays")
 p_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     geom_line() +
     labs(title = "Seasonal adjustment of the French industrial production index",
@@ -104,7 +104,7 @@ p_sa +
 ```
 
 To add a table of diagnostics below the plot:
-```{r diag}
+```{r diag, warning=FALSE}
 diagnostics <- c(`Q-M2` = "m-statistics.q-m2",
                  `Residual qs-test (p-value)` = "diagnostics.seas-sa-qs",
                  `Residual f-test (p-value)` = "diagnostics.seas-sa-f")
@@ -141,5 +141,18 @@ p_sa <- p_us_init_claims +
             method ="multiairline",
             col = "red") 
 p_sa
+```
+
+## autoplot()
+
+`ggdemetra3` also provides `autoplot()` functions to plot seasonal adjustment models:
+```{r autoplot}
+mod <- rjd3x13::x13(ipi_c_eu[,"FR"])
+autoplot(mod)
+```
+
+The different components of seasonal adjustment models can also be extracted through  `calendar()`, `calendaradj()`, `irregular()`, `trendcycle()`, `seasonal()`, `seasonaladj()`, `trendcycle()` and `raw()`:
+```{r monthplot}
+monthplot(seasonal(mod))
 ```
 
