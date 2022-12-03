@@ -2,7 +2,7 @@
 % Please edit documentation in R/autoplot.R
 \name{autoplot.JD3_X13_OUTPUT}
 \alias{autoplot.JD3_X13_OUTPUT}
-\title{Plot 'RJDemetra' model}
+\title{Plot 'rjdemetra3' model}
 \usage{
 \method{autoplot}{JD3_X13_OUTPUT}(
   object,
@@ -24,7 +24,7 @@
 \item{...}{unused arguments.}
 }
 \description{
-Plot 'RJDemetra' model
+Plot 'rjdemetra3' model
 }
 \examples{
 x = rjd3x13::x13(ipi_c_eu[,"FR"])

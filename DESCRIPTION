@@ -1,12 +1,12 @@
 Package: ggdemetra3
 Type: Package
-Title: 'ggplot2' Extension for Seasonal and Trading Day Adjustment with 'RJDemetra3'
+Title: 'ggplot2' Extension for Seasonal and Trading Day Adjustment with 'rjdemetra3'
 Version: 0.0.1
 Authors@R: c(person("Alain", "Quartier-la-Tente", role = c("aut", "cre"),
                  email = "alain.quartier@yahoo.fr",
                  comment = c(ORCID = "0000-0001-7890-3857")))
 Description: Provides 'ggplot2' functions to return the results of seasonal and trading day adjustment 
-    made by 'RJDemetra3'.
+    made by 'rjdemetra3'.
 Depends:
     R (>= 3.1.2), 
     ggplot2 (>= 2.0.0)
@@ -20,7 +20,7 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    rjd3arima
+    rjd3modelling
 SystemRequirements: Java JRE 17 or higher.
 License: EUPL
 URL: https://github.com/AQLT/ggdemetra3

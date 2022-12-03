@@ -14,12 +14,12 @@
 ggdemetra3 is an extension of
 [ggplot2](https://github.com/tidyverse/ggplot2) to add seasonal
 adjustment statistics to your plots. The seasonal adjustment process is
-done with [RJDemetra3](https://github.com/palatej/rjdemetra3) that is an
+done with [rjdemetra3](https://github.com/palatej/rjdemetra3) that is an
 R interface to [JDemetra+](https://github.com/jdemetra/jdemetra-app),
 the seasonal adjustment software [officially
 recommended](https://ec.europa.eu/eurostat/cros/system/files/Jdemetra_%20release.pdf)
 to the members of the European Statistical System (ESS) and the European
-System of Central Banks. RJDemetra3 implements the two leading seasonal
+System of Central Banks. rjdemetra3 implements the two leading seasonal
 adjustment methods
 [TRAMO/SEATS+](http://gretl.sourceforge.net/tramo/tramo-seats.html) and
 [X-12ARIMA/X-13ARIMA-SEATS](https://www.census.gov/data/software/x13as.html).
@@ -38,7 +38,7 @@ want to add in the graphic:
 
 ## Installation
 
-Since RJDemetra3 requires Java SE 17 or later version, the same
+Since rjdemetra3 requires Java SE 17 or later version, the same
 requirements are also needed for ggdemetra3.
 
 ``` r
