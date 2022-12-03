@@ -1,10 +1,12 @@
 #' Extract Component from 'RJDemetra' model
 #' 
 #' @param x a seasonal adjustment object.
-#' @param forecast boolean indicating if the forecast series should be returned.
+#' @param forecast,backcast boolean indicating if the forecast/backcast series should be returned.
 #' @param calendar if `TRUE`, `seasonal()` returns de seasonal and calendar components.
 #' @param corrected if `TRUE` large extreme values are removed from the components.
 #' @param ... unused parameters.
+#' 
+#' @importFrom stats window start end
 #' @name components
 #' @rdname components
 #' @export
