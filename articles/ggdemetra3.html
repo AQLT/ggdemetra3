@@ -112,13 +112,6 @@
 
     
     
-<div class="section level2">
-<h2 id="ggdemetra3">ggdemetra3 <img src="reference/figures/logo.png" align="right" alt=""><a class="anchor" aria-label="anchor" href="#ggdemetra3"></a>
-</h2>
-<p><a href="https://github.com/AQLT/ggdemetra3/actions" class="external-link"><img src="https://github.com/AQLT/ggdemetra3/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a> <a href="https://cran.r-project.org/package=ggdemetra3" class="external-link"><img src="http://www.r-pkg.org/badges/version/ggdemetra3" alt="CRAN_Status_Badge"></a> <a href="https://cran.r-project.org/package=ggdemetra3" class="external-link"><img src="http://www.r-pkg.org/badges/last-release/ggdemetra3" alt="CRAN last release"></a> <a href="https://cran.r-project.org/package=ggdemetra3" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/ggdemetra3?color=lightgrey" alt="CRAN monthly downloads"></a> <a href="https://cran.r-project.org/package=ggdemetra3" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/ggdemetra3?color=lightgrey" alt="CRAN downloads"></a></p>
-<div class="section level3">
-<h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
-</h3>
 <p><code>ggdemetra3</code> is an extension of <code>ggplot2</code> to add seasonal adjustment statistics to your plots. The seasonal adjustment process is done with <a href="https://github.com/palatej/rjdemetra3" class="external-link">rjdemetra3</a> that is an R interface to <a href="https://github.com/jdemetra/jdemetra-app" class="external-link">JDemetra+ 3.0</a>, the seasonal adjustment software officially recommended to the members of the European Statistical System (ESS) and the European System of Central Banks. <code>rjdemetra3</code> implements the two leading seasonal adjustment methods <a href="http://gretl.sourceforge.net/tramo/tramo-seats.html" class="external-link">TRAMO/SEATS+</a> and <a href="https://www.census.gov/data/software/x13as.html" class="external-link">X-12ARIMA/X-13ARIMA-SEATS</a>.</p>
 <p>There are 4 main functionalities in <code>ggdemetra3</code> depending of what you want to add in the graphic:</p>
 <ul>
@@ -135,8 +128,6 @@
 <p>Note <code>ts</code> objects cannot be directly used in <code>ggplot2</code>. To convert <code>ts</code> or <code>mts</code> object to <code>data.frame</code>, you can use the <code><a href="../reference/ts2df.html">ts2df()</a></code> function. For example, the data <code>ipi_c_eu_df</code> used in this package is obtained by applying the <code><a href="../reference/ts2df.html">ts2df()</a></code>function to the <code>ipi_c_eu</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ipi_c_eu_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ts2df.html">ts2df</a></span><span class="op">(</span><span class="va">ipi_c_eu</span><span class="op">)</span></span></code></pre></div>
-</div>
-</div>
 <div class="section level2">
 <h2 id="seasonal-adjustment-specification">Seasonal adjustment specification<a class="anchor" aria-label="anchor" href="#seasonal-adjustment-specification"></a>
 </h2>
