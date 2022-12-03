@@ -3,7 +3,7 @@ StatSa <- ggproto("StatSa", Stat,
                   compute_group = function(data, scales,
                                            method = c("x13","tramoseats",
                                                       "x11-extended", "fractionalairline",
-                                                      "fractionalairlineestimation", "multiairline", "stl"), 
+                                                      "fractionalairlineestimation", "multiairline"), 
                                            spec = NULL,
                                            frequency = NULL,
                                            message = TRUE,
@@ -36,11 +36,11 @@ StatSa <- ggproto("StatSa", Stat,
                       
                       
                       
-                      # if the ts is a forecast we add the last observed value:
-                      if (length(grep("^.*_f$", component)) > 0) {
-                          component_df <- rbind(tail(data[,c("x", "y")],1),
-                                                component_df)
-                      }
+                      # # if the ts is a forecast we add the last observed value:
+                      # if (length(grep("^.*_f$", component)) > 0) {
+                      #     component_df <- rbind(tail(data[,c("x", "y")],1),
+                      #                           component_df)
+                      # }
                       
                       data$x <- data$y <- NULL
                       if (nrow(component_df) <= nrow(data)) {
@@ -108,7 +108,7 @@ geom_sa <- function(mapping = NULL, data = NULL, stat = "sa",
                     position = "identity", ...,
                     method = c("x13","tramoseats",
                                "x11-extended", "fractionalairline", 
-                               "fractionalairlineestimation", "multiairline", "stl"), 
+                               "fractionalairlineestimation", "multiairline"), 
                     spec = NULL,
                     frequency = NULL,
                     message = TRUE,
@@ -131,7 +131,7 @@ stat_sa <- function(mapping = NULL, data = NULL, geom = "line",
                     position = "identity", ...,
                     method = c("x13","tramoseats",
                                "x11-extended", "fractionalairline", 
-                               "fractionalairlineestimation", "multiairline", "stl"), 
+                               "fractionalairlineestimation", "multiairline"), 
                     spec = NULL,
                     frequency = NULL,
                     message = TRUE,

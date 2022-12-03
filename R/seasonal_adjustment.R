@@ -1,7 +1,7 @@
 #' @importFrom stats ts is.mts is.ts time
 seasonal_adjustment <- function(data,
                                 method = c("x13","tramoseats",
-                                           "x11-extended", "fractionalairline", "multiairline", "stl"),
+                                           "x11-extended", "fractionalairline", "multiairline"),
                                 spec = NULL,
                                 frequency = NULL,
                                 message = TRUE,
@@ -51,9 +51,9 @@ seasonal_adjustment <- function(data,
             spec$period = frequency
             sa <- do.call(rjd3highfreq::x11, spec)
         } else if (method == "stl") {
-            spec$y = data_ts
-            spec$period = frequency
-            sa <- do.call(rjd3highfreq::stl, spec)
+            # spec$y = data_ts
+            # spec$period = frequency
+            # sa <- do.call(rjd3highfreq::stl, spec)
         }
         .demetra$sa <- sa
         .demetra$spec <- spec
