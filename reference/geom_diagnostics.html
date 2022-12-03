@@ -180,24 +180,33 @@ rather than combining with them.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># To add of diagnostics with result of the X-11 combined test and the p-values </span></span></span>
 <span class="r-in"><span><span class="co"># of the residual seasonality qs and f tests:</span></span></span>
-<span class="r-in"><span><span class="va">diagnostics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"diagnostics.combined.all.summary"</span>, <span class="st">"diagnostics.qs"</span>, <span class="st">"diagnostics.ftest"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">diagnostics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"diagnostics.seas-sa-combined"</span>, <span class="st">"diagnostics.seas-sa-qs"</span>, <span class="st">"diagnostics.seas-sa-f"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">p_sa_ipi_fr</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>    <span class="fu">geom_diagnostics</span><span class="op">(</span>diagnostics <span class="op">=</span> <span class="va">diagnostics</span>,</span></span>
 <span class="r-in"><span>                     ymin <span class="op">=</span> <span class="fl">58</span>, ymax <span class="op">=</span> <span class="fl">72</span>, xmin <span class="op">=</span> <span class="fl">2010</span>,</span></span>
 <span class="r-in"><span>                     table_theme <span class="op">=</span> <span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/tableGrob.html" class="external-link">ttheme_default</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                     message <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following aesthetics were dropped during statistical transformation: <span style="color: #00BB00;">x, y</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> This can happen when ggplot fails to infer the correct grouping structure in</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>   the data.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Did you forget to specify a `group` aesthetic or to convert a numerical</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>   variable into a factor?</span>
 <span class="r-plt img"><img src="geom_diagnostics-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># To customize the names of the diagnostics in the plot:</span></span></span>
-<span class="r-in"><span>    </span></span>
-<span class="r-in"><span><span class="va">diagnostics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`Combined test` <span class="op">=</span> <span class="st">"diagnostics.combined.all.summary"</span>,</span></span>
-<span class="r-in"><span>                 `Residual qs-test (p-value)` <span class="op">=</span> <span class="st">"diagnostics.qs"</span>,</span></span>
-<span class="r-in"><span>                 `Residual f-test (p-value)` <span class="op">=</span> <span class="st">"diagnostics.ftest"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">diagnostics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`Combined test` <span class="op">=</span> <span class="st">"diagnostics.seas-sa-combined"</span>,</span></span>
+<span class="r-in"><span>                 `Residual qs-test (p-value)` <span class="op">=</span> <span class="st">"diagnostics.seas-sa-qs"</span>,</span></span>
+<span class="r-in"><span>                 `Residual f-test (p-value)` <span class="op">=</span> <span class="st">"diagnostics.seas-sa-f"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">p_sa_ipi_fr</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>    <span class="fu">geom_diagnostics</span><span class="op">(</span>diagnostics <span class="op">=</span> <span class="va">diagnostics</span>,</span></span>
 <span class="r-in"><span>                     ymin <span class="op">=</span> <span class="fl">58</span>, ymax <span class="op">=</span> <span class="fl">72</span>, xmin <span class="op">=</span> <span class="fl">2010</span>,</span></span>
 <span class="r-in"><span>                     table_theme <span class="op">=</span> <span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/tableGrob.html" class="external-link">ttheme_default</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                     message <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following aesthetics were dropped during statistical transformation: <span style="color: #00BB00;">x, y</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> This can happen when ggplot fails to infer the correct grouping structure in</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>   the data.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Did you forget to specify a `group` aesthetic or to convert a numerical</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>   variable into a factor?</span>
 <span class="r-plt img"><img src="geom_diagnostics-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># To add the table below the plot: </span></span></span>
@@ -210,6 +219,11 @@ rather than combining with them.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p_sa_ipi_fr</span>, <span class="va">p_diag</span>,</span></span>
 <span class="r-in"><span>                        nrow <span class="op">=</span> <span class="fl">2</span>, heights  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The following aesthetics were dropped during statistical transformation: <span style="color: #00BB00;">x, y</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> This can happen when ggplot fails to infer the correct grouping structure in</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>   the data.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Did you forget to specify a `group` aesthetic or to convert a numerical</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>   variable into a factor?</span>
 <span class="r-plt img"><img src="geom_diagnostics-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

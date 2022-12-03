@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ggplot2 Extension for Seasonal and Trading Day Adjustment with RJDemetra3 • ggdemetra3</title>
+<title>ggplot2 Extension for Seasonal and Trading Day Adjustment with rjdemetra3 • ggdemetra3</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -17,9 +17,9 @@
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="ggplot2 Extension for Seasonal and Trading Day Adjustment with RJDemetra3">
+<script src="pkgdown.js"></script><meta property="og:title" content="ggplot2 Extension for Seasonal and Trading Day Adjustment with rjdemetra3">
 <meta property="og:description" content="Provides ggplot2 functions to return the results of seasonal and trading day adjustment 
-    made by RJDemetra3.">
+    made by rjdemetra3.">
 <meta property="og:image" content="/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -107,7 +107,7 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>ggdemetra3 is an extension of <a href="https://github.com/tidyverse/ggplot2" class="external-link">ggplot2</a> to add seasonal adjustment statistics to your plots. The seasonal adjustment process is done with <a href="https://github.com/palatej/rjdemetra3" class="external-link">RJDemetra3</a> that is an R interface to <a href="https://github.com/jdemetra/jdemetra-app" class="external-link">JDemetra+</a>, the seasonal adjustment software <a href="https://ec.europa.eu/eurostat/cros/system/files/Jdemetra_%20release.pdf" class="external-link">officially recommended</a> to the members of the European Statistical System (ESS) and the European System of Central Banks. RJDemetra3 implements the two leading seasonal adjustment methods <a href="http://gretl.sourceforge.net/tramo/tramo-seats.html" class="external-link">TRAMO/SEATS+</a> and <a href="https://www.census.gov/data/software/x13as.html" class="external-link">X-12ARIMA/X-13ARIMA-SEATS</a>.</p>
+<p>ggdemetra3 is an extension of <a href="https://github.com/tidyverse/ggplot2" class="external-link">ggplot2</a> to add seasonal adjustment statistics to your plots. The seasonal adjustment process is done with <a href="https://github.com/palatej/rjdemetra3" class="external-link">rjdemetra3</a> that is an R interface to <a href="https://github.com/jdemetra/jdemetra-app" class="external-link">JDemetra+</a>, the seasonal adjustment software <a href="https://ec.europa.eu/eurostat/cros/system/files/Jdemetra_%20release.pdf" class="external-link">officially recommended</a> to the members of the European Statistical System (ESS) and the European System of Central Banks. rjdemetra3 implements the two leading seasonal adjustment methods <a href="http://gretl.sourceforge.net/tramo/tramo-seats.html" class="external-link">TRAMO/SEATS+</a> and <a href="https://www.census.gov/data/software/x13as.html" class="external-link">X-12ARIMA/X-13ARIMA-SEATS</a>.</p>
 <p>There are 4 main functionnalities in <code>ggdemetra3</code> depending of what you want to add in the graphic:</p>
 <ul>
 <li>
@@ -124,7 +124,7 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Since RJDemetra3 requires Java SE 17 or later version, the same requirements are also needed for ggdemetra3.</p>
+<p>Since rjdemetra3 requires Java SE 17 or later version, the same requirements are also needed for ggdemetra3.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install development version from GitHub</span></span>
 <span><span class="co"># install.packages("remotes")</span></span>
