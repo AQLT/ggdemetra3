@@ -77,7 +77,7 @@ p_sa_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
 
 # To add of diagnostics with result of the X-11 combined test and the p-values 
 # of the residual seasonality qs and f tests:
-diagnostics <- c("diagnostics.combined.all.summary", "diagnostics.qs", "diagnostics.ftest")
+diagnostics <- c("diagnostics.seas-sa-combined", "diagnostics.seas-sa-qs", "diagnostics.seas-sa-f")
 p_sa_ipi_fr + 
     geom_diagnostics(diagnostics = diagnostics,
                      ymin = 58, ymax = 72, xmin = 2010,
@@ -85,10 +85,9 @@ p_sa_ipi_fr +
                      message = FALSE)
 
 # To customize the names of the diagnostics in the plot:
-    
-diagnostics <- c(`Combined test` = "diagnostics.combined.all.summary",
-                 `Residual qs-test (p-value)` = "diagnostics.qs",
-                 `Residual f-test (p-value)` = "diagnostics.ftest")
+diagnostics <- c(`Combined test` = "diagnostics.seas-sa-combined",
+                 `Residual qs-test (p-value)` = "diagnostics.seas-sa-qs",
+                 `Residual f-test (p-value)` = "diagnostics.seas-sa-f")
 p_sa_ipi_fr + 
     geom_diagnostics(diagnostics = diagnostics,
                      ymin = 58, ymax = 72, xmin = 2010,

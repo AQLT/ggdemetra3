@@ -23,7 +23,7 @@
 #' 
 #' # To add of diagnostics with result of the X-11 combined test and the p-values 
 #' # of the residual seasonality qs and f tests:
-#' diagnostics <- c("diagnostics.combined.all.summary", "diagnostics.qs", "diagnostics.ftest")
+#' diagnostics <- c("diagnostics.seas-sa-combined", "diagnostics.seas-sa-qs", "diagnostics.seas-sa-f")
 #' p_sa_ipi_fr + 
 #'     geom_diagnostics(diagnostics = diagnostics,
 #'                      ymin = 58, ymax = 72, xmin = 2010,
@@ -31,10 +31,10 @@
 #'                      message = FALSE)
 #'
 #' # To customize the names of the diagnostics in the plot:
-#'     
-#' diagnostics <- c(`Combined test` = "diagnostics.combined.all.summary",
-#'                  `Residual qs-test (p-value)` = "diagnostics.qs",
-#'                  `Residual f-test (p-value)` = "diagnostics.ftest")
+
+#' diagnostics <- c(`Combined test` = "diagnostics.seas-sa-combined",
+#'                  `Residual qs-test (p-value)` = "diagnostics.seas-sa-qs",
+#'                  `Residual f-test (p-value)` = "diagnostics.seas-sa-f")
 #' p_sa_ipi_fr + 
 #'     geom_diagnostics(diagnostics = diagnostics,
 #'                      ymin = 58, ymax = 72, xmin = 2010,
@@ -88,7 +88,7 @@ GeomDiagnostics <- ggproto("GeomDiagnostics", Geom,
                                                ymin = -Inf, ymax = Inf,
                                                table_theme = ttheme_default()) {
                              if (is.null(data))
-                                 NULL
+                                 return(NULL)
                              if (!inherits(coord, "CoordCartesian")) {
                                  stop("geom_diagnostics only works with Cartesian coordinates",
                                       call. = FALSE)
@@ -110,7 +110,7 @@ GeomDiagnostics <- ggproto("GeomDiagnostics", Geom,
                              ##
                              grid::editGrob(grob, vp = vp)
                          },
-                         default_aes = aes_(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf)
+                         default_aes = aes_(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf, x = NULL, y = NULL)
 )
 
 StatDiagnostics <- ggproto("StatDiagnostics", Stat, 
@@ -136,6 +136,13 @@ StatDiagnostics <- ggproto("StatDiagnostics", Stat,
                            data <- result[["data"]]
                            sa <- result[["sa"]]
                            frequency <- result[["frequency"]]
+                        
+                           if (is.null(names(diagnostics))) {
+                               names(diagnostics) <- diagnostics
+                           } else {
+                               names_supplied <- names(diagnostics) != ""
+                               names(diagnostics)[names_supplied] <- diagnostics[names_supplied]
+                           }
 
                            diag_table <- rjd3toolkit::user_defined(sa, diagnostics)
                            diag_table <- lapply(diag_table, function(x){
@@ -152,14 +159,10 @@ StatDiagnostics <- ggproto("StatDiagnostics", Stat,
                                    x <- round(x, digits)
                                x
                            })
-                           diag_table <- do.call(c, diag_table)
-                           if (is.null(diag_table))
-                               NULL
+                           diag_table <- unlist(diag_table) #do.call(c, diag_table)
+                           
                            diag_names <- diagnostics[names(diagnostics) %in% names(diag_table)]
-                           if (!is.null(diag_names)) {
-                               names_supplied <- names(diag_names) != ""
-                               diag_names[names_supplied] <- names(diag_names)[names_supplied]
-                           }
+                         
                            diag_table <- data.frame(Diagnostic =
                                                         diag_names,
                                                     Value = diag_table)
