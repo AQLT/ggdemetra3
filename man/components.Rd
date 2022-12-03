@@ -28,7 +28,7 @@ raw(x, forecast = FALSE, backcast = FALSE, ...)
 \arguments{
 \item{x}{a seasonal adjustment object.}
 
-\item{forecast}{boolean indicating if the forecast series should be returned.}
+\item{forecast, backcast}{boolean indicating if the forecast/backcast series should be returned.}
 
 \item{calendar}{if \code{TRUE}, \code{seasonal()} returns de seasonal and calendar components.}
 
