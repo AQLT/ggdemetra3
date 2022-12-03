@@ -1,4 +1,4 @@
-#' Plot 'RJDemetra' model
+#' Plot 'rjdemetra3' model
 #' 
 #' @param object a seasonal adjustment model.
 #' @param components components to print, can be \code{"y"} (input time series), 
@@ -77,7 +77,7 @@ autoplot_rjd <- function(object,
                             y = c(data), 
                             label = factor(rep(colnames(data), 
                                                each = nrow(data)), levels = colnames(data)))
-    p <- ggplot2::ggplot(ggplot2::aes(x = date, y = y), 
+    p <- ggplot2::ggplot(ggplot2::aes(x = .data[["date"]], y = .data[["y"]]), 
                          data = data_plot) + 
         ggplot2::geom_line()
     if (forecast) {
@@ -92,9 +92,10 @@ autoplot_rjd <- function(object,
                                                      each = nrow(data_f)), levels = colnames(data_f)))
         data_f <- data_f[,components_, drop = FALSE]
         colnames(data_f) <- colnames(data)
-        p <- p + ggplot2::geom_line(data = data_f_plot,linetype = 2)
+        p <- p + ggplot2::geom_line(data = data_f_plot, linetype = 2)
     }
     p + ggplot2::facet_grid("label ~ .", scales = "free_y", 
                             switch = "y") + 
         ggplot2::ylab(NULL)
 }
+utils::globalVariables(c(".data"))
