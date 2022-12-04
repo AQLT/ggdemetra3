@@ -77,7 +77,7 @@ autoplot_rjd <- function(object,
                             y = c(data), 
                             label = factor(rep(colnames(data), 
                                                each = nrow(data)), levels = colnames(data)))
-    p <- ggplot2::ggplot(ggplot2::aes(x = .data[["date"]], y = .data[["y"]]), 
+    p <- ggplot2::ggplot(ggplot2::aes(x = date, y = y), 
                          data = data_plot) + 
         ggplot2::geom_line()
     if (forecast) {
@@ -98,4 +98,4 @@ autoplot_rjd <- function(object,
                             switch = "y") + 
         ggplot2::ylab(NULL)
 }
-utils::globalVariables(c(".data"))
+utils::globalVariables(c("date", "y"))
