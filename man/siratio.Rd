@@ -17,8 +17,6 @@ siratioplot(
   col.i = "gray",
   col.mean = "red",
   cex.i = 0.1,
-  lty.s = par("lty"),
-  lty.mean = lty.s,
   lwd.s = par("lwd"),
   lwd.mean = lwd.s,
   main = "SI ratio",
@@ -36,8 +34,6 @@ ggsiratioplot(
   col.i = "gray",
   col.mean = "red",
   cex.i = 0.5,
-  lty.s = 1,
-  lty.mean = lty.s,
   lwd.s = 1,
   lwd.mean = lwd.s,
   main = "SI ratio",
@@ -59,7 +55,7 @@ ggsiratioplot(
 
 \item{col.s, col.i, col.mean}{colors of the different components.}
 
-\item{cex.i, lty.s, lty.mean, lwd.s, lwd.mean}{graphical parameters.}
+\item{cex.i, lwd.s, lwd.mean}{graphical parameters.}
 
 \item{main, xlab, ylab}{title, X and Y axis label.}
 

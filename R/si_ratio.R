@@ -4,7 +4,7 @@
 #' @param add boolean indicating whether a new plot should be drawn.
 #' @param box boolean indicating a box around the current plot should be drawn.
 #' @param col.s,col.i,col.mean colors of the different components.
-#' @param cex.i,lty.s,lty.mean,lwd.s,lwd.mean graphical parameters.
+#' @param cex.i,lwd.s,lwd.mean graphical parameters.
 #' @param xlim,ylim X and Y axis limits.
 #' @param main,xlab,ylab title, X and Y axis label.
 #' @param ... unused parameters.
@@ -55,7 +55,6 @@ siratioplot <- function(x, labels = NULL,
                         add = FALSE, box = TRUE,
                         col.s = "darkblue", col.i = "gray", col.mean = "red",
                         cex.i = 0.1,
-                        lty.s = par("lty"), lty.mean = lty.s, 
                         lwd.s = par("lwd"), lwd.mean = lwd.s,
                         main = "SI ratio",
                         xlab = NULL, ylab = NULL,
@@ -84,7 +83,6 @@ siratioplot.default <- function(x, labels = NULL,
                         add = FALSE, box = TRUE,
                         col.s = "darkblue", col.i = "gray", col.mean = "red",
                         cex.i = 0.1,
-                        lty.s = par("lty"), lty.mean = lty.s, 
                         lwd.s = par("lwd"), lwd.mean = lwd.s,
                         main = "SI ratio",
                         xlab = NULL, ylab = NULL,
@@ -112,11 +110,11 @@ siratioplot.default <- function(x, labels = NULL,
     }
     segments(x0 = data_means$x0, y0 = data_means$y0,
              x1 = data_means$x1, y1 = data_means$y1,
-             col = col.mean, lty = lty.mean, lwd = lwd.mean)
+             col = col.mean, lwd = lwd.mean)
     for (i in labels) {
         sub <- data_plot$cycle == i
         lines(data_plot[sub, "x"], data_plot[sub, "s"], 
-              lty = lty.s, lwd = lwd.s,
+              lwd = lwd.s,
               col = col.s, ...
         )
         points(data_plot[sub, "x"], data_plot[sub, "si"], 
@@ -131,7 +129,6 @@ siratioplot.default <- function(x, labels = NULL,
 ggsiratioplot <- function(x, labels = NULL,
                           col.s = "darkblue", col.i = "gray", col.mean = "red",
                           cex.i = 0.5,
-                          lty.s = 1, lty.mean = lty.s, 
                           lwd.s = 1, lwd.mean = lwd.s,
                           main = "SI ratio",
                           xlab = NULL, ylab = NULL,
@@ -158,7 +155,6 @@ ggsiratioplot.JD3_TRAMOSEATS_RSLTS <- function(x, ...){
 ggsiratioplot.default <- function(x, labels = NULL,
                           col.s = "darkblue", col.i = "gray", col.mean = "red",
                           cex.i = 0.5,
-                          lty.s = 1, lty.mean = lty.s, 
                           lwd.s = 1, lwd.mean = lwd.s,
                           main = "SI ratio",
                           xlab = NULL, ylab = NULL,
@@ -168,13 +164,13 @@ ggsiratioplot.default <- function(x, labels = NULL,
     data_plot <- data$data_plot
     data_means <- data$data_means
     ggplot2::ggplot(data = data_plot, ggplot2::aes(x = x, group = cycle)) + 
-        ggplot2::geom_line(ggplot2::aes(y=s), colour=col.s, lty = lty.s, lwd = lwd.s) + 
+        ggplot2::geom_line(ggplot2::aes(y=s), colour=col.s, lwd = lwd.s) + 
         ggplot2::geom_point(ggplot2::aes(y=si), colour=col.i, cex = cex.i) +
         ggplot2::geom_segment(ggplot2::aes(x=x0, y = y0,
                          xend = x1, yend = y1),
                      data=data_means, 
                      colour=col.mean,
-                     lty = lty.mean, lwd = lwd.mean) + 
+                     lwd = lwd.mean) + 
         ggplot2::labs(title = main, 
              x = xlab, y = ylab) +
         ggplot2::scale_x_continuous(breaks = seq_along(labels), 
