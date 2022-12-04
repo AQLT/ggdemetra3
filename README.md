@@ -194,3 +194,12 @@ monthplot(seasonal(mod))
 ```
 
 <img src="man/figures/README-monthplot-1.png" width="100%" style="display: block; margin: auto;" />
+
+The SI ratio can also be plotted with `siratioplot()` and
+`ggsiratioplot()` functions :
+
+``` r
+siratioplot(mod)
+```
+
+<img src="man/figures/README-si-ratio-1.png" width="100%" style="display: block; margin: auto;" />

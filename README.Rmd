@@ -156,3 +156,8 @@ The different components of seasonal adjustment models can also be extracted thr
 monthplot(seasonal(mod))
 ```
 
+The SI ratio can also be plotted with `siratioplot()` and `ggsiratioplot()` functions :
+
+```{r si-ratio}
+siratioplot(mod)
+```
