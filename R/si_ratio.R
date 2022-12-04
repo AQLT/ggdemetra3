@@ -80,14 +80,14 @@ siratioplot.JD3_TRAMOSEATS_RSLTS <- function(x, ...){
 }
 #' @export
 siratioplot.default <- function(x, labels = NULL,
-                        add = FALSE, box = TRUE,
-                        col.s = "darkblue", col.i = "gray", col.mean = "red",
-                        cex.i = 0.1,
-                        lwd.s = par("lwd"), lwd.mean = lwd.s,
-                        main = "SI ratio",
-                        xlab = NULL, ylab = NULL,
-                        xlim = NULL, ylim = NULL,
-                        ...) {
+                                add = FALSE, box = TRUE,
+                                col.s = "darkblue", col.i = "gray", col.mean = "red",
+                                cex.i = 0.1,
+                                lwd.s = par("lwd"), lwd.mean = lwd.s,
+                                main = "SI ratio",
+                                xlab = NULL, ylab = NULL,
+                                xlim = NULL, ylim = NULL,
+                                ...) {
     data <- data_siratio(x, labels = labels)
     labels <- data$labels
     data_plot <- data$data_plot
@@ -153,26 +153,26 @@ ggsiratioplot.JD3_TRAMOSEATS_RSLTS <- function(x, ...){
 }
 #' @export
 ggsiratioplot.default <- function(x, labels = NULL,
-                          col.s = "darkblue", col.i = "gray", col.mean = "red",
-                          cex.i = 0.5,
-                          lwd.s = 1, lwd.mean = lwd.s,
-                          main = "SI ratio",
-                          xlab = NULL, ylab = NULL,
-                          ...) {
+                                  col.s = "darkblue", col.i = "gray", col.mean = "red",
+                                  cex.i = 0.5,
+                                  lwd.s = 1, lwd.mean = lwd.s,
+                                  main = "SI ratio",
+                                  xlab = NULL, ylab = NULL,
+                                  ...) {
     data <- data_siratio(x, labels = labels)
     labels <- data$labels
     data_plot <- data$data_plot
     data_means <- data$data_means
-    ggplot2::ggplot(data = data_plot, ggplot2::aes(x = x, group = cycle)) + 
+    ggplot2::ggplot(data = data_plot, ggplot2::aes(x = x, group = cycle)) +
+    ggplot2::geom_segment(ggplot2::aes(x=x0, y = y0,
+                                       xend = x1, yend = y1),
+                          data=data_means, 
+                          colour=col.mean,
+                          lwd = lwd.mean) + 
         ggplot2::geom_line(ggplot2::aes(y=s), colour=col.s, lwd = lwd.s) + 
-        ggplot2::geom_point(ggplot2::aes(y=si), colour=col.i, cex = cex.i) +
-        ggplot2::geom_segment(ggplot2::aes(x=x0, y = y0,
-                         xend = x1, yend = y1),
-                     data=data_means, 
-                     colour=col.mean,
-                     lwd = lwd.mean) + 
+        ggplot2::geom_point(ggplot2::aes(y=si), colour=col.i, cex = cex.i) + 
         ggplot2::labs(title = main, 
-             x = xlab, y = ylab) +
+                      x = xlab, y = ylab) +
         ggplot2::scale_x_continuous(breaks = seq_along(labels), 
                                     labels = labels) +
         ggplot2::theme(panel.grid.major.x = ggplot2::element_blank())
