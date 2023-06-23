@@ -25,8 +25,8 @@ autoplot.JD3_X13_OUTPUT  <- function(object,
 #' @method autoplot JD3_TRAMOSEATS_OUTPUT
 #' @export
 autoplot.JD3_TRAMOSEATS_OUTPUT <- function(object, 
-                                     components = c("y", "sa", "trend" = "t", "seasonal" = "s", "irregular" = "i"), 
-                                     forecast = FALSE, ...){
+                                           components = c("y", "sa", "trend" = "t", "seasonal" = "s", "irregular" = "i"), 
+                                           forecast = FALSE, ...){
     autoplot_rjd(object = object,
                  components = components,
                  forecast = forecast, 
@@ -45,8 +45,8 @@ autoplot.JD3_X13_RSLTS <- function(object,
 #' @method autoplot JD3_TRAMOSEATS_RSLTS
 #' @export
 autoplot.JD3_TRAMOSEATS_RSLTS <- function(object, 
-                                   components = c("y", "sa", "trend" = "t", "seasonal" = "s", "irregular" = "i"), 
-                                   forecast = FALSE, ...){
+                                          components = c("y", "sa", "trend" = "t", "seasonal" = "s", "irregular" = "i"), 
+                                          forecast = FALSE, ...){
     autoplot_rjd(object = object,
                  components = components,
                  forecast = forecast, 
@@ -63,12 +63,9 @@ autoplot_rjd <- function(object,
         names(components_) <- components_
     }
     names(components_)[names(components_) == ""] <- components_[names(components_) == ""]
-    data <- ts.union(raw(object, ...), trendcycle(object, ...), 
-                     seasonaladj(object, ...), calendaradj(object, ...), 
-                     seasonal(object, ...), irregular(object, ...), calendar(object, ...))
-    # data <- ts.union(raw(object), trendcycle(object), 
-    #                  seasonaladj(object), calendaradj(object), 
-    #                  seasonal(object), irregular(object), calendar(object))
+    data <- cbind(raw(object, ...), trendcycle(object, ...), 
+                  seasonaladj(object, ...), calendaradj(object, ...), 
+                  seasonal(object, ...), irregular(object, ...), calendar(object, ...))
     colnames(data) <- c("y", "t", "sa", "y_cal", "s", "i", "cal")
     data <- data[,components_, drop = FALSE]
     
@@ -99,3 +96,64 @@ autoplot_rjd <- function(object,
         ggplot2::ylab(NULL)
 }
 utils::globalVariables(c("date", "y"))
+
+autoplot_rjdhf <- function(object, 
+                           dates = NULL,
+                           components = c("y", "sa", "trend" = "t", "seasonal" = "s", "irregular" = "i"), 
+                           ...) {
+    components_ <- match.arg(tolower(components),
+                             choices = c("y", "t", "sa", "s", "i"),
+                             several.ok = TRUE)
+    names(components_) <- names(components)
+    if (is.null(names(components_))) {
+        names(components_) <- components_
+    }
+    names(components_)[names(components_) == ""] <- components_[names(components_) == ""]
+    data <- cbind(raw(object, ...), trendcycle(object, ...), 
+                  seasonaladj(object, ...),
+                  seasonal(object, ...), irregular(object, ...))
+    data <- cbind(raw(object), trendcycle(object), 
+                  seasonaladj(object),
+                  seasonal(object), irregular(object))
+    colnames(data) <- c("y", "t", "sa", "s", "i")
+    data <- data[,components_, drop = FALSE]
+    
+    colnames(data) <- names(components_)
+    if (is.null(dates))
+        dates <- seq.int(from = 0, length.out = nrow(data) , by = 1)
+    data_plot <- data.frame(date = rep(dates, ncol(data)),
+                            y = c(data), 
+                            label = factor(rep(colnames(data), 
+                                               each = nrow(data)), levels = colnames(data)))
+    p <- ggplot2::ggplot(ggplot2::aes(x = date, y = y), 
+                         data = data_plot) + 
+        ggplot2::geom_line() + 
+        ggplot2::facet_grid("label ~ .", scales = "free_y", 
+                            switch = "y") + 
+        ggplot2::ylab(NULL)
+    p
+}
+
+#' @method autoplot JDX11
+#' @export
+autoplot.JDX11 <- function(object, 
+                           components = c("y", "sa", "trend" = "t", "seasonal" = "s", "irregular" = "i"), 
+                           dates = NULL,
+                           ...){
+    autoplot_rjdhf(object = object,
+                   components = components,
+                   dates = dates,
+                   ...)
+}
+#' @method autoplot JDFractionalAirlineDecomposition
+#' @export
+autoplot.JDFractionalAirlineDecomposition <- function(object, 
+                                                      components = c("y", "sa", "trend" = "t", "seasonal" = "s", "irregular" = "i"), 
+                                                      dates = NULL,
+                                                      ...){
+    autoplot_rjdhf(object = object,
+                   components = components,
+                   dates = dates,
+                   ...)
+}
+
