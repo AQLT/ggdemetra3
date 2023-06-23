@@ -253,3 +253,87 @@ raw.JD3_TRAMOSEATS_RSLTS <- function(x, forecast = FALSE, backcast = FALSE, ...)
         x$final$series$data
     }
 }
+
+
+# rjd3highfreq:
+#' @export
+seasonal.JDX11 <- function(x, forecast = FALSE, calendar = FALSE, spec = "rsafull", ...){
+    if (forecast) {
+        NULL
+    } else {
+        x$decomposition$s
+    }
+}
+#' @export
+trendcycle.JDX11 <- function(x, forecast = FALSE, ...){
+    if (forecast) {
+        NULL
+    } else {
+        x$decomposition$t
+    }
+}
+#' @export
+irregular.JDX11 <- function(x, forecast = FALSE, ...){
+    if (forecast) {
+        NULL
+    } else {
+        x$decomposition$i
+    }
+}
+#' @export
+seasonaladj.JDX11 <- function(x, forecast = FALSE, corrected = FALSE, ...){
+    if (forecast) {
+        NULL
+    } else {
+        x$decomposition$sa
+    }
+}
+#' @export
+raw.JDX11 <- function(x, forecast = FALSE, backcast = FALSE, ...){
+    if (forecast) {
+        NULL
+    } else {
+        x$decomposition$y
+    }
+}
+
+#' @export
+seasonal.JDFractionalAirlineDecomposition <- function(x, forecast = FALSE, calendar = FALSE, spec = "rsafull", ...){
+    if (forecast) {
+        NULL
+    } else {
+        x$decomposition$s
+    }
+}
+#' @export
+trendcycle.JDFractionalAirlineDecomposition <- function(x, forecast = FALSE, ...){
+    if (forecast) {
+        NULL
+    } else {
+        x$decomposition$t
+    }
+}
+#' @export
+irregular.JDFractionalAirlineDecomposition <- function(x, forecast = FALSE, ...){
+    if (forecast) {
+        NULL
+    } else {
+        x$decomposition$i
+    }
+}
+#' @export
+seasonaladj.JDFractionalAirlineDecomposition <- function(x, forecast = FALSE, corrected = FALSE, ...){
+    if (forecast) {
+        NULL
+    } else {
+        x$decomposition$sa
+    }
+}
+#' @export
+raw.JDFractionalAirlineDecomposition <- function(x, forecast = FALSE, backcast = FALSE, ...){
+    if (forecast) {
+        NULL
+    } else {
+        x$decomposition$y
+    }
+}
