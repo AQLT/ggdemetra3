@@ -45,13 +45,9 @@ requirements are also needed for ggdemetra3.
 # Install development version from GitHub
 # install.packages("remotes")
 # Install dependencies
-remotes::install_github("palatej/rjd3toolkit")
-remotes::install_github("palatej/rjd3modelling")
-remotes::install_github("palatej/rjd3sa")
-remotes::install_github("palatej/rjd3arima")
-remotes::install_github("palatej/rjd3x13")
-remotes::install_github("palatej/rjd3tramoseats")
-remotes::install_github("palatej/rjdemetra3")
+remotes::install_github("rjdemetra/rjd3toolkit")
+remotes::install_github("rjdemetra/rjd3x13")
+remotes::install_github("rjdemetra/rjd3tramoseats")
 remotes::install_github("palatej/rjd3sts")
 remotes::install_github("palatej/rjd3highfreq")
 # install ggdemetra3
@@ -80,8 +76,8 @@ and of the seasonal adjusted series:
 
 ``` r
 library(ggdemetra3)
-spec <- rjd3x13::spec_x13_default("rsa3")
-spec <- rjd3modelling::set_tradingdays(spec, option = "WorkingDays")
+spec <- rjd3x13::spec_x13("rsa3")
+spec <- rjd3toolkit::set_tradingdays(spec, option = "WorkingDays")
 p_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     geom_line() +
     labs(title = "Seasonal adjustment of the French industrial production index",
@@ -159,7 +155,8 @@ be used for high-frequency seasonal adjustment (`"x11-extended"`,
 `"fractionalairline"`, `"multiairline"` or `"stl"`)
 
 ``` r
-p_us_init_claims<- ggplot(data = usclaims, mapping = aes(x = date, y = `Initial claims`)) +
+
+p_us_init_claims <- ggplot(data = usclaims[usclaims$date <= "2019-12-01",], mapping = aes(x = date, y = `Initial claims`)) +
     geom_line() +
     labs(title = "US initial claims",
          x = NULL, y = NULL)
@@ -174,6 +171,11 @@ p_sa
 
 ## autoplot()
 
+The different components of seasonal adjustment models can also be
+extracted through `calendar()`, `calendaradj()`, `irregular()`,
+`trendcycle()`, `seasonal()`, `seasonaladj()`, `trendcycle()` and
+`raw()`.
+
 `ggdemetra3` also provides `autoplot()` functions to plot seasonal
 adjustment models:
 
@@ -184,19 +186,16 @@ autoplot(mod)
 
 <img src="man/figures/README-autoplot-1.png" width="100%" style="display: block; margin: auto;" />
 
-The different components of seasonal adjustment models can also be
-extracted through `calendar()`, `calendaradj()`, `irregular()`,
-`trendcycle()`, `seasonal()`, `seasonaladj()`, `trendcycle()` and
-`raw()`:
-
 ``` r
-monthplot(seasonal(mod))
+
+mod_hf <- rjd3highfreq::fractionalAirlineDecomposition(usclaims[usclaims$date <= "2019-12-01", "Initial claims"], period = 52)
+autoplot(mod_hf, dates = usclaims$date[usclaims$date <= "2019-12-01"])
 ```
 
-<img src="man/figures/README-monthplot-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-autoplot-2.png" width="100%" style="display: block; margin: auto;" />
 
-The SI ratio can also be plotted with `siratioplot()` and
-`ggsiratioplot()` functions :
+For X-13 and TRAMO-SEATS, the SI ratio can also be plotted with
+`siratioplot()` and `ggsiratioplot()` functions:
 
 ``` r
 siratioplot(mod)
