@@ -47,7 +47,7 @@ All the functions have some common parameters and especially those to defined th
 In the following examples, the data used is the French industrial production index. 
 By default, the seasonal adjustment will then be processed with X-13ARIMA with a pre-defined specification `"RSA5c` (automatic log detection, automatic ARIMA and outliers detection and trading day and easter adjustment). 
 However, in the industrial production the working day effect has more economic sense than the trading day effect and a gradual effect for easter does not make economic sense for the aggregated series. 
-The specification that should be used with X-13ARIMA is `spec = rjd3modelling::set_tradingdays(rjd3x13::spec_x13_default("rsa3"), option = "workingdays")`. 
+The specification that should be used with X-13ARIMA is `spec = rjd3toolkit::set_tradingdays(rjd3x13::spec_x13("rsa3"), option = "workingdays")`. 
 If no new data or seasonal adjustment specification is specified (method or specification), these parameters is inherited from the previous defined: therefore you only need to specify this parameter once.
 
 ```{r, warning=FALSE, message=FALSE}
@@ -66,8 +66,8 @@ p_ipi_fr
 By default `geom_sa()` adds the seasonal adjusted time series:
 
 ```{r}
-spec <- rjd3x13::spec_x13_default("rsa3")
-spec <- rjd3modelling::set_tradingdays(spec, option = "WorkingDays")
+spec <- rjd3x13::spec_x13("rsa3")
+spec <- rjd3toolkit::set_tradingdays(spec, option = "WorkingDays")
 p_ipi_fr +
     geom_sa(color = "red",
             spec = spec)
