@@ -23,7 +23,8 @@ jobs:
       matrix:
         config:
           - {os: windows-latest, r: 'devel', java: 17, os-name: windows}
-          - {os: macOS-latest, r: 'release', java: 17, os-name: macos}
+          - {os: windows-latest, r: 'release', java: 17, os-name: windows}
+          # - {os: macOS-latest, r: 'release', java: 17, os-name: macos}
           #- {os: ubuntu-20.04, r: 'release', java: 12,os-name: ubuntu}
           #- {os: ubuntu-20.04, r: 'devel', java: 12,os-name: ubuntu}
           #- {os: ubuntu-20.04, r: 'release', java: 16,os-name: ubuntu}
@@ -77,7 +78,7 @@ jobs:
       - name: Install dependencies
         run: |
             remotes::install_github("rjdemetra/rjd3toolkit")
-            remotes::install_github("rjdemetra/rjd3x13")
+            remotes::install_github("AQLT/rjd3x13")
             remotes::install_github("rjdemetra/rjd3tramoseats")
             remotes::install_github("palatej/rjd3sts")
             remotes::install_github("palatej/rjd3highfreq") 
