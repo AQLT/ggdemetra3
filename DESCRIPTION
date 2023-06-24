@@ -16,6 +16,9 @@ Imports:
     rjd3toolkit,
     rjd3x13,
     rjd3tramoseats,
+    rjd3filters,
+    MASS,
+    reshape2,
     rjd3highfreq
 Suggests: 
     knitr,
