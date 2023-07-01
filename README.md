@@ -50,6 +50,7 @@ remotes::install_github("rjdemetra/rjd3x13")
 remotes::install_github("rjdemetra/rjd3tramoseats")
 remotes::install_github("palatej/rjd3sts")
 remotes::install_github("palatej/rjd3highfreq")
+remotes::install_github("palatej/rjd3filters")
 # install ggdemetra3
 remotes::install_github("AQLT/ggdemetra3")
 ```
