@@ -22,7 +22,7 @@ library(ggdemetra3)
 library(ggplot2)
 ```
 
-`ggdemetra3` is an extension of `ggplot2` to add seasonal adjustment statistics to your plots. The seasonal adjustment process is done with [rjdemetra3](https://github.com/palatej/rjdemetra3) that is an R interface to [JDemetra+ 3.0](https://github.com/jdemetra/jdemetra-app), the seasonal adjustment software officially recommended to the members of the European Statistical System (ESS) and the European System of Central Banks. `rjdemetra3` implements the two leading seasonal adjustment methods [TRAMO/SEATS+](http://gretl.sourceforge.net/tramo/tramo-seats.html) and [X-12ARIMA/X-13ARIMA-SEATS](https://www.census.gov/data/software/x13as.html).
+`ggdemetra3` is an extension of `ggplot2` to add seasonal adjustment statistics to your plots. The seasonal adjustment process is done with [rjdemetra3](https://github.com/rjdemetra/rjdemetra3) that is an R interface to [JDemetra+ 3.0](https://github.com/jdemetra/jdemetra-app), the seasonal adjustment software officially recommended to the members of the European Statistical System (ESS) and the European System of Central Banks. `rjdemetra3` implements the two leading seasonal adjustment methods [TRAMO/SEATS+](http://gretl.sourceforge.net/tramo/tramo-seats.html) and [X-12ARIMA/X-13ARIMA-SEATS](https://www.census.gov/data/software/x13as.html).
 
 There are 4 main functionalities in `ggdemetra3` depending of what you want to add in the graphic:
 
