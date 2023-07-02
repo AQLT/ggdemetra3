@@ -14,7 +14,7 @@
 ggdemetra3 is an extension of
 [ggplot2](https://github.com/tidyverse/ggplot2) to add seasonal
 adjustment statistics to your plots. The seasonal adjustment process is
-done with [rjdemetra3](https://github.com/palatej/rjdemetra3) that is an
+done with [rjdemetra3](https://github.com/rjdemetra/rjdemetra3) that is an
 R interface to [JDemetra+](https://github.com/jdemetra/jdemetra-app),
 the seasonal adjustment software [officially
 recommended](https://ec.europa.eu/eurostat/cros/system/files/Jdemetra_%20release.pdf)
