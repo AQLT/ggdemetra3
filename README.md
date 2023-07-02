@@ -48,6 +48,7 @@ requirements are also needed for ggdemetra3.
 remotes::install_github("rjdemetra/rjd3toolkit")
 remotes::install_github("rjdemetra/rjd3x13")
 remotes::install_github("rjdemetra/rjd3tramoseats")
+remotes::install_github("palatej/rjd3filters")
 remotes::install_github("palatej/rjd3sts")
 remotes::install_github("palatej/rjd3highfreq")
 # install ggdemetra3
