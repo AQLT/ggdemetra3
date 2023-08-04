@@ -19,6 +19,7 @@ Imports:
     rjd3filters,
     MASS,
     reshape2,
+    rjd3x11plus,
     rjd3highfreq
 Suggests: 
     knitr,
