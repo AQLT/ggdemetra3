@@ -14,8 +14,8 @@
 ggdemetra3 is an extension of
 [ggplot2](https://github.com/tidyverse/ggplot2) to add seasonal
 adjustment statistics to your plots. The seasonal adjustment process is
-done with [rjdemetra3](https://github.com/palatej/rjdemetra3) that is an
-R interface to [JDemetra+](https://github.com/jdemetra/jdemetra-app),
+done with [rjdemetra3](https://github.com/rjdemetra/rjdemetra3) that is
+an R interface to [JDemetra+](https://github.com/jdemetra/jdemetra-app),
 the seasonal adjustment software [officially
 recommended](https://ec.europa.eu/eurostat/cros/system/files/Jdemetra_%20release.pdf)
 to the members of the European Statistical System (ESS) and the European
@@ -48,8 +48,9 @@ requirements are also needed for ggdemetra3.
 remotes::install_github("rjdemetra/rjd3toolkit")
 remotes::install_github("rjdemetra/rjd3x13")
 remotes::install_github("rjdemetra/rjd3tramoseats")
-remotes::install_github("palatej/rjd3sts")
-remotes::install_github("palatej/rjd3highfreq")
+remotes::install_github("rjdemetra/rjd3filters")
+remotes::install_github("rjdemetra/rjd3sts")
+remotes::install_github("rjdemetra/rjd3highfreq")
 # install ggdemetra3
 remotes::install_github("AQLT/ggdemetra3")
 ```
@@ -155,7 +156,6 @@ be used for high-frequency seasonal adjustment (`"x11-extended"`,
 `"fractionalairline"`, `"multiairline"` or `"stl"`)
 
 ``` r
-
 p_us_init_claims <- ggplot(data = usclaims[usclaims$date <= "2019-12-01",], mapping = aes(x = date, y = `Initial claims`)) +
     geom_line() +
     labs(title = "US initial claims",

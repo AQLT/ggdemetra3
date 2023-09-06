@@ -49,7 +49,7 @@ seasonal_adjustment <- function(data,
         } else if (method == "x11-extended") {
             spec$y = data_ts
             spec$period = frequency
-            sa <- do.call(rjd3highfreq::x11, spec)
+            sa <- do.call(rjd3x11plus::x11plus, spec)
         } else if (method == "stl") {
             # spec$y = data_ts
             # spec$period = frequency
