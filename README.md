@@ -44,14 +44,6 @@ requirements are also needed for ggdemetra3.
 ``` r
 # Install development version from GitHub
 # install.packages("remotes")
-# Install dependencies
-remotes::install_github("rjdemetra/rjd3toolkit")
-remotes::install_github("rjdemetra/rjd3x13")
-remotes::install_github("rjdemetra/rjd3tramoseats")
-remotes::install_github("rjdemetra/rjd3filters")
-remotes::install_github("rjdemetra/rjd3sts")
-remotes::install_github("rjdemetra/rjd3highfreq")
-# install ggdemetra3
 remotes::install_github("AQLT/ggdemetra3")
 ```
 
