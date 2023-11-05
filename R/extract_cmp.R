@@ -43,14 +43,14 @@ seasonal.JD3_TRAMOSEATS_RSLTS <- function(x, forecast = FALSE, calendar = FALSE,
         if (calendar) {
             x$final$s$fcasts
         } else {
-            mod = rjd3tramoseats::jtramoseats(raw(x), spec = spec)
+            mod = rjd3tramoseats::jtramoseats(raw(x), spec = spec, ...)
             rjd3toolkit::result(mod, "decomposition.s_cmp_f")
         }
     } else {
         if (calendar) {
             x$final$s$data
         } else {
-            mod = rjd3tramoseats::jtramoseats(raw(x), spec = spec)
+            mod = rjd3tramoseats::jtramoseats(raw(x), spec = spec, ...)
             rjd3toolkit::result(mod, "decomposition.s_cmp")
         }
     }
@@ -251,7 +251,7 @@ calendaradj.JD3_X13_RSLTS <- function(x, forecast = FALSE, ...){
 }
 #' @export
 calendaradj.JD3_TRAMOSEATS_RSLTS <- function(x, forecast = FALSE, spec = "rsafull", ...){
-    mod = rjd3tramoseats::jtramoseats(raw(x), spec = spec)
+    mod = rjd3tramoseats::jtramoseats(raw(x), spec = spec, ...)
     if (forecast) {
         rjd3toolkit::result(mod, "ycal_f")
     } else {
@@ -290,7 +290,7 @@ calendar.JD3_X13_RSLTS <- function(x, forecast = FALSE, ...){
 }
 #' @export
 calendar.JD3_TRAMOSEATS_RSLTS <- function(x, forecast = FALSE, spec = "rsafull", ...){
-    mod = rjd3tramoseats::jtramoseats(raw(x), spec = spec)
+    mod = rjd3tramoseats::jtramoseats(raw(x), spec = spec, ...)
     if (forecast) {
         rjd3toolkit::result(mod, "cal_f")
     } else {
