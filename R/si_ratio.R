@@ -49,6 +49,25 @@ siratio.JD3_TRAMOSEATS_RSLTS <- function(x, ...){
     colnames(res) <- c("si", "s")
     res
 }
+#' @export
+siratio.JD3_Object <- function(x, ...){
+    if (rJava::.jinstanceof(x$internal, "jdplus/x13/base/core/x13/X13Results")) {
+        res <- rjd3toolkit::user_defined(x, c("decomposition.d8", "decomposition.d10", "finals.d11"))
+        res <- lapply(res[1:2], window,
+                      start = start(res[[3]]),
+                      end = end(res[[3]]))
+    } else  if (rJava::.jinstanceof(x$internal, "jdplus/tramoseats/base/core/tramoseats/TramoSeatsResults")) {
+        res <- rjd3toolkit::user_defined(x, c("decomposition.i_lin", "decomposition.s_lin", "mode"))
+        res[[1]] <- res[[1]] + res[[2]]
+        if (tolower(res$mode) == "multiplicative"){
+            res[[1]] <- exp(res[[1]])
+            res[[2]] <- exp(res[[2]])
+        } 
+    }
+    res <- ts.union(res[[1]], res[[2]])
+    colnames(res) <- c("si", "s")
+    res
+}
 #' @rdname siratio
 #' @export
 siratioplot <- function(x, labels = NULL,
@@ -76,6 +95,10 @@ siratioplot.JD3_TRAMOSEATS_OUTPUT <- function(x, ...){
 }
 #' @export
 siratioplot.JD3_TRAMOSEATS_RSLTS <- function(x, ...){
+    siratioplot(siratio(x), ...)
+}
+#' @export
+siratioplot.JD3_Object <- function(x, ...){
     siratioplot(siratio(x), ...)
 }
 #' @export
@@ -152,6 +175,10 @@ ggsiratioplot.JD3_TRAMOSEATS_RSLTS <- function(x, ...){
     ggsiratioplot(siratio(x), ...)
 }
 #' @export
+ggsiratioplot.JD3_Object <- function(x, ...){
+    ggsiratioplot(siratio(x), ...)
+}
+#' @export
 ggsiratioplot.default <- function(x, labels = NULL,
                                   col.s = "darkblue", col.i = "gray", col.mean = "red",
                                   cex.i = 0.5,
@@ -164,11 +191,11 @@ ggsiratioplot.default <- function(x, labels = NULL,
     data_plot <- data$data_plot
     data_means <- data$data_means
     ggplot2::ggplot(data = data_plot, ggplot2::aes(x = x, group = cycle)) +
-    ggplot2::geom_segment(ggplot2::aes(x=x0, y = y0,
-                                       xend = x1, yend = y1),
-                          data=data_means, 
-                          colour=col.mean,
-                          lwd = lwd.mean) + 
+        ggplot2::geom_segment(ggplot2::aes(x=x0, y = y0,
+                                           xend = x1, yend = y1),
+                              data=data_means, 
+                              colour=col.mean,
+                              lwd = lwd.mean) + 
         ggplot2::geom_line(ggplot2::aes(y=s), colour=col.s, lwd = lwd.s) + 
         ggplot2::geom_point(ggplot2::aes(y=si), colour=col.i, cex = cex.i) + 
         ggplot2::labs(title = main, 
