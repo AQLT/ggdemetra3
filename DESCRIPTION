@@ -20,7 +20,8 @@ Imports:
     MASS,
     reshape2,
     rjd3x11plus,
-    rjd3highfreq
+    rjd3highfreq,
+    rJava
 Suggests: 
     knitr,
     rmarkdown

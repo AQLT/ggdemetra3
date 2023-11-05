@@ -52,9 +52,32 @@ seasonal.JD3_TRAMOSEATS_RSLTS <- function(x, forecast = FALSE, calendar = FALSE,
         } else {
             mod = rjd3tramoseats::jtramoseats(raw(x), spec = spec)
             rjd3toolkit::result(mod, "decomposition.s_cmp")
-            # waldo::compare(rjd3toolkit::result(mod, "decomposition.s_cmp") *
-            #                    rjd3toolkit::result(mod, "cal"),
-            #                rjd3toolkit::result(mod, "s"))
+        }
+    }
+}
+#' @export
+seasonal.JD3_Object <- function(x, forecast = FALSE, calendar = FALSE, ...){
+    if (forecast) {
+        if (calendar) {
+            rjd3toolkit::result(x, "s_f")
+        } else {
+            if (rJava::.jinstanceof(x$internal, "jdplus/x13/base/core/x13/X13Results")) {
+                window(rjd3toolkit::result(x, "decomposition.d10"),
+                       start = start(rjd3toolkit::result(x, "finals.d11a")))
+            } else  if (rJava::.jinstanceof(x$internal, "jdplus/tramoseats/base/core/tramoseats/TramoSeatsResults")) {
+                rjd3toolkit::result(x, "decomposition.s_cmp_f")
+            }
+        }
+    } else {
+        if (calendar) {
+            rjd3toolkit::result(x, "s")
+        } else {
+            if (rJava::.jinstanceof(x$internal, "jdplus/x13/base/core/x13/X13Results")) {
+                window(rjd3toolkit::result(x, "decomposition.d10"),
+                       end = end(rjd3toolkit::result(x, "y")))
+            } else  if (rJava::.jinstanceof(x$internal, "jdplus/tramoseats/base/core/tramoseats/TramoSeatsResults")) {
+                rjd3toolkit::result(x, "decomposition.s_f")
+            }
         }
     }
 }
@@ -85,6 +108,14 @@ trendcycle.JD3_TRAMOSEATS_RSLTS <- function(x, forecast = FALSE, ...){
         x$final$t$fcasts
     } else {
         x$final$t$data
+    }
+}
+#' @export
+trendcycle.JD3_Object <- function(x, forecast = FALSE, ...){
+    if (forecast) {
+        rjd3toolkit::result(x, "t_f")
+    } else {
+        rjd3toolkit::result(x, "t")
     }
 }
 #' @rdname components
@@ -120,6 +151,27 @@ irregular.JD3_TRAMOSEATS_RSLTS <- function(x, forecast = FALSE, ...){
         x$final$i$data
     }
 }
+#' @export
+irregular.JD3_Object <- function(x, forecast = FALSE, corrected = FALSE, ...){
+    if (forecast) {
+        if (rJava::.jinstanceof(x$internal, "jdplus/x13/base/core/x13/X13Results")) {
+            window(rjd3toolkit::result(x, "decomposition.d13"),
+                   start = start(rjd3toolkit::result(x, "finals.d11a")))
+        } else {
+            rjd3toolkit::result(x, "i_f")
+        }
+    } else {
+        if (rJava::.jinstanceof(x$internal, "jdplus/x13/base/core/x13/X13Results")) {
+            if (corrected) {
+                rjd3toolkit::result(x, "finals.e3")
+            } else {
+                rjd3toolkit::result(x, "i")
+            }
+        } else {
+            rjd3toolkit::result(x, "i")
+        }
+    }
+}
 
 #' @rdname components
 #' @export
@@ -152,6 +204,22 @@ seasonaladj.JD3_TRAMOSEATS_RSLTS <- function(x, forecast = FALSE, corrected = FA
         x$final$sa$fcasts
     } else {
         x$final$sa$data
+    }
+}
+#' @export
+seasonaladj.JD3_Object <- function(x, forecast = FALSE, corrected = FALSE, ...){
+    if (forecast) {
+        rjd3toolkit::result(x, "sa_f")
+    } else {
+        if (rJava::.jinstanceof(x$internal, "jdplus/x13/base/core/x13/X13Results")) {
+            if (corrected) {
+                rjd3toolkit::result(x, "finals.e2")
+            } else {
+                rjd3toolkit::result(x, "sa")
+            }
+        } else  {
+            rjd3toolkit::result(x, "sa")
+        }
     }
 }
 
@@ -190,6 +258,14 @@ calendaradj.JD3_TRAMOSEATS_RSLTS <- function(x, forecast = FALSE, spec = "rsaful
         rjd3toolkit::result(mod, "ycal")
     }
 }
+#' @export
+calendaradj.JD3_Object <- function(x, forecast = FALSE, corrected = FALSE, ...){
+    if (forecast) {
+        rjd3toolkit::result(x, "ycal_f")
+    } else {
+        rjd3toolkit::result(x, "ycal")
+    }
+}
 
 #' @rdname components
 #' @export
@@ -219,6 +295,14 @@ calendar.JD3_TRAMOSEATS_RSLTS <- function(x, forecast = FALSE, spec = "rsafull",
         rjd3toolkit::result(mod, "cal_f")
     } else {
         rjd3toolkit::result(mod, "cal")
+    }
+}
+#' @export
+calendar.JD3_Object <- function(x, forecast = FALSE, corrected = FALSE, ...){
+    if (forecast) {
+        rjd3toolkit::result(x, "cal_f")
+    } else {
+        rjd3toolkit::result(x, "cal")
     }
 }
 
@@ -251,6 +335,16 @@ raw.JD3_TRAMOSEATS_RSLTS <- function(x, forecast = FALSE, backcast = FALSE, ...)
         x$final$series$fcasts
     } else {
         x$final$series$data
+    }
+}
+#' @export
+raw.JD3_Object <- function(x, forecast = FALSE, backcast = FALSE, ...){
+    if (forecast) {
+        rjd3toolkit::result(x, "y_f")
+    } else if (backcast) {
+        rjd3toolkit::result(x, "y_b")
+    } else {
+        rjd3toolkit::result(x, "y")
     }
 }
 
