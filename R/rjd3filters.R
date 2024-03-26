@@ -32,8 +32,8 @@ utils::globalVariables(c("value", "variable", "y"))
 #' @rdname ggplot_filters
 #' @export
 ggplot_coef.finite_filters <- function(x, zero_as_na = TRUE, ylab = "Coefficients", q = 0, ...){
-    ggplot_coef(as.matrix(x),
-                zero_as_na = zero_as_na,
+    ggplot_coef(as.matrix(x, zero_as_na = zero_as_na),
+                zero_as_na = FALSE,
                 q = q,
                 ylab = ylab,
                 ...)
