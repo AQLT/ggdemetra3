@@ -13,6 +13,7 @@ Depends:
 Imports:
     ggrepel,
     gridExtra,
+    rjd3jars,
     rjd3toolkit,
     rjd3x13 (>= 3.2.3),
     rjd3tramoseats (>= 3.2.3),
