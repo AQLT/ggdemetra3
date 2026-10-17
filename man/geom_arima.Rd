@@ -2,7 +2,7 @@
 % Please edit documentation in R/geom_arima.R
 \name{geom_arima}
 \alias{geom_arima}
-\title{ARIMA model}
+\title{Add ARIMA Model to Plots}
 \usage{
 geom_arima(
   mapping = NULL,
@@ -22,7 +22,7 @@ geom_arima(
 )
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \link[ggplot2:aes]{aes()}. If specified and \code{inherit.aes = TRUE} (the
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{ggplot2::aes()}}. If specified and \code{inherit.aes = TRUE} (the
 default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
@@ -31,55 +31,77 @@ plot. You must supply \code{mapping} if there is no plot mapping.}
 \item{stat}{The statistical transformation to use on the data for this
 layer, as a string.}
 
-\item{geom}{character. The geometric to use to display the data:
-\code{GeomText} (\code{geom = "text"}, the default, see \link[ggplot2:geom_text]{geom_text()}) or
-\code{GeomLabel} (\code{geom = "label"}, see \link[ggplot2:geom_text]{geom_label()}).}
+\item{geom}{Character. The geometric object to use to display the data:
+\code{GeomText} (\code{geom = "text"}, the default, see \code{\link[ggplot2:geom_text]{ggplot2::geom_text()}}) or
+\code{GeomLabel} (\code{geom = "label"}, see \code{\link[ggplot2:geom_label]{ggplot2::geom_label()}}).}
 
 \item{position}{Position adjustment, either as a string, or the result of
 a call to a position adjustment function.}
 
-\item{...}{Other arguments passed on to \link[ggplot2:layer]{layer()}. These are
+\item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}.}
 
-\item{method}{the method used for the seasonal adjustment. \code{"x13"} (by default) for the X-13ARIMA method and \code{"tramoseats"} for TRAMO-SEATS.}
+\item{method}{The method used for the seasonal adjustment.
+\code{"x13"} (by default) for the X-13 method (using \code{\link[rjd3x13:jx13]{rjd3x13::jx13()}}) and
+\code{"tramoseats"} for TRAMO-SEATS (using \code{\link[rjd3tramoseats:.jtramoseats]{rjd3tramoseats::.jtramoseats()}}).
+Both methods are only compatible with series of frequency 12 (monthly), 6 (bimonthly), 4 (quarterly), and 2 (semi-annual).
+For other frequencies, the following methods are available:
+\code{"x11-extended"} (see \code{\link[rjd3highfreq:x11plus]{rjd3highfreq::x11plus()}}),
+\code{"fractionalairline"} (see \code{\link[rjd3highfreq:fractional_airline_decomposition]{rjd3highfreq::fractional_airline_decomposition()}}),
+\code{"multiairline"} (see \code{\link[rjd3highfreq:multi_airline_decomposition]{rjd3highfreq::multi_airline_decomposition()}}),
+\code{"stl"} (see \code{\link[rjd3highfreq:stlplus]{rjd3highfreq::stlplus()}}),
+\code{"istl"} (see \code{\link[rjd3highfreq:istl]{rjd3highfreq::istl()}}), and
+\code{"mstl"} (see \code{\link[rjd3highfreq:mstl]{rjd3highfreq::mstl()}}).}
 
 \item{spec}{the specification used for the seasonal adjustment.
-See \code{\link[rjd3x13:x13]{rjd3x13::x13()}} or \code{\link[rjd3tramoseats:tramoseats]{rjd3tramoseats::tramoseats()}}.}
+For \code{"x13"} and \code{"tramoseats"} methods, it can be the name of a pre-defined specification
+or a user-defined specification created with \code{\link[rjd3x13:spec_x13]{rjd3x13::spec_x13()}} or \code{\link[rjd3tramoseats:spec_tramoseats]{rjd3tramoseats::spec_tramoseats()}}.}
 
-\item{frequency}{the frequency of the time series. By default (\code{frequency = NULL}),
+\item{frequency}{The frequency of the time series. By default (\code{frequency = NULL}),
 the frequency is computed automatically.}
 
-\item{message}{a \code{boolean} indicating if a message is printed with the frequency used.}
+\item{message}{A logical value indicating whether a message is printed with the frequency used.}
 
-\item{x_arima, y_arima}{position of the text of the ARIMA model. By default, the first position of the \code{data} is used.}
+\item{x_arima, y_arima}{Position of the ARIMA model text.
+By default, the first position of the \code{data} is used.}
 
-\item{show.legend}{logical. Should this layer be included in the legends?
-\code{NA}, the default, includes if any aesthetics are mapped.
-\code{FALSE} never includes, and \code{TRUE} always includes.
-It can also be a named logical vector to finely select the aesthetics to
-display.}
+\item{show.legend}{Logical. Should this layer be included in the legends?
+\code{NA}, the default, includes it if any aesthetics are mapped.
+\code{FALSE} never includes it, and \code{TRUE} always includes it.
+It can also be a named logical vector to finely select the aesthetics to display.}
 
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them.}
 }
+\value{
+A \pkg{ggplot2} layer object to be added to a plot.
+}
 \description{
-Function to add directly to the plot the ARIMA model used in the pre-adjustment process of the seasonal adjustment.
+Function to directly add the ARIMA model used in the pre-adjustment process of seasonal adjustment to the plot.
+Only available for X-13 (\code{\link[rjd3x13:x13]{rjd3x13::x13()}}) and TRAMO-SEATS (\code{\link[rjd3tramoseats:tramoseats]{rjd3tramoseats::tramoseats()}}) methods.
 }
 \details{
-With the parameter \code{geom = "text"}, the ARIMA model used in the pre-adjustment process of the seasonal adjustment are directly added to the plot. With \code{geom = "label"} a rectangle is drawn behind the ARIMA model, making it easier to read.
+With \code{geom = "text"}, the ARIMA model used in the pre-adjustment process of seasonal adjustment is directly added to the plot.
+With \code{geom = "label"}, a rectangle is drawn behind the ARIMA model text, making it easier to read.
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 p_sa_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     geom_line() +
-    labs(title = "Seasonal adjustment of the French industrial production index",
-         x = "time", y = NULL) +
+    labs(
+        title = "Seasonal adjustment of the French industrial production index",
+        x = "time", y = NULL
+    ) +
     geom_sa(color = "red", message = FALSE)
          
 # To add the ARIMA model
 p_sa_ipi_fr + 
-    geom_arima(geom = "label",
-               x_arima = - Inf, y_arima = -Inf, 
-               vjust = -1, hjust = -0.1,
-               message = FALSE)          
+    geom_arima(
+        geom = "label",
+        x_arima = -Inf, y_arima = -Inf, 
+        vjust = -1, hjust = -0.1,
+        message = FALSE
+    )       
+\dontshow{\}) # examplesIf}
 }

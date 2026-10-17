@@ -2,7 +2,7 @@
 % Please edit documentation in R/geom_diagnostics.R
 \name{geom_diagnostics}
 \alias{geom_diagnostics}
-\title{Table of diagnostics}
+\title{Table of Diagnostics}
 \usage{
 geom_diagnostics(
   mapping = NULL,
@@ -24,7 +24,7 @@ geom_diagnostics(
 )
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \link[ggplot2:aes]{aes()}. If specified and \code{inherit.aes = TRUE} (the
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{ggplot2::aes()}}. If specified and \code{inherit.aes = TRUE} (the
 default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
@@ -33,75 +33,100 @@ plot. You must supply \code{mapping} if there is no plot mapping.}
 \item{position}{Position adjustment, either as a string, or the result of
 a call to a position adjustment function.}
 
-\item{...}{Other arguments passed on to \link[ggplot2:layer]{layer()}. These are
+\item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}.}
 
-\item{method}{the method used for the seasonal adjustment. \code{"x13"} (by default) for the X-13ARIMA method and \code{"tramoseats"} for TRAMO-SEATS.}
+\item{method}{The method used for the seasonal adjustment.
+\code{"x13"} (by default) for the X-13 method (using \code{\link[rjd3x13:jx13]{rjd3x13::jx13()}}) and
+\code{"tramoseats"} for TRAMO-SEATS (using \code{\link[rjd3tramoseats:.jtramoseats]{rjd3tramoseats::.jtramoseats()}}).
+Both methods are only compatible with series of frequency 12 (monthly), 6 (bimonthly), 4 (quarterly), and 2 (semi-annual).
+For other frequencies, the following methods are available:
+\code{"x11-extended"} (see \code{\link[rjd3highfreq:x11plus]{rjd3highfreq::x11plus()}}),
+\code{"fractionalairline"} (see \code{\link[rjd3highfreq:fractional_airline_decomposition]{rjd3highfreq::fractional_airline_decomposition()}}),
+\code{"multiairline"} (see \code{\link[rjd3highfreq:multi_airline_decomposition]{rjd3highfreq::multi_airline_decomposition()}}),
+\code{"stl"} (see \code{\link[rjd3highfreq:stlplus]{rjd3highfreq::stlplus()}}),
+\code{"istl"} (see \code{\link[rjd3highfreq:istl]{rjd3highfreq::istl()}}), and
+\code{"mstl"} (see \code{\link[rjd3highfreq:mstl]{rjd3highfreq::mstl()}}).}
 
-\item{spec}{the specification used for the seasonal adjustment.
-See \code{\link[rjd3x13:x13]{rjd3x13::x13()}} or \code{\link[rjd3tramoseats:tramoseats]{rjd3tramoseats::tramoseats()}}.}
+\item{spec}{The specification used for the seasonal adjustment.
+For \code{"x13"} and \code{"tramoseats"} methods, it can be the name of a pre-defined specification
+or a user-defined specification created with \code{\link[rjd3x13:spec_x13]{rjd3x13::spec_x13()}} or \code{\link[rjd3tramoseats:spec_tramoseats]{rjd3tramoseats::spec_tramoseats()}}.
+For other methods, it can be a list of parameters used in the associated seasonal adjustment function.}
 
-\item{frequency}{the frequency of the time series. By default (\code{frequency = NULL}),
+\item{frequency}{The frequency of the time series. By default (\code{frequency = NULL}),
 the frequency is computed automatically.}
 
-\item{message}{a \code{boolean} indicating if a message is printed with the frequency used.}
+\item{message}{A logical value indicating whether a message is printed with the frequency used.}
 
-\item{diagnostics}{vector of character containing the name of the diagnostics to plot.
-See \code{\link[rjd3x13:userdefined_variables_x13]{rjd3x13::userdefined_variables_x13()}} or \code{\link[rjd3tramoseats:userdefined_variables_tramoseats]{rjd3tramoseats::userdefined_variables_tramoseats()}} for the available
-parameters.}
+\item{diagnostics}{Character vector containing the names of the diagnostics to plot.
+See \code{\link[rjd3x13:userdefined_variables_x13]{rjd3x13::userdefined_variables_x13()}} or \code{\link[rjd3tramoseats:userdefined_variables_tramoseats]{rjd3tramoseats::userdefined_variables_tramoseats()}} for the available parameters.}
 
-\item{digits}{integer indicating the number of decimal places to be used for numeric diagnostics. By default \code{digits = 2}.}
+\item{digits}{Integer indicating the number of decimal places to be used for numeric diagnostics (default is \code{2}).}
 
-\item{xmin, xmax}{x location (in data coordinates) giving horizontal
-location of raster.}
+\item{xmin, xmax}{Horizontal location of the raster in data coordinates.}
 
-\item{ymin, ymax}{y location (in data coordinates) giving vertical
-location of raster.}
+\item{ymin, ymax}{Vertical location of the raster in data coordinates.}
 
-\item{table_theme}{list of theme parameters for the table of diagnostics (see \link[gridExtra:tableGrob]{ttheme_default()}).}
+\item{table_theme}{List of theme parameters for the table of diagnostics (see \code{\link[gridExtra:ttheme_default]{gridExtra::ttheme_default()}}).}
 
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them.}
 }
+\value{
+A \pkg{ggplot2} layer object to be added to a plot.
+}
 \description{
-Adds a table of diagnostics to the plot
+Adds a table of diagnostics to the plot.
+Only available for X-13 (\code{\link[rjd3x13:x13]{rjd3x13::x13()}}) and TRAMO-SEATS (\code{\link[rjd3tramoseats:tramoseats]{rjd3tramoseats::tramoseats()}}) methods.
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE) ) withAutoprint(\{ # examplesIf}
 p_sa_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     geom_line() +
-    labs(title = "Seasonal adjustment of the French industrial production index",
-         x = "time", y = NULL) +
+    labs(
+        title = "Seasonal adjustment of the French industrial production index",
+        x = "time", y = NULL
+    ) +
     geom_sa(color = "red", message = FALSE)
 
-# To add of diagnostics with result of the X-11 combined test and the p-values 
-# of the residual seasonality qs and f tests:
+# To add a table of diagnostics with the result of the X-11 combined test 
+# and the p-values of the residual seasonality QS and F-tests:
 diagnostics <- c("diagnostics.seas-sa-combined", "diagnostics.seas-sa-qs", "diagnostics.seas-sa-f")
 p_sa_ipi_fr + 
-    geom_diagnostics(diagnostics = diagnostics,
-                     ymin = 58, ymax = 72, xmin = 2010,
-                     table_theme = gridExtra::ttheme_default(base_size = 8),
-                     message = FALSE)
+    geom_diagnostics(
+        diagnostics = diagnostics,
+        ymin = 58, ymax = 72, xmin = 2010,
+        table_theme = gridExtra::ttheme_default(base_size = 8),
+        message = FALSE
+    )
 
 # To customize the names of the diagnostics in the plot:
-diagnostics <- c(`Combined test` = "diagnostics.seas-sa-combined",
-                 `Residual qs-test (p-value)` = "diagnostics.seas-sa-qs",
-                 `Residual f-test (p-value)` = "diagnostics.seas-sa-f")
+diagnostics <- c(
+    `Combined test` = "diagnostics.seas-sa-combined",
+    `Residual qs-test (p-value)` = "diagnostics.seas-sa-qs",
+    `Residual f-test (p-value)` = "diagnostics.seas-sa-f"
+)
 p_sa_ipi_fr + 
-    geom_diagnostics(diagnostics = diagnostics,
-                     ymin = 58, ymax = 72, xmin = 2010,
-                     table_theme = gridExtra::ttheme_default(base_size = 8),
-                     message = FALSE)
+    geom_diagnostics(
+        diagnostics = diagnostics,
+        ymin = 58, ymax = 72, xmin = 2010,
+        table_theme = gridExtra::ttheme_default(base_size = 8),
+        message = FALSE
+    )
 
 # To add the table below the plot: 
-
 p_diag <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
-    geom_diagnostics(diagnostics = diagnostics,
-                     table_theme = gridExtra::ttheme_default(base_size = 8),
-                     message = FALSE) + 
+    geom_diagnostics(
+        diagnostics = diagnostics,
+        table_theme = gridExtra::ttheme_default(base_size = 8),
+        message = FALSE
+    ) + 
     theme_void()
 
-gridExtra::grid.arrange(p_sa_ipi_fr, p_diag,
-                        nrow = 2, heights  = c(4, 1))
-
+gridExtra::grid.arrange(
+    p_sa_ipi_fr, p_diag,
+    nrow = 2, heights = c(4, 1)
+)
+\dontshow{\}) # examplesIf}
 }

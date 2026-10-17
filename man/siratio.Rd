@@ -4,7 +4,7 @@
 \alias{siratio}
 \alias{siratioplot}
 \alias{ggsiratioplot}
-\title{SI-ratio}
+\title{SI-Ratio Calculation and Plotting}
 \usage{
 siratio(x, ...)
 
@@ -43,29 +43,39 @@ ggsiratioplot(
 )
 }
 \arguments{
-\item{x}{input model or data.}
+\item{x}{An input model (X-13 or TRAMO-SEATS) or data object.}
 
-\item{...}{unused parameters.}
+\item{...}{Additional arguments passed to methods or low-level plotting functions.}
 
-\item{labels}{labels.}
+\item{labels}{Character vector of labels for the periods (e.g., months or quarters).}
 
-\item{add}{boolean indicating whether a new plot should be drawn.}
+\item{add}{Logical indicating whether the plot should be added to an existing one.}
 
-\item{box}{boolean indicating a box around the current plot should be drawn.}
+\item{box}{Logical indicating whether a box should be drawn around the plot.}
 
-\item{col.s, col.i, col.mean}{colors of the different components.}
+\item{col.s, col.i, col.mean}{Colors for the seasonal component, the SI points, and the mean lines.}
 
-\item{cex.i, lwd.s, lwd.mean}{graphical parameters.}
+\item{cex.i, lwd.s, lwd.mean}{Graphical parameters for point size and line widths.}
 
-\item{main, xlab, ylab}{title, X and Y axis label.}
+\item{main, xlab, ylab}{Character strings for the main title, X-axis label, and Y-axis label.}
 
-\item{xlim, ylim}{X and Y axis limits.}
+\item{xlim, ylim}{Numeric vectors of length 2 specifying the X and Y axis limits.}
+}
+\value{
+\itemize{
+\item For \code{siratio()}: A \code{ts} object containing the SI ratio and the seasonal component.
+\item For \code{siratioplot()}: Called for its side effects (base 'R' plot).
+\item For \code{ggsiratioplot()}: A \pkg{ggplot2} object representing the SI ratio chart.
+}
 }
 \description{
-SI-ratio
+Computes and visualizes the Seasonal-Irregular (SI) ratio from a seasonal adjustment model
+(X-13 or TRAMO-SEATS).
 }
 \examples{
-x <- rjd3x13::x13(ipi_c_eu[,"FR"])
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE) ) withAutoprint(\{ # examplesIf}
+x <- rjd3x13::x13(ipi_c_eu[, "FR"])
 siratioplot(x)
 ggsiratioplot(x)
+\dontshow{\}) # examplesIf}
 }

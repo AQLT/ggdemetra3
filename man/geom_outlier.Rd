@@ -2,7 +2,7 @@
 % Please edit documentation in R/geom_outliers.R
 \name{geom_outlier}
 \alias{geom_outlier}
-\title{Outliers texts}
+\title{Outliers Texts}
 \usage{
 geom_outlier(
   mapping = NULL,
@@ -24,7 +24,7 @@ geom_outlier(
 )
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \link[ggplot2:aes]{aes()}. If specified and \code{inherit.aes = TRUE} (the
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{ggplot2::aes()}}. If specified and \code{inherit.aes = TRUE} (the
 default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
@@ -33,88 +33,117 @@ plot. You must supply \code{mapping} if there is no plot mapping.}
 \item{stat}{The statistical transformation to use on the data for this
 layer, as a string.}
 
-\item{geom}{character. The geometric to use to display the data:
-\code{GeomText} (\code{geom = "text"}, the default, see \link[ggplot2:geom_text]{geom_text()});
-\code{GeomLabel} (\code{geom = "label"}, see \link[ggplot2:geom_text]{geom_label()});
-\code{GeomTextRepel} (\code{geom = "text_repel"}, the default, see \link[ggrepel:geom_text_repel]{geom_text_repel()});
-\code{GeomLabelRepel} (\code{geom = "label_repel"}, the default, see \link[ggrepel:geom_text_repel]{geom_label_repel()}).}
+\item{geom}{Character. The geometry to use to display the data:
+\code{GeomText} (\code{geom = "text"}, see \code{\link[ggplot2:geom_text]{ggplot2::geom_text()}});
+\code{GeomLabel} (\code{geom = "label"}, see \code{\link[ggplot2:geom_label]{ggplot2::geom_label()}});
+\code{GeomTextRepel} (\code{geom = "text_repel"}, the default, see \code{\link[ggrepel:geom_text_repel]{ggrepel::geom_text_repel()}});
+\code{GeomLabelRepel} (\code{geom = "label_repel"}, see \code{\link[ggrepel:geom_label_repel]{ggrepel::geom_label_repel()}}).}
 
 \item{position}{Position adjustment, either as a string, or the result of
 a call to a position adjustment function.}
 
-\item{...}{Other arguments passed on to \link[ggplot2:layer]{layer()}. They may be parameters of
-\link[ggplot2:geom_text]{geom_text()} (if \code{geom = "text"}),
-\link[ggplot2:geom_text]{geom_label()} (if \code{geom = "label"}),
-\link[ggrepel:geom_text_repel]{geom_text_repel()} (if \code{geom = "text_repel"})
-or \link[ggrepel:geom_text_repel]{geom_label_repel()} (if \code{geom = "label_repel"}).}
+\item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}}. They may be parameters of
+\code{\link[ggplot2:geom_text]{ggplot2::geom_text()}} (if \code{geom = "text"}),
+\code{\link[ggplot2:geom_label]{ggplot2::geom_label()}} (if \code{geom = "label"}),
+\code{\link[ggrepel:geom_text_repel]{ggrepel::geom_text_repel()}} (if \code{geom = "text_repel"})
+or \code{\link[ggrepel:geom_label_repel]{ggrepel::geom_label_repel()}} (if \code{geom = "label_repel"}).}
 
-\item{method}{the method used for the seasonal adjustment. \code{"x13"} (by default) for the X-13ARIMA method and \code{"tramoseats"} for TRAMO-SEATS.}
+\item{method}{The method used for the seasonal adjustment.
+\code{"x13"} (by default) for the X-13 method (using \code{\link[rjd3x13:jx13]{rjd3x13::jx13()}}) and
+\code{"tramoseats"} for TRAMO-SEATS (using \code{\link[rjd3tramoseats:.jtramoseats]{rjd3tramoseats::.jtramoseats()}}).
+Both methods are only compatible with series of frequency 12 (monthly), 6 (bimonthly), 4 (quarterly), and 2 (semi-annual).
+For other frequencies, the following methods are available:
+\code{"x11-extended"} (see \code{\link[rjd3highfreq:x11plus]{rjd3highfreq::x11plus()}}),
+\code{"fractionalairline"} (see \code{\link[rjd3highfreq:fractional_airline_decomposition]{rjd3highfreq::fractional_airline_decomposition()}}),
+\code{"multiairline"} (see \code{\link[rjd3highfreq:multi_airline_decomposition]{rjd3highfreq::multi_airline_decomposition()}}),
+\code{"stl"} (see \code{\link[rjd3highfreq:stlplus]{rjd3highfreq::stlplus()}}),
+\code{"istl"} (see \code{\link[rjd3highfreq:istl]{rjd3highfreq::istl()}}), and
+\code{"mstl"} (see \code{\link[rjd3highfreq:mstl]{rjd3highfreq::mstl()}}).}
 
-\item{spec}{the specification used for the seasonal adjustment.
-See \code{\link[rjd3x13:x13]{rjd3x13::x13()}} or \code{\link[rjd3tramoseats:tramoseats]{rjd3tramoseats::tramoseats()}}.}
+\item{spec}{The specification used for the seasonal adjustment.
+For \code{"x13"} and \code{"tramoseats"} methods, it can be the name of a pre-defined specification
+or a user-defined specification created with \code{\link[rjd3x13:spec_x13]{rjd3x13::spec_x13()}} or \code{\link[rjd3tramoseats:spec_tramoseats]{rjd3tramoseats::spec_tramoseats()}}.
+For other methods, it can be a list of parameters used in the associated seasonal adjustment function.}
 
-\item{frequency}{the frequency of the time series. By default (\code{frequency = NULL}),
+\item{frequency}{The frequency of the time series. By default (\code{frequency = NULL}),
 the frequency is computed automatically.}
 
-\item{message}{a \code{boolean} indicating if a message is printed with the frequency used.}
+\item{message}{A logical value indicating whether a message is printed with the frequency used.}
 
 \item{first_date}{A numeric specifying the first date from which the outliers are plotted.
-By default (\code{first_date = NULL}) the outliers are plotted from the
-beginning of the time series.}
+By default (\code{first_date = NULL}), the outliers are plotted from the beginning of the time series.}
 
-\item{last_date}{A numeric specifying the first date from which the outliers are plotted.
-By default (\code{first_date = NULL}) the outliers are plotted until the
-end of the time series.}
+\item{last_date}{A numeric specifying the last date up to which the outliers are plotted.
+By default (\code{last_date = NULL}), the outliers are plotted until the end of the time series.}
 
-\item{coefficients}{boolean indicating if the estimates coefficients are printed.
+\item{coefficients}{Logical indicating whether the estimated coefficients are printed.
 By default \code{coefficients = FALSE}.}
 
-\item{digits}{integer indicating the number of decimal places to be used for numeric diagnostics. By default \code{digits = 1}.}
+\item{digits}{Integer indicating the number of decimal places to be used for the estimated coefficients of the outliers.
+By default \code{digits = 1}.}
 
-\item{show.legend}{logical. Should this layer be included in the legends?
-\code{NA}, the default, includes if any aesthetics are mapped.
-\code{FALSE} never includes, and \code{TRUE} always includes.
-It can also be a named logical vector to finely select the aesthetics to
-display.}
+\item{show.legend}{Logical. Should this layer be included in the legends?
+\code{NA}, the default, includes it if any aesthetics are mapped.
+\code{FALSE} never includes it, and \code{TRUE} always includes it.
+It can also be a named logical vector to finely select the aesthetics to display.}
 
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them.}
 }
+\value{
+A \pkg{ggplot2} layer object to be added to a plot.
+}
 \description{
-Function to add directly to the plot the outliers used in the pre-adjustment process of the seasonal adjustment.
+Function to directly add the outliers used in the pre-adjustment process of the seasonal adjustment to the plot.
+Only available for X-13 (\code{\link[rjd3x13:x13]{rjd3x13::x13()}}) and TRAMO-SEATS (\code{\link[rjd3tramoseats:tramoseats]{rjd3tramoseats::tramoseats()}}) methods.
 }
 \details{
-With the parameter \code{geom = "text"}, the outliers used in the pre-adjustment process of the seasonal adjustment are directly added to the plot. With \code{geom = "label"} a rectangle is drawn behind the names of the outliers, making them easier to read. The same with \code{geom = "text_repel"} or \code{geom = "label_repel"} but text labels are also repeled away from each other and away from the data points (see \link[ggrepel:geom_text_repel]{geom_label_repel()}).
+With \code{geom = "text"}, the outliers used in the pre-adjustment process of the seasonal adjustment are directly added to the plot.
+With \code{geom = "label"}, a rectangle is drawn behind the names of the outliers, making them easier to read.
+The same applies to \code{geom = "text_repel"} or \code{geom = "label_repel"}, but text labels are also repelled away from each other and away from the data points (see \code{\link[ggrepel:geom_label_repel]{ggrepel::geom_label_repel()}}).
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE) ) withAutoprint(\{ # examplesIf}
 p_sa_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     geom_line() +
-    labs(title = "Seasonal adjustment of the French industrial production index",
-         x = "time", y = NULL)  +
+    labs(
+        title = "Seasonal adjustment of the French industrial production index",
+        x = "time", y = NULL
+    ) +
     geom_sa(color = "red", message = FALSE)
          
 # To add the outliers:
-p_sa_ipi_fr + geom_outlier(geom = "label",
-                    message = FALSE)
+p_sa_ipi_fr + geom_outlier(
+    geom = "label",
+    message = FALSE
+)
 
-
-# To have a more readable plot with outliers names that repeled away from each other 
+# To have a more readable plot with outlier names repelled away from each other 
 # and from the data points:
 p_sa_ipi_fr + 
-    geom_outlier(geom = "label_repel",
-                 message = FALSE,
-                 vjust = 4,
-                 ylim = c(NA, 65), force = 10,
-                 arrow = arrow(length = unit(0.03, "npc"),
-                               type = "closed", ends = "last"))
+    geom_outlier(
+        geom = "label_repel",
+        message = FALSE,
+        vjust = 4,
+        ylim = c(NA, 65), force = 10,
+        arrow = arrow(
+            length = unit(0.03, "npc"),
+            type = "closed", ends = "last"
+        )
+    )
 
 # To only plot the outliers from a specific date (2009):
 p_sa_ipi_fr + 
-    geom_outlier(geom = "label_repel",
-                 message = FALSE,
-                 first_date = 2009,
-                 vjust = 4,
-                 ylim = c(NA, 65), force = 10,
-                 arrow = arrow(length = unit(0.03, "npc"),
-                               type = "closed", ends = "last"))
+    geom_outlier(
+        geom = "label_repel",
+        message = FALSE,
+        first_date = 2009,
+        vjust = 4,
+        ylim = c(NA, 65), force = 10,
+        arrow = arrow(
+            length = unit(0.03, "npc"),
+            type = "closed", ends = "last"
+        )
+    )
+\dontshow{\}) # examplesIf}
 }

@@ -2,20 +2,28 @@
 % Please edit documentation in R/ts2df.R
 \name{ts2df}
 \alias{ts2df}
-\title{Convert 'ts' object to 'data.frame'}
+\alias{ts2df.ts}
+\alias{ts2df.mts}
+\title{Convert a 'ts' or 'mts' Object to a 'data.frame'}
 \usage{
 ts2df(x)
+
+\method{ts2df}{ts}(x)
+
+\method{ts2df}{mts}(x)
 }
 \arguments{
-\item{x}{a \code{ts} or \code{mts} object.}
+\item{x}{A \code{ts} or \code{mts} object.}
 }
 \value{
-a \code{data.frame} object.
+A \code{data.frame} object.
 }
 \description{
-Function to a \code{ts} or \code{mts} object to a \code{data.frame} that can be directly used in the plot functions.
+Converts a \code{ts} or \code{mts} object into a \code{data.frame} that can be directly used in plotting functions.
 }
 \examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE) ) withAutoprint(\{ # examplesIf}
 # To get the ipi_c_eu_df object:
 ts2df(ipi_c_eu)
+\dontshow{\}) # examplesIf}
 }

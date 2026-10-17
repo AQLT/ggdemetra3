@@ -2,23 +2,46 @@
 % Please edit documentation in R/init_ggplot.R
 \name{init_ggplot}
 \alias{init_ggplot}
-\title{Initialise 'ggplot2' with 'SA' model}
+\alias{init_ggplot.JD3_X13_OUTPUT}
+\alias{init_ggplot.JD3_TRAMOSEATS_OUTPUT}
+\alias{init_ggplot.JD3_Object}
+\alias{init_ggplot.hf_decomposition}
+\title{Initialise a 'ggplot2' Object with an SA Model}
 \usage{
 init_ggplot(x, ...)
+
+\method{init_ggplot}{JD3_X13_OUTPUT}(x, context = NULL, ...)
+
+\method{init_ggplot}{JD3_TRAMOSEATS_OUTPUT}(x, context = NULL, ...)
+
+\method{init_ggplot}{JD3_Object}(x, ...)
+
+\method{init_ggplot}{hf_decomposition}(x, dates = NULL, ...)
 }
 \arguments{
-\item{x}{A seasonal adjusted model.}
+\item{x}{A seasonally adjusted model.}
 
-\item{...}{Other parameters passes to \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}}}
+\item{...}{Other parameters passed to \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}}.}
 
-\item{context}{the context used to estimate the model.}
+\item{context}{The optional context used to estimate the model.}
+
+\item{dates}{Parameters used to re-estimate the model (see details).}
+}
+\value{
+A \pkg{ggplot2} object that can be further customized.
 }
 \description{
-Initialise 'ggplot2' with 'SA' model
+Initialise a 'ggplot2' Object with an SA Model
+}
+\details{
+\code{init_ggplot()} initializes a \pkg{ggplot2} object by storing the seasonal adjustment model used.
 }
 \examples{
-mod <- rjd3x13::x13(window(rjd3toolkit::ABS$X0.2.20.10.M, start = 2000))
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
+mod <- rjd3x13::jx13(window(rjd3toolkit::ABS$X0.2.20.10.M, start = 2000))
 init_ggplot(mod) +
-    geom_line(color =  "#F0B400") +
+    geom_line(color = "#F0B400") +
     geom_sa(component = "sa", color = "#155692")
+    
+\dontshow{\}) # examplesIf}
 }

@@ -1,19 +1,20 @@
-#' Convert 'ts' object to 'data.frame'
+#' Convert a 'ts' or 'mts' Object to a 'data.frame'
+#'
+#' Converts a `ts` or `mts` object into a `data.frame` that can be directly used in plotting functions.
+#'
+#' @param x A `ts` or `mts` object.
+#'
+#' @return A `data.frame` object.
 #' 
-#' Function to a \code{ts} or \code{mts} object to a \code{data.frame} that can be directly used in the plot functions.
-#' 
-#' @param x a \code{ts} or \code{mts} object.
-#' 
-#' @return a \code{data.frame} object.
-#' @examples 
+#' @examplesIf rjd3jars::check_java_version(silent = TRUE) 
 #' # To get the ipi_c_eu_df object:
 #' ts2df(ipi_c_eu)
-#' @name ts2df
-#' @rdname ts2df
+#' 
 #' @export
 ts2df <- function(x){
     UseMethod("ts2df", x)
 }
+#' @name ts2df
 #' @export
 ts2df.ts <- function(x){
     date <- as.numeric(time(x))
@@ -23,6 +24,7 @@ ts2df.ts <- function(x){
     colnames(result) <- c("date", name)
     result
 }
+#' @name ts2df
 #' @export
 ts2df.mts <- function(x){
     date <- as.numeric(time(x))

@@ -9,9 +9,9 @@
 \alias{calendaradj}
 \alias{calendar}
 \alias{raw}
-\title{Extract Component from 'RJDemetra' model}
+\title{Extract Components from Seasonal Adjustment Objects}
 \usage{
-seasonal(x, forecast = FALSE, calendar = FALSE, ...)
+seasonal(x, forecast = FALSE, calendar = FALSE, seas_freq = NULL, ...)
 
 trendcycle(x, forecast = FALSE, ...)
 
@@ -19,23 +19,58 @@ irregular(x, forecast = FALSE, corrected = FALSE, ...)
 
 seasonaladj(x, forecast = FALSE, corrected = FALSE, ...)
 
-calendaradj(x, forecast = FALSE, ...)
+calendaradj(x, forecast = FALSE, spec = NULL, ...)
 
-calendar(x, forecast = FALSE, ...)
+calendar(x, forecast = FALSE, spec = NULL, ...)
 
-raw(x, forecast = FALSE, backcast = FALSE, ...)
+raw(x, forecast = FALSE, backcast = FALSE, spec = NULL, ...)
 }
 \arguments{
-\item{x}{a seasonal adjustment object.}
+\item{x}{A seasonal adjustment model (from \pkg{rjd3x13}, \pkg{rjd3tramoseats}, or \pkg{rjd3highfreq}).}
 
-\item{forecast, backcast}{boolean indicating if the forecast/backcast series should be returned.}
+\item{forecast, backcast}{Logicals indicating whether the forecast or backcast series should be returned.
+If \code{forecast = TRUE} and \code{backcast = TRUE}, the function only returns the forecast series.
+Default is \code{FALSE}.
+Ignored for \pkg{rjd3highfreq} objects.}
 
-\item{calendar}{if \code{TRUE}, \code{seasonal()} returns de seasonal and calendar components.}
+\item{calendar}{If \code{TRUE}, \code{seasonal()} returns the seasonal and calendar components.
+Ignored for \pkg{rjd3highfreq} objects.}
 
-\item{...}{unused parameters.}
+\item{seas_freq}{For methods with multiple seasonal frequencies
+(\code{\link[rjd3highfreq:multi_airline_decomposition]{rjd3highfreq::multi_airline_decomposition()}}, \code{\link[rjd3highfreq:istl]{rjd3highfreq::istl()}} or \code{\link[rjd3highfreq:mstl]{rjd3highfreq::mstl()}}),
+the seasonal frequency to extract. If \code{NULL}, the first seasonal frequency is returned.}
 
-\item{corrected}{if \code{TRUE} large extreme values are removed from the components.}
+\item{...}{Additional arguments passed to methods.}
+
+\item{corrected}{If \code{TRUE}, large extreme values are removed from the components.
+Ignored for \pkg{rjd3tramoseats} and \pkg{rjd3highfreq} objects.}
+
+\item{spec}{The specification used to estimate the model.
+Only used for \code{"JD3_TRAMOSEATS_OUTPUT"} objects for functions
+\code{calendaradj()}, \code{calendar()} and \code{raw()} (when \code{forecast = FALSE} and \code{backast = TRUE}) because
+the output doesn't contain the desired component and the specification.}
+}
+\value{
+A \code{ts} object (or a vector of numeric for \code{"hf_decomposition"} objects) containing the requested component.
+
+A \code{ts} object with the requested component.
 }
 \description{
-Extract Component from 'RJDemetra' model
+Extract Components from Seasonal Adjustment Objects
+}
+\details{
+These functions are S3 generics supporting several classes from the \code{rjdverse} ecosystem:
+\itemize{
+\item X-13 models (\pkg{rjd3x13}): \code{JD3_X13_OUTPUT}, \code{JD3_X13_RSLTS}, \code{JD3_Object};
+\item TRAMO-SEATS models (\pkg{rjd3tramoseats}): \code{JD3_TRAMOSEATS_OUTPUT}, \code{JD3_TRAMOSEATS_RSLTS};
+\item High-frequency decompositions (\pkg{rjd3highfreq}): \code{hf_decomposition}
+(except for \code{calendaradj()} and \code{calendar()}, which are not supported for this class).
+}
+}
+\examples{
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
+model <- rjd3x13::jx13(ipi_c_eu[, "FR"])
+seasonal(model)
+raw(model, forecast = TRUE)
+\dontshow{\}) # examplesIf}
 }

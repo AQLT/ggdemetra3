@@ -1,65 +1,83 @@
 #' @importFrom stats ts is.mts is.ts time
-seasonal_adjustment <- function(data,
-                                method = c("x13","tramoseats",
-                                           "x11-extended", "fractionalairline", "multiairline"),
-                                spec = NULL,
-                                context = NULL,
-                                frequency = NULL,
-                                message = TRUE,
-                                new_data = TRUE){
-    method <- match.arg(tolower(method[1]),
-                        choices = c("x13","tramoseats","x11-extended", "fractionalairline",
-                                    "fractionalairlineestimation",  "multiairline", "stl"))
+#' @keywords internal
+#' @noRd
+seasonal_adjustment <- function(
+        data,
+        method = c(
+            "x13","tramoseats","x11-extended", "fractionalairline",
+            "multiairline", "stl",
+            "istl", "mstl"
+        ),
+        spec = NULL,
+        context = NULL,
+        frequency = NULL,
+        message = TRUE,
+        new_data = TRUE
+){
+    method <- match.arg(
+        tolower(method[1]),
+        choices = c(
+            "x13","tramoseats","x11-extended", "fractionalairline",
+            "multiairline", "stl",
+            "istl", "mstl"
+        )
+    )
     data <- data[order(data$x), ]
     
-    use_previous_model <- pre_check_param(frequency = frequency, method = method,
-                                          spec = spec, new_data = new_data,
-                                          data_y = data$y)
+    use_previous_model <- pre_check_param(
+        frequency = frequency, method = method,
+        spec = spec, new_data = new_data,
+        data_y = data$y)
     
     if(use_previous_model){
-        sa <- .demetra$sa
-        data_ts <- .demetra$data_ts
+        sa <- .ggdemetra$sa
+        data_ts <- .ggdemetra$data_ts
     }else{
-        data_ts <- .demetra$data_ts <-
+        data_ts <- .ggdemetra$data_ts <-
             dataframe2ts(data = data, frequency = frequency, message = message)
         
         if (method == "x13") {
             if (is.null(spec)) {
-                sa <- rjd3x13::.jx13(data_ts, context = context)
+                sa <- rjd3x13::jx13(
+                    data_ts, context = context
+                )
             }else{
-                sa <- rjd3x13::.jx13(data_ts, spec = spec, context = context)
+                sa <- rjd3x13::jx13(
+                    data_ts, spec = spec, context = context
+                )
             }
         } else if (method == "tramoseats") {
             if (is.null(spec)) {
-                sa <- rjd3tramoseats::.jtramoseats(data_ts, context = context)
+                sa <- rjd3tramoseats::.jtramoseats(
+                    data_ts, context = context
+                )
             }else{
-                sa <- rjd3tramoseats::.jtramoseats(data_ts, spec = spec, context = context)
+                sa <- rjd3tramoseats::.jtramoseats(
+                    data_ts, spec = spec, context = context
+                )
             }
-        } else if (method == "fractionalairlineestimation") {
-            spec$y = data_ts
-            spec$period = frequency
-            sa <- do.call(rjd3highfreq::fractionalAirlineEstimation, spec)
-        } else if (method == "fractionalairline") {
-            spec$y = data_ts
-            spec$period = frequency
-            sa <- do.call(rjd3highfreq::fractionalAirlineDecomposition, spec)
-        } else if (method == "multiairline") {
-            spec$y = data_ts
-            spec$period = frequency
-            sa <- do.call(rjd3highfreq::multiAirlineDecomposition, spec)
-        } else if (method == "x11-extended") {
-            spec$y = data_ts
-            spec$period = frequency
-            sa <- do.call(rjd3x11plus::x11plus, spec)
-        } else if (method == "stl") {
-            # spec$y = data_ts
-            # spec$period = frequency
-            # sa <- do.call(rjd3highfreq::stl, spec)
+        } else {
+            hf_fun <- list(
+                "fractionalairline" = rjd3highfreq::fractional_airline_decomposition,
+                "multiairline"      = rjd3highfreq::multi_airline_decomposition,
+                "x11-extended"      = rjd3highfreq::x11plus,
+                "stl"               = rjd3highfreq::stlplus,
+                "istl"              = rjd3highfreq::istl,
+                "mstl"              = rjd3highfreq::mstl
+            )
+            if (method %in% names(hf_fun)) {
+                spec$series <- data_ts
+                spec$period <- frequency
+                if (method %in% c("fractionalairline", "multiairline")) {
+                    spec$series_time <- data$x
+                }
+                sa <- do.call(hf_fun[[method]], spec)
+            }
         }
-        .demetra$sa <- sa
-        .demetra$spec <- spec
-        .demetra$method <- method
-        .demetra$data_y <- data$y
+        .ggdemetra$sa <- sa
+        .ggdemetra$spec <- spec
+        .ggdemetra$method <- method
+        .ggdemetra$data_y <- data$y
     }
     
     
@@ -67,6 +85,8 @@ seasonal_adjustment <- function(data,
     list(data = data, sa = sa, dates = as.numeric(time(data_ts)),
          frequency = frequency(data_ts))
 }
+#' @keywords internal
+#' @noRd
 dataframe2ts <- function(data, frequency = NULL, message = TRUE){
     dates <- data$x
     
@@ -91,67 +111,71 @@ dataframe2ts <- function(data, frequency = NULL, message = TRUE){
         first_date <- dates[1]
     }
     
-    .demetra$frequency <- frequency
-    if (frequency %in% c(2, 4, 6, 12)) {
+    .ggdemetra$frequency <- frequency
+    if (length(frequency) == 1 && frequency %in% c(2, 4, 6, 12)) {
         ts(data$y, start = first_date, frequency = frequency)
     } else {
         data$y
     }
     
 }
+#' @keywords internal
+#' @noRd
 ts2dataframe <- function(x){
-    if (is.ts(x) & !is.mts(x)) {
+    if (is.ts(x) && !is.mts(x)) {
         data.frame(x = as.numeric(time(x)),
                    y = as.numeric(x))
     }else{
         NULL
     }
-    
 }
 
-.demetra <- new.env(parent = emptyenv())
-.demetra$frequency <- 
-    .demetra$method <-
-    .demetra$sa <-
-    .demetra$spec <-
-    .demetra$data_ts <-
-    .demetra$data_y <-
+.ggdemetra <- new.env(parent = emptyenv())
+.ggdemetra$frequency <- 
+    .ggdemetra$method <-
+    .ggdemetra$sa <-
+    .ggdemetra$spec <-
+    .ggdemetra$data_ts <-
+    .ggdemetra$data_y <-
     NULL
-
-pre_check_param <- function(frequency = NULL,  
-                            method = c("x13","tramoseats"),
-                            spec = NULL,
-                            new_data = TRUE,
-                            data_y = NULL){
+#' @keywords internal
+#' @noRd
+pre_check_param <- function(
+        frequency = NULL,  
+        method = c("x13","tramoseats"),
+        spec = NULL,
+        new_data = TRUE,
+        data_y = NULL
+){
     use_previous_model <- FALSE
     if(any(new_data,
-           is.null(.demetra$frequency),
-           is.null(.demetra$method),
-           is.null(.demetra$sa)
+           is.null(.ggdemetra$frequency),
+           is.null(.ggdemetra$method),
+           is.null(.ggdemetra$sa)
     )){
-        .demetra$frequency <- 
-            .demetra$method <-
-            .demetra$sa <-
-            .demetra$data_ts <-
-            .demetra$data_y <-
+        .ggdemetra$frequency <- 
+            .ggdemetra$method <-
+            .ggdemetra$sa <-
+            .ggdemetra$data_ts <-
+            .ggdemetra$data_y <-
             NULL
         return(use_previous_model)
     }
     
     method <- method[1]
     
-    if((is.null(spec) || identical(spec, .demetra$spec)) & 
-       (is.null(method) || identical(method, .demetra$method)) & 
-       (is.null(frequency) || identical(frequency, .demetra$frequency)) & 
-       (identical(data_y, .demetra$data_y))){
+    if((is.null(spec) || identical(spec, .ggdemetra$spec)) & 
+       (is.null(method) || identical(method, .ggdemetra$method)) & 
+       (is.null(frequency) || identical(frequency, .ggdemetra$frequency)) & 
+       (identical(data_y, .ggdemetra$data_y))){
         use_previous_model <- TRUE
     }else{
-        .demetra$frequency <- 
-            .demetra$method <-
-            .demetra$sa <-
-            .demetra$spec <-
-            .demetra$data_ts <-
-            .demetra$data_y <-
+        .ggdemetra$frequency <- 
+            .ggdemetra$method <-
+            .ggdemetra$sa <-
+            .ggdemetra$spec <-
+            .ggdemetra$data_ts <-
+            .ggdemetra$data_y <-
             NULL
     }
     use_previous_model

@@ -24,9 +24,9 @@ navbar:
     news:
       text: News
       href: news/index.html
-    rjdemetra:
-      text: RJDemetra
-      href: https://github.com/jdemetra/rjdemetra
+    # rjdemetra:
+    #   text: RJDemetra
+    #   href: https://github.com/jdemetra/rjdemetra
     jdemetra:
       text: JDemetra+
       menu:
