@@ -25,6 +25,8 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown
+Remotes:
+  github::rjdverse/rjd3highfreq 
 SystemRequirements: Java (>= 17)
 License: EUPL
 URL: https://aqlt.github.io/ggdemetra/, https://github.com/AQLT/ggdemetra3
