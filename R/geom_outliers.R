@@ -44,7 +44,7 @@ StatOutlier <- ggproto(
         date <- gsub("(^.* )|(\\()|(\\))", "", liste_outlier_name)
         date <- vapply(strsplit(date, "-", fixed = TRUE),function(x){
             x <- as.numeric(x)
-            x[2] + (x[1] - 1)/frequency
+            x[1] + (x[2] - 1)/frequency
         },
         FUN.VALUE = numeric(1)
         )
