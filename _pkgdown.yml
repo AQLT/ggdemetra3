@@ -24,16 +24,13 @@ navbar:
     news:
       text: News
       href: news/index.html
-    # rjdemetra:
-    #   text: RJDemetra
-    #   href: https://github.com/jdemetra/rjdemetra
     jdemetra:
       text: JDemetra+
       menu:
       - text: Download JDemetra+
-        href: https://github.com/jdemetra/jdemetra-app/releases
+        href: https://github.com/jdemetra/jdplus-main/releases
       - text: JDemetra+ documentation
-        href: https://jdemetradocumentation.github.io/JDemetra-documentation/
+        href: https://doc.jdemetra.org/
     github:
       icon: fa-github fa-lg
       href: https://github.com/AQLT/ggdemetra3
