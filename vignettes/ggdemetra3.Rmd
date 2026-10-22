@@ -22,21 +22,14 @@ library(ggdemetra3)
 library(ggplot2)
 ```
 
-`ggdemetra3` is an extension of [ggplot2](https://github.com/tidyverse/ggplot2) to add seasonal adjustment statistics to your plots. 
-The seasonal adjustment process is performed using the [R packages associated with version 3 of JDemetra+](https://github.com/rjdverse), which is the seasonal adjustment software officially recommended for members of the European Statistical System (ESS) and the European System of Central Banks. 
+`ggdemetra3` is an extension of [ggplot2](https://github.com/tidyverse/ggplot2) to add seasonal adjustment statistics to your plots.  
+The seasonal adjustment process is performed using the [R packages associated with version 3 of JDemetra+](https://github.com/rjdverse), which is the seasonal adjustment software officially recommended for members of the European Statistical System (ESS) and the European System of Central Banks.  
 [`rjd3x13`](https://github.com/rjdverse/rjd3x13) is used for X-13, [`rjd3tramoseats`](https://github.com/rjdverse/rjd3tramoseats) for TRAMO-SEATS, and [`rjd3highfreq`](https://github.com/rjdverse/rjd3highfreq) for high-frequency seasonal adjustment methods.
 In addition, `ggdemetra3` provides functions to visualize linear filters, weights, and trend-cycle estimation tools from the [`rjd3filters`](https://github.com/rjdverse/rjd3filters) infrastructure.
 
-There are 4 main functionalities in `ggdemetra3` depending of what you want to add in the graphic:
-
-- `geom_sa()`: to add a time series compute during the seasonal adjustment (the trend, the seasonal adjusted time series, etc.).  
-- `geom_outliers()`: to add the outliers used in the pre-adjustment process of the seasonal adjustment.
-- `geom_arima()`: to add the ARIMA model used in the pre-adjustment process of the seasonal adjustment.
-- `geom_diagnostics()`: to add a table containing some diagnostics on the seasonal adjustment process.
-
-Note `ts` objects cannot be directly used in `ggplot2`.
-To convert `ts` or `mts` object to `data.frame`, you can use the `ts2df()` function.
-For example, the data `ipi_c_eu_df` used in this package is obtained by applying the  `ts2df()`function to the `ipi_c_eu`:
+Note that `ts` objects cannot be directly used in `ggplot2`.
+To convert `ts` or `mts` objects to a `data.frame`, you can use the `ts2df()` function.
+For example, the data `ipi_c_eu_df` used in this package is obtained by applying the `ts2df()` function to `ipi_c_eu`:
 ```{r, eval = FALSE}
 ipi_c_eu_df <- ts2df(ipi_c_eu)
 ```
@@ -44,17 +37,17 @@ ipi_c_eu_df <- ts2df(ipi_c_eu)
 
 # Seasonal adjustment specification
 
-All the functions have some common parameters and especially those to defined the seasonal adjustment method:
+All the functions share some common parameters, especially those defining the seasonal adjustment method:
 
 - `method` is the method used for the seasonal adjustment: X-13ARIMA (`method = "x13"`, the default) or TRAMO-SEATS (`method = "tramoseats"`).  
-- `spec` is the seasonal adjustment specification. It can be the name of pre-defined specification (see `?rjd3x13::x13` or `?rjd3tramoseats::tramoseats`) or a user-defined specification created.  
-- `frequency` is the frequency of the input time series. By default, the frequency is computed and a message is printed with the one chosen (use `message = FALSE` to suppress this message).
+- `spec` is the seasonal adjustment specification. It can be the name of a pre-defined specification (see `?rjd3x13::x13` or `?rjd3tramoseats::tramoseats`) or a user-defined specification.  
+- `frequency` is the frequency of the input time series. By default, the frequency is computed automatically and a message is printed with the chosen value (use `message = FALSE` to suppress this message).
 
-In the following examples, the data used is the French industrial production index. 
-By default, the seasonal adjustment will then be processed with X-13ARIMA with a pre-defined specification `"RSA5c` (automatic log detection, automatic ARIMA and outliers detection and trading day and easter adjustment). 
-However, in the industrial production the working day effect has more economic sense than the trading day effect and a gradual effect for easter does not make economic sense for the aggregated series. 
-The specification that should be used with X-13ARIMA is `spec = rjd3toolkit::set_tradingdays(rjd3x13::spec_x13("rsa3"), option = "workingdays")`. 
-If no new data or seasonal adjustment specification is specified (method or specification), these parameters is inherited from the previous defined: therefore you only need to specify this parameter once.
+In the following examples, the data used is the French industrial production index.  
+By default, the seasonal adjustment is processed with X-13ARIMA using the pre-defined specification `"rsa3"` (automatic log detection, automatic ARIMA and outlier detection, trading day, and Easter adjustment).  
+However, for industrial production, working day effects have more economic sense than trading day effects, and a gradual Easter effect is less appropriate for aggregated series.  
+The recommended specification to use with X-13ARIMA in this case is `spec = rjd3toolkit::set_tradingdays(rjd3x13::spec_x13("rsa3"), option = "workingdays")`.  
+If no new data or seasonal adjustment specification (method or spec) is provided, these parameters are inherited from the previous call: therefore, you only need to specify them once.
 
 ```{r, warning=FALSE, message=FALSE}
 library(ggplot2)
@@ -67,9 +60,9 @@ p_ipi_fr
 ```
 
 
-# Add the result of the seasonal adjusment
+# Add the result of the seasonal adjustment
 
-By default `geom_sa()` adds the seasonal adjusted time series:
+By default, `geom_sa()` adds the seasonally adjusted time series:
 
 ```{r}
 spec <- rjd3x13::spec_x13("rsa3")
@@ -79,7 +72,7 @@ p_ipi_fr +
             spec = spec)
 ```
 
-To add other components of the seasonal adjustment, use the `component` parameter of `geom_sa()` (see `?rjd3x13::userdefined_variables_x13()` or `?rjd3tramoseats::userdefined_variables_tramoseats()` for the availables parameters). For example, to add the forecasts of the input data and of the seasonal adjusted series:
+To add other components of the seasonal adjustment, use the `component` parameter of `geom_sa()` (see `?rjd3x13::userdefined_variables_x13()` or `?rjd3tramoseats::userdefined_variables_tramoseats()` for the available parameters). For example, to add the forecasts of the input data and of the seasonally adjusted series:
 
 ```{r}
 p_sa <- p_ipi_fr +
@@ -97,10 +90,10 @@ sa <- rjd3x13::.jx13(ipi_c_eu[,"FR"], spec = spec)
 
 # Add the outliers to the plot
 
-There are four differents geometrics to add to the plot the names of the outliers used in the pre-adjustment process:
+There are four different geometries to add the names of the outliers used in the pre-adjustment process to the plot:
 
-- `geom = "text"` (the default) adds directly the names of the outliers and `geom = "label"` draws a rectangle behind the names, making them easier to read.  
-- `geom = "text_repel"` and `geom = "label_repel"` do the same but text labels repel away from each other and away from the data points (see `?ggrepel::geom_label_repel`).
+- `geom = "text"` (the default) adds directly the names of the outliers, and `geom = "label"` draws a rectangle behind the names, making them easier to read.  
+- `geom = "text_repel"` and `geom = "label_repel"` do the same, but text labels repel away from each other and away from the data points (see `?ggrepel::geom_label_repel`).
 
 In our example, there are `r rjd3toolkit::result(sa, "regression.nout")` outliers:
 
@@ -108,7 +101,7 @@ In our example, there are `r rjd3toolkit::result(sa, "regression.nout")` outlier
 p_sa + geom_outlier(geom = "label")
 ```
 
-They can be plotted in more readable way using the parameters of `ggrepel::geom_label_repel`:
+They can be plotted in a more readable way using the parameters of `ggrepel::geom_label_repel`:
 ```{r}
 p_sa + 
     geom_outlier(geom = "label_repel",
@@ -117,7 +110,7 @@ p_sa +
                                type = "closed", ends = "last"))
 ```
 
-Use the parameters `first_date` and `last_date` to only have the outliers in a precise time interval. For example, to only plot the outliers from 2009 use `first_date = 2009`:
+Use the parameters `first_date` and `last_date` to restrict the plotted outliers to a precise time interval. For example, to only plot outliers from 2009 onwards, use `first_date = 2009`:
 ```{r}
 p_sa + 
     geom_outlier(geom = "label_repel",
@@ -127,10 +120,11 @@ p_sa +
                                type = "closed", ends = "last"))
 ```
 
+
 # Add the ARIMA model
 
-The ARIMA model used pre-adjustment process can be added to the plot with `geom_
-arima()`. The parameter `geom = "label"` draws a rectangle behind the ARIMA model, making it easier to read:
+The ARIMA model used in the pre-adjustment process can be added to the plot with `geom_arima()`. 
+The parameter `geom = "label"` draws a rectangle behind the ARIMA model, making it easier to read:
 
 ```{r}
 p_sa + 
@@ -139,9 +133,10 @@ p_sa +
                vjust = -1, hjust = -0.1)
 ```
 
+
 # Add a table with some diagnostics
 
-A table with some diagnostics on the seasonal adjustment process can be added with `geom_diagnostics()`. The  desired diagnostics have to be added to the `diagnostics` parameter (see `?rjd3x13::userdefined_variables_x13()` or `?rjd3tramoseats::userdefined_variables_tramoseats()` for the availables diagnostics). For example, to add the result of the X-11 Q-m2 statistic and the p-values of the residual seasonality qs and f tests:
+A table with diagnostics on the seasonal adjustment process can be added using `geom_diagnostics()`. The desired diagnostics must be passed to the `diagnostics` parameter (see `?rjd3x13::userdefined_variables_x13()` or `?rjd3tramoseats::userdefined_variables_tramoseats()` for available diagnostics). For example, to add the X-11 Q-M2 statistic and the p-values of the residual seasonality QS and F-tests:
 
 ```{r}
 diagnostics <- c("m-statistics.q-m2",
@@ -165,8 +160,7 @@ p_sa +
                      table_theme = gridExtra::ttheme_default(base_size = 8))
 ```
 
-
-To add the table below the plot, you can for example use `gridExtra::grid.arrange()`: 
+To place the table below the plot, you can use `gridExtra::grid.arrange()`:  
 ```{r}
 p_diag <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR))  +
     geom_diagnostics(diagnostics = diagnostics,
@@ -176,15 +170,46 @@ p_diag <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR))  +
     theme_void()
     
 gridExtra::grid.arrange(p_sa, p_diag,
-             nrow = 2, heights  = c(4, 1.5))
+    nrow = 2, heights = c(4, 1.5))
 ```
+
 
 # Plot models
 
-The `autoplot()` functions allows to plot an already estimated seasonal adjustment model. 
-The `components` parameter allows to specify the printed components
+The `autoplot()` function also allows plotting an already estimated seasonal adjustment model.  
+The `components` parameter allows specifying which components to display:
+
 ```{r autoplot}
 mod <- rjd3x13::x13(ipi_c_eu[,"FR"],"rsa3")
 autoplot(mod, components = c("y", "sa", "trend" = "t"))
 autoplot(mod, components = c("seasonal" = "s", "irregular" = "i"))
 ```
+
+
+# High-frequency seasonal adjustment (`rjd3highfreq`)
+
+`ggdemetra3` also supports high-frequency seasonal adjustment methods provided by the `rjd3highfreq` package (such as fractional airline decomposition, X11-extended, STL, etc.). 
+
+For instance, you can decompose high-frequency weekly data (like `usclaims`) using `geom_sa()` with `method = "fractionalairline"` and setting `frequency = 52`:
+
+```{r, warning=FALSE, message=FALSE}
+p_usclaims <- ggplot(data = usclaims[usclaims$date <= "2019-12-01", ], 
+                     mapping = aes(x = date, y = `Initial claims`)) +
+    geom_line() +
+    labs(title = "Initial claims (weekly data)", x = NULL, y = NULL)
+
+p_usclaims + 
+    geom_sa(method = "fractionalairline", frequency = 52, 
+            component = "sa", color = "red", message = FALSE)
+```
+
+Alternatively, you can compute a decomposition object directly using `rjd3highfreq` and visualize it with `autoplot()`:
+
+```{r}
+mod_hf <- rjd3highfreq::fractional_airline_decomposition(
+    usclaims[usclaims$date <= "2019-12-01", "Initial claims"], 
+    period = 52
+)
+autoplot(mod_hf, dates = usclaims$date[usclaims$date <= "2019-12-01"])
+```
+
