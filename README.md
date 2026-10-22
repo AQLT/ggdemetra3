@@ -100,8 +100,6 @@ p_sa +
                  arrow = arrow(length = unit(0.03, "npc"),
                                type = "closed", ends = "last"),
                  digits = 2)
-#> Warning: Removed 3 rows containing missing values or values outside the scale range
-#> (`geom_label_repel()`).
 ```
 
 <img src="man/figures/README-out-1.png" alt="" width="100%" style="display: block; margin: auto;" />
