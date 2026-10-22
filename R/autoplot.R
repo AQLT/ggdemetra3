@@ -25,6 +25,7 @@
 #' @examplesIf rjd3jars::check_java_version(silent = TRUE)
 #' autoplot(rjd3x13::jx13(ipi_c_eu[, "FR"]))
 #' 
+#' \donttest{
 #' hf_data <- usclaims[usclaims$date <= "2019-12-01",]
 #' mod_hf <- rjd3highfreq::fractional_airline_decomposition(
 #'   hf_data[, "Initial claims"], 
@@ -32,6 +33,7 @@
 #'   series_time = hf_data[, "date"]
 #' )
 #' autoplot(mod_hf, dates = usclaims$date[usclaims$date <= "2019-12-01"])
+#' }
 #' 
 #' @name autoplot_ggdemetra3
 #' @export
