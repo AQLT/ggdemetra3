@@ -1,0 +1,163 @@
+# Extract Components from Seasonal Adjustment Objects
+
+Extract Components from Seasonal Adjustment Objects
+
+## Usage
+
+``` r
+seasonal(x, forecast = FALSE, calendar = FALSE, seas_freq = NULL, ...)
+
+trendcycle(x, forecast = FALSE, ...)
+
+irregular(x, forecast = FALSE, corrected = FALSE, ...)
+
+seasonaladj(x, forecast = FALSE, corrected = FALSE, ...)
+
+calendaradj(x, forecast = FALSE, spec = NULL, ...)
+
+calendar(x, forecast = FALSE, spec = NULL, ...)
+
+raw(x, forecast = FALSE, backcast = FALSE, spec = NULL, ...)
+```
+
+## Arguments
+
+- x:
+
+  A seasonal adjustment model (from rjd3x13, rjd3tramoseats, or
+  rjd3highfreq).
+
+- forecast, backcast:
+
+  Logicals indicating whether the forecast or backcast series should be
+  returned. If `forecast = TRUE` and `backcast = TRUE`, the function
+  only returns the forecast series. Default is `FALSE`. Ignored for
+  rjd3highfreq objects.
+
+- calendar:
+
+  If `TRUE`, `seasonal()` returns the seasonal and calendar components.
+  Ignored for rjd3highfreq objects.
+
+- seas_freq:
+
+  For methods with multiple seasonal frequencies
+  ([`rjd3highfreq::multi_airline_decomposition()`](https://rjdverse.github.io/rjd3highfreq/reference/multi_airline_decomposition.html),
+  [`rjd3highfreq::istl()`](https://rjdverse.github.io/rjd3highfreq/reference/istl.html)
+  or
+  [`rjd3highfreq::mstl()`](https://rjdverse.github.io/rjd3highfreq/reference/mstl.html)),
+  the seasonal frequency to extract. If `NULL`, the first seasonal
+  frequency is returned.
+
+- ...:
+
+  Additional arguments passed to methods.
+
+- corrected:
+
+  If `TRUE`, large extreme values are removed from the components.
+  Ignored for rjd3tramoseats and rjd3highfreq objects.
+
+- spec:
+
+  The specification used to estimate the model. Only used for
+  `"JD3_TRAMOSEATS_OUTPUT"` objects for functions `calendaradj()`,
+  `calendar()` and `raw()` (when `forecast = FALSE` and
+  `backast = TRUE`) because the output doesn't contain the desired
+  component and the specification.
+
+## Value
+
+A `ts` object (or a vector of numeric for `"hf_decomposition"` objects)
+containing the requested component.
+
+A `ts` object with the requested component.
+
+## Details
+
+These functions are S3 generics supporting several classes from the
+`rjdverse` ecosystem:
+
+- X-13 models (rjd3x13): `JD3_X13_OUTPUT`, `JD3_X13_RSLTS`,
+  `JD3_Object`;
+
+- TRAMO-SEATS models (rjd3tramoseats): `JD3_TRAMOSEATS_OUTPUT`,
+  `JD3_TRAMOSEATS_RSLTS`;
+
+- High-frequency decompositions (rjd3highfreq): `hf_decomposition`
+  (except for `calendaradj()` and `calendar()`, which are not supported
+  for this class).
+
+## Examples
+
+``` r
+model <- rjd3x13::jx13(ipi_c_eu[, "FR"])
+seasonal(model)
+#>            Jan       Feb       Mar       Apr       May       Jun       Jul
+#> 1990 0.9653707 0.9714962 1.0756800 1.0028076 0.9709670 1.0972898 0.9900788
+#> 1991 0.9660388 0.9702974 1.0742990 1.0029902 0.9718061 1.0994487 0.9895490
+#> 1992 0.9683553 0.9679097 1.0720638 1.0033871 0.9719118 1.1022622 0.9892546
+#> 1993 0.9701332 0.9644542 1.0703320 1.0040603 0.9716009 1.1054674 0.9894956
+#> 1994 0.9709383 0.9622073 1.0692088 1.0040300 0.9701855 1.1084407 0.9912443
+#> 1995 0.9702355 0.9613735 1.0686178 1.0034204 0.9696863 1.1098639 0.9941116
+#> 1996 0.9695712 0.9619186 1.0687025 1.0017130 0.9691720 1.1102081 0.9974839
+#> 1997 0.9686626 0.9618634 1.0698312 1.0004154 0.9693455 1.1099031 0.9999391
+#> 1998 0.9671227 0.9627557 1.0727967 0.9987386 0.9687128 1.1094621 1.0018215
+#> 1999 0.9662510 0.9644975 1.0760895 0.9971332 0.9681241 1.1087817 1.0035412
+#> 2000 0.9654251 0.9670002 1.0813998 0.9972413 0.9653181 1.1068092 1.0054709
+#> 2001 0.9646175 0.9688157 1.0861136 0.9991592 0.9624708 1.1057402 1.0066595
+#> 2002 0.9638441 0.9698611 1.0899879 1.0025583 0.9605301 1.1051566 1.0059479
+#> 2003 0.9644843 0.9692672 1.0901396 1.0056360 0.9618701 1.1060513 1.0035625
+#> 2004 0.9654553 0.9678654 1.0891267 1.0076743 0.9635307 1.1072109 1.0019956
+#> 2005 0.9674538 0.9661241 1.0866524 1.0076574 0.9657056 1.1092376 1.0021261
+#> 2006 0.9695996 0.9665381 1.0842331 1.0057960 0.9665738 1.1092638 1.0037662
+#> 2007 0.9713930 0.9674979 1.0826345 1.0035263 0.9666601 1.1088724 1.0062332
+#> 2008 0.9728371 0.9709803 1.0824037 1.0022929 0.9637237 1.1059554 1.0100460
+#> 2009 0.9737942 0.9737528 1.0830201 1.0025953 0.9594529 1.1027873 1.0148072
+#> 2010 0.9743452 0.9767919 1.0840276 1.0036106 0.9550404 1.0993910 1.0188675
+#> 2011 0.9727966 0.9782378 1.0857948 1.0068642 0.9508534 1.0960819 1.0230476
+#> 2012 0.9701155 0.9804443 1.0876442 1.0100224 0.9463405 1.0935848 1.0264364
+#> 2013 0.9678738 0.9804115 1.0879917 1.0143715 0.9428393 1.0907831 1.0287886
+#> 2014 0.9672022 0.9786765 1.0879992 1.0164183 0.9418511 1.0882048 1.0272450
+#> 2015 0.9668441 0.9747118 1.0874075 1.0167494 0.9418241 1.0865505 1.0249097
+#> 2016 0.9676977 0.9716272 1.0868309 1.0141481 0.9425709 1.0857205 1.0226195
+#> 2017 0.9689666 0.9689644 1.0856144 1.0108571 0.9444444 1.0847215 1.0222693
+#> 2018 0.9697532 0.9680545 1.0857367 1.0072569 0.9472508 1.0837795 1.0223304
+#> 2019 0.9692110 0.9683750 1.0858688 1.0049818 0.9496042 1.0832902 1.0234214
+#>            Aug       Sep       Oct       Nov       Dec
+#> 1990 0.7062073 1.0636920 1.1032642 1.0338901 1.0195022
+#> 1991 0.7061564 1.0629420 1.1022100 1.0330640 1.0217028
+#> 1992 0.7062051 1.0623084 1.1000014 1.0321870 1.0254923
+#> 1993 0.7065492 1.0615882 1.0974078 1.0306326 1.0294651
+#> 1994 0.7069274 1.0614646 1.0961147 1.0280159 1.0320135
+#> 1995 0.7079136 1.0612346 1.0954543 1.0256340 1.0320724
+#> 1996 0.7092556 1.0616437 1.0960696 1.0233669 1.0300928
+#> 1997 0.7121057 1.0611884 1.0959923 1.0227455 1.0263592
+#> 1998 0.7156093 1.0607738 1.0962261 1.0218993 1.0209557
+#> 1999 0.7201119 1.0601530 1.0942140 1.0223273 1.0139483
+#> 2000 0.7235302 1.0610668 1.0932829 1.0223465 1.0060968
+#> 2001 0.7256319 1.0631075 1.0923790 1.0221320 0.9983287
+#> 2002 0.7259031 1.0674428 1.0920610 1.0211213 0.9920530
+#> 2003 0.7259859 1.0723715 1.0899985 1.0202191 0.9883512
+#> 2004 0.7262081 1.0764338 1.0882861 1.0192189 0.9857120
+#> 2005 0.7276328 1.0781130 1.0851605 1.0189205 0.9838131
+#> 2006 0.7311784 1.0790004 1.0819216 1.0204769 0.9800679
+#> 2007 0.7361375 1.0778339 1.0781979 1.0224473 0.9757784
+#> 2008 0.7415647 1.0752350 1.0763108 1.0244373 0.9717847
+#> 2009 0.7466028 1.0724582 1.0737656 1.0249298 0.9693831
+#> 2010 0.7515270 1.0701598 1.0725013 1.0241037 0.9681539
+#> 2011 0.7554927 1.0687959 1.0713664 1.0212936 0.9680989
+#> 2012 0.7593520 1.0670041 1.0722823 1.0185045 0.9685079
+#> 2013 0.7633042 1.0661322 1.0717068 1.0171441 0.9701280
+#> 2014 0.7670325 1.0646895 1.0735266 1.0192917 0.9722428
+#> 2015 0.7699896 1.0625812 1.0756321 1.0229329 0.9739905
+#> 2016 0.7713886 1.0594866 1.0804453 1.0271937 0.9737855
+#> 2017 0.7721779 1.0570461 1.0845543 1.0298839 0.9715907
+#> 2018 0.7714231 1.0550868 1.0901495 1.0314496 0.9679374
+#> 2019 0.7703421 1.0543918 1.0938181 1.0312779 0.9648586
+raw(model, forecast = TRUE)
+#>            Jan       Feb       Mar       Apr       May       Jun       Jul
+#> 2020 101.81974 100.89787 112.28682 104.62990  96.40770 112.28865 106.90579
+#>            Aug       Sep       Oct       Nov       Dec
+#> 2020  76.66956 110.33254 111.58312 104.51022 101.57767
+```
