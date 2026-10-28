@@ -16,7 +16,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.dim = c(7,4)*1.4,
   out.width = "100%",
-  warning = FALSE
+  warning = FALSE,
+  eval = rjd3jars::check_java_version(silent = TRUE)
 )
 library(ggdemetra3)
 library(ggplot2)
