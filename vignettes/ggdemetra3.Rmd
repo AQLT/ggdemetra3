@@ -96,7 +96,7 @@ There are four different geometries to add the names of the outliers used in the
 - `geom = "text"` (the default) adds directly the names of the outliers, and `geom = "label"` draws a rectangle behind the names, making them easier to read.  
 - `geom = "text_repel"` and `geom = "label_repel"` do the same, but text labels repel away from each other and away from the data points (see `?ggrepel::geom_label_repel`).
 
-In our example, there are `r rjd3toolkit::result(sa, "regression.nout")` outliers:
+In our example, there are `r if (rjd3jars::check_java_version(silent = TRUE)) rjd3toolkit::result(sa, "regression.nout") else "X"` outliers:
 
 ```{r}
 p_sa + geom_outlier(geom = "label")
