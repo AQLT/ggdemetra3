@@ -25,7 +25,7 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown
-SystemRequirements: Java (>= 17)
+SystemRequirements: Java (>= 21)
 License: EUPL
 URL: https://aqlt.github.io/ggdemetra/, https://github.com/AQLT/ggdemetra3
 BugReports: https://github.com/AQLT/ggdemetra3/issues
