@@ -4,7 +4,7 @@ author: "Alain Quartier-la-Tente"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{ggdemetra3}
+  %\VignetteIndexEntry{ggdemetra3: extending ggplot2 to perform seasonal adjustment with rjdverse packages}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
