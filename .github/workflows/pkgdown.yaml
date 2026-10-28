@@ -1,13 +1,10 @@
-# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+##$ Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
-    branches: [master, develop]
-    paths:
-      - 'man/**'
-
+    branches: [develop]
   # pull_request:
-  #   branches: [master, develop]
+  #   branches: [develop]
   # release:
   #   types: [published]
   workflow_dispatch:
@@ -25,14 +22,14 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu' # See 'Supported distributions' for available options
-          java-version: '17'
+      - uses: actions/checkout@v7
 
       - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu' # See 'Supported distributions' for available options
+          java-version: '21'
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -46,13 +43,21 @@ jobs:
           extra-packages: any::pkgdown, local::.
           needs: website
 
+      - name: Update NEWS.md with package name and version
+        run: |
+          PACKAGE_NAME=$(grep -E '^Package:' DESCRIPTION | awk '{print $2}')
+          VERSION=$(grep -E '^Version:' DESCRIPTION | awk '{print $2}')
+          sed -i '1{/^# Changelog$/d}' NEWS.md
+          sed -i "1s/^/# ${PACKAGE_NAME} ${VERSION}\n\n/" NEWS.md
+        shell: bash
+
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
 
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'
-        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        uses: JamesIves/github-pages-deploy-action@v4.8.0
         with:
           clean: false
           branch: gh-pages
