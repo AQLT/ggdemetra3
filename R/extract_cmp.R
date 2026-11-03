@@ -2,7 +2,7 @@
 #'
 #' @param x A seasonal adjustment model (from \pkg{rjd3x13}, \pkg{rjd3tramoseats}, or \pkg{rjd3highfreq}).
 #' @param forecast,backcast Logicals indicating whether the forecast or backcast series should be returned.
-#' If `forecast = TRUE` and `backcast = TRUE`, the function only returns the forecast series. 
+#' If `forecast = TRUE` and `backcast = TRUE`, the function only returns the forecast series.
 #' Default is `FALSE`.
 #' Ignored for \pkg{rjd3highfreq} objects.
 #' @param calendar If `TRUE`, `seasonal()` returns the seasonal and calendar components.
@@ -11,23 +11,23 @@
 #' Ignored for \pkg{rjd3tramoseats} and \pkg{rjd3highfreq} objects.
 #' @param ... Additional arguments passed to methods.
 #' @param spec The specification used to estimate the model.
-#' Only used for `"JD3_TRAMOSEATS_OUTPUT"` objects for functions 
+#' Only used for `"JD3_TRAMOSEATS_OUTPUT"` objects for functions
 #' `calendaradj()`, `calendar()` and `raw()` (when `forecast = FALSE` and `backast = TRUE`) because
 #' the output doesn't contain the desired component and the specification.
-#' @param seas_freq For methods with multiple seasonal frequencies 
-#' ([rjd3highfreq::multi_airline_decomposition()], [rjd3highfreq::istl()] or [rjd3highfreq::mstl()]), 
+#' @param seas_freq For methods with multiple seasonal frequencies
+#' ([rjd3highfreq::multi_airline_decomposition()], [rjd3highfreq::istl()] or [rjd3highfreq::mstl()]),
 #' the seasonal frequency to extract. If `NULL`, the first seasonal frequency is returned.
-#' 
+#'
 #' @details
 #' These functions are S3 generics supporting several classes from the `rjdverse` ecosystem:
 #' * X-13 models (\pkg{rjd3x13}): `JD3_X13_OUTPUT`, `JD3_X13_RSLTS`, `JD3_Object`;
 #' * TRAMO-SEATS models (\pkg{rjd3tramoseats}): `JD3_TRAMOSEATS_OUTPUT`, `JD3_TRAMOSEATS_RSLTS`;
-#' * High-frequency decompositions (\pkg{rjd3highfreq}): `hf_decomposition` 
+#' * High-frequency decompositions (\pkg{rjd3highfreq}): `hf_decomposition`
 #' (except for `calendaradj()` and `calendar()`, which are not supported for this class).
-#' 
+#'
 #'
 #' @return A `ts` object (or a vector of numeric for `"hf_decomposition"` objects) containing the requested component.
-#' 
+#'
 #' @importFrom stats window start end
 #' @name components
 #' @rdname components
@@ -38,26 +38,42 @@
 #' @returns A `ts` object with the requested component.
 #' @export
 seasonal <- function(
-        x, forecast = FALSE, calendar = FALSE, seas_freq = NULL, ...
+    x,
+    forecast = FALSE,
+    calendar = FALSE,
+    seas_freq = NULL,
+    ...
 ) {
     UseMethod("seasonal", x)
 }
 #' @export
 seasonal.JD3_X13_OUTPUT <- function(
-        x, forecast = FALSE, calendar = FALSE, seas_freq = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    calendar = FALSE,
+    seas_freq = NULL,
+    ...
+) {
     seasonal(x$result, forecast = forecast)
 }
 #' @export
 seasonal.JD3_TRAMOSEATS_OUTPUT <- function(
-        x, forecast = FALSE, calendar = FALSE, seas_freq = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    calendar = FALSE,
+    seas_freq = NULL,
+    ...
+) {
     seasonal(x$result, forecast = forecast)
 }
 #' @export
 seasonal.JD3_X13_RSLTS <- function(
-        x, forecast = FALSE, calendar = FALSE, seas_freq = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    calendar = FALSE,
+    seas_freq = NULL,
+    ...
+) {
     if (forecast) {
         if (calendar) {
             x$final$d16a
@@ -74,8 +90,12 @@ seasonal.JD3_X13_RSLTS <- function(
 }
 #' @export
 seasonal.JD3_TRAMOSEATS_RSLTS <- function(
-        x, forecast = FALSE, calendar = FALSE, seas_freq = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    calendar = FALSE,
+    seas_freq = NULL,
+    ...
+) {
     if (forecast) {
         if (calendar) {
             x$final$s$fcast
@@ -92,16 +112,22 @@ seasonal.JD3_TRAMOSEATS_RSLTS <- function(
 }
 #' @export
 seasonal.JD3_Object <- function(
-        x, forecast = FALSE, calendar = FALSE, seas_freq = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    calendar = FALSE,
+    seas_freq = NULL,
+    ...
+) {
     if (forecast) {
         if (calendar) {
             rjd3toolkit::result(x, "s_f")
         } else {
             if (is_jx13(x)) {
-                window(rjd3toolkit::result(x, "decomposition.d10"),
-                       start = start(rjd3toolkit::result(x, "finals.d11a")))
-            } else  if (is_jtramoseats(x)) {
+                window(
+                    rjd3toolkit::result(x, "decomposition.d10"),
+                    start = start(rjd3toolkit::result(x, "finals.d11a"))
+                )
+            } else if (is_jtramoseats(x)) {
                 rjd3toolkit::result(x, "decomposition.s_cmp_f")
             } else {
                 stop("The object is not a seasonal adjustment model.")
@@ -112,9 +138,8 @@ seasonal.JD3_Object <- function(
             rjd3toolkit::result(x, "s")
         } else {
             if (is_jx13(x)) {
-                window(rjd3toolkit::result(x, "decomposition.d10"),
-                       end = end(rjd3toolkit::result(x, "y")))
-            } else  if (is_jtramoseats(x)) {
+                window(rjd3toolkit::result(x, "decomposition.d10"), end = end(rjd3toolkit::result(x, "y")))
+            } else if (is_jtramoseats(x)) {
                 rjd3toolkit::result(x, "decomposition.s_f")
             } else {
                 stop("The object is not a seasonal adjustment model.")
@@ -128,7 +153,7 @@ trendcycle <- function(x, forecast = FALSE, ...) {
     UseMethod("trendcycle", x)
 }
 #' @export
-trendcycle.JD3_X13_OUTPUT <- function(x, forecast = FALSE, ...){
+trendcycle.JD3_X13_OUTPUT <- function(x, forecast = FALSE, ...) {
     trendcycle(x$result, forecast = forecast)
 }
 
@@ -150,11 +175,11 @@ trendcycle.JD3_X13_OUTPUT <- function(x, forecast = FALSE, ...){
 #     }
 # }
 #' @export
-trendcycle.JD3_TRAMOSEATS_OUTPUT <- function(x, forecast = FALSE, ...){
+trendcycle.JD3_TRAMOSEATS_OUTPUT <- function(x, forecast = FALSE, ...) {
     trendcycle(x$result, forecast = forecast)
 }
 #' @export
-trendcycle.JD3_X13_RSLTS <- function(x, forecast = FALSE, ...){
+trendcycle.JD3_X13_RSLTS <- function(x, forecast = FALSE, ...) {
     if (forecast) {
         x$final$d12a
     } else {
@@ -162,7 +187,7 @@ trendcycle.JD3_X13_RSLTS <- function(x, forecast = FALSE, ...){
     }
 }
 #' @export
-trendcycle.JD3_TRAMOSEATS_RSLTS <- function(x, forecast = FALSE, ...){
+trendcycle.JD3_TRAMOSEATS_RSLTS <- function(x, forecast = FALSE, ...) {
     if (forecast) {
         x$final$t$fcasts
     } else {
@@ -170,7 +195,7 @@ trendcycle.JD3_TRAMOSEATS_RSLTS <- function(x, forecast = FALSE, ...){
     }
 }
 #' @export
-trendcycle.JD3_Object <- function(x, forecast = FALSE, ...){
+trendcycle.JD3_Object <- function(x, forecast = FALSE, ...) {
     if (forecast) {
         rjd3toolkit::result(x, "t_f")
     } else {
@@ -184,20 +209,29 @@ irregular <- function(x, forecast = FALSE, corrected = FALSE, ...) {
 }
 #' @export
 irregular.JD3_X13_OUTPUT <- function(
-        x, forecast = FALSE, corrected = FALSE, ...
-){
+    x,
+    forecast = FALSE,
+    corrected = FALSE,
+    ...
+) {
     irregular(x$result, forecast = forecast, corrected = corrected)
 }
 #' @export
 irregular.JD3_TRAMOSEATS_OUTPUT <- function(
-        x, forecast = FALSE, corrected = FALSE, ...
-){
+    x,
+    forecast = FALSE,
+    corrected = FALSE,
+    ...
+) {
     irregular(x$result, forecast = forecast, corrected = corrected)
 }
 #' @export
 irregular.JD3_X13_RSLTS <- function(
-        x, forecast = FALSE, corrected = FALSE, ...
-){
+    x,
+    forecast = FALSE,
+    corrected = FALSE,
+    ...
+) {
     if (forecast) {
         window(x$decomposition$d13, start = start(x$final$d11a))
     } else {
@@ -210,8 +244,11 @@ irregular.JD3_X13_RSLTS <- function(
 }
 #' @export
 irregular.JD3_TRAMOSEATS_RSLTS <- function(
-        x, forecast = FALSE, corrected = FALSE, ...)
-{
+    x,
+    forecast = FALSE,
+    corrected = FALSE,
+    ...
+) {
     if (forecast) {
         x$final$i$fcasts
     } else {
@@ -219,11 +256,10 @@ irregular.JD3_TRAMOSEATS_RSLTS <- function(
     }
 }
 #' @export
-irregular.JD3_Object <- function(x, forecast = FALSE, corrected = FALSE, ...){
+irregular.JD3_Object <- function(x, forecast = FALSE, corrected = FALSE, ...) {
     if (forecast) {
         if (is_jx13(x)) {
-            window(rjd3toolkit::result(x, "decomposition.d13"),
-                   start = start(rjd3toolkit::result(x, "finals.d11a")))
+            window(rjd3toolkit::result(x, "decomposition.d13"), start = start(rjd3toolkit::result(x, "finals.d11a")))
         } else {
             rjd3toolkit::result(x, "i_f")
         }
@@ -247,20 +283,29 @@ seasonaladj <- function(x, forecast = FALSE, corrected = FALSE, ...) {
 }
 #' @export
 seasonaladj.JD3_X13_OUTPUT <- function(
-        x, forecast = FALSE, corrected = FALSE, ...
-){
+    x,
+    forecast = FALSE,
+    corrected = FALSE,
+    ...
+) {
     seasonaladj(x$result, forecast = forecast, corrected = corrected)
 }
 #' @export
 seasonaladj.JD3_TRAMOSEATS_OUTPUT <- function(
-        x, forecast = FALSE, corrected = FALSE, ...
-){
+    x,
+    forecast = FALSE,
+    corrected = FALSE,
+    ...
+) {
     seasonaladj(x$result, forecast = forecast, corrected = corrected)
 }
 #' @export
 seasonaladj.JD3_X13_RSLTS <- function(
-        x, forecast = FALSE, corrected = FALSE, ...
-){
+    x,
+    forecast = FALSE,
+    corrected = FALSE,
+    ...
+) {
     if (forecast) {
         x$final$d11a
     } else {
@@ -273,8 +318,11 @@ seasonaladj.JD3_X13_RSLTS <- function(
 }
 #' @export
 seasonaladj.JD3_TRAMOSEATS_RSLTS <- function(
-        x, forecast = FALSE, corrected = FALSE, ...
-){
+    x,
+    forecast = FALSE,
+    corrected = FALSE,
+    ...
+) {
     if (forecast) {
         x$final$sa$fcasts
     } else {
@@ -283,8 +331,11 @@ seasonaladj.JD3_TRAMOSEATS_RSLTS <- function(
 }
 #' @export
 seasonaladj.JD3_Object <- function(
-        x, forecast = FALSE, corrected = FALSE, ...
-){
+    x,
+    forecast = FALSE,
+    corrected = FALSE,
+    ...
+) {
     if (forecast) {
         rjd3toolkit::result(x, "sa_f")
     } else {
@@ -294,7 +345,7 @@ seasonaladj.JD3_Object <- function(
             } else {
                 rjd3toolkit::result(x, "sa")
             }
-        } else  {
+        } else {
             rjd3toolkit::result(x, "sa")
         }
     }
@@ -303,26 +354,38 @@ seasonaladj.JD3_Object <- function(
 #' @rdname components
 #' @export
 calendaradj <- function(
-        x, forecast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    spec = NULL,
+    ...
+) {
     UseMethod("calendaradj", x)
 }
 #' @export
 calendaradj.JD3_X13_OUTPUT <- function(
-        x, forecast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    spec = NULL,
+    ...
+) {
     calendaradj(x$result, forecast = forecast)
 }
 #' @export
 calendaradj.JD3_TRAMOSEATS_OUTPUT <- function(
-        x, forecast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    spec = NULL,
+    ...
+) {
     calendaradj(x$result, forecast = forecast, spec = x$result_spec)
 }
 #' @export
 calendaradj.JD3_X13_RSLTS <- function(
-        x, forecast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    spec = NULL,
+    ...
+) {
     if (forecast) {
         y <- x$preadjust$a1a
     } else {
@@ -336,8 +399,11 @@ calendaradj.JD3_X13_RSLTS <- function(
 }
 #' @export
 calendaradj.JD3_TRAMOSEATS_RSLTS <- function(
-        x, forecast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    spec = NULL,
+    ...
+) {
     mod <- rjd3tramoseats::.jtramoseats(raw(x), spec = spec, ...)
     if (forecast) {
         rjd3toolkit::result(mod, "ycal_f")
@@ -347,8 +413,11 @@ calendaradj.JD3_TRAMOSEATS_RSLTS <- function(
 }
 #' @export
 calendaradj.JD3_Object <- function(
-        x, forecast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    spec = NULL,
+    ...
+) {
     if (forecast) {
         rjd3toolkit::result(x, "ycal_f")
     } else {
@@ -359,26 +428,38 @@ calendaradj.JD3_Object <- function(
 #' @rdname components
 #' @export
 calendar <- function(
-        x, forecast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    spec = NULL,
+    ...
+) {
     UseMethod("calendar", x)
 }
 #' @export
 calendar.JD3_X13_OUTPUT <- function(
-        x, forecast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    spec = NULL,
+    ...
+) {
     calendar(x$result, forecast = forecast)
 }
 #' @export
 calendar.JD3_TRAMOSEATS_OUTPUT <- function(
-        x, forecast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    spec = NULL,
+    ...
+) {
     calendar(x$result, forecast = forecast, spec = x$result_spec)
 }
 #' @export
 calendar.JD3_X13_RSLTS <- function(
-        x, forecast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    spec = NULL,
+    ...
+) {
     if (forecast) {
         x$final$d18a
     } else {
@@ -387,8 +468,11 @@ calendar.JD3_X13_RSLTS <- function(
 }
 #' @export
 calendar.JD3_TRAMOSEATS_RSLTS <- function(
-        x, forecast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    spec = NULL,
+    ...
+) {
     mod <- rjd3tramoseats::.jtramoseats(raw(x), spec = spec, ...)
     if (forecast) {
         rjd3toolkit::result(mod, "cal_f")
@@ -398,8 +482,11 @@ calendar.JD3_TRAMOSEATS_RSLTS <- function(
 }
 #' @export
 calendar.JD3_Object <- function(
-        x, forecast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    spec = NULL,
+    ...
+) {
     if (forecast) {
         rjd3toolkit::result(x, "cal_f")
     } else {
@@ -410,26 +497,42 @@ calendar.JD3_Object <- function(
 #' @rdname components
 #' @export
 raw <- function(
-        x, forecast = FALSE, backcast = FALSE, spec = NULL, ...
+    x,
+    forecast = FALSE,
+    backcast = FALSE,
+    spec = NULL,
+    ...
 ) {
     UseMethod("raw", x)
 }
 #' @export
 raw.JD3_X13_OUTPUT <- function(
-        x, forecast = FALSE, backcast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    backcast = FALSE,
+    spec = NULL,
+    ...
+) {
     raw(x$result, forecast = forecast, backcast = backcast)
 }
 #' @export
 raw.JD3_TRAMOSEATS_OUTPUT <- function(
-        x, forecast = FALSE, backcast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    backcast = FALSE,
+    spec = NULL,
+    ...
+) {
     raw(x$result, forecast = forecast, backcast = backcast, spec = x$result_spec)
 }
 #' @export
 raw.JD3_X13_RSLTS <- function(
-        x, forecast = FALSE, backcast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    backcast = FALSE,
+    spec = NULL,
+    ...
+) {
     if (forecast) {
         x$preadjust$a1a
     } else if (backcast) {
@@ -440,8 +543,12 @@ raw.JD3_X13_RSLTS <- function(
 }
 #' @export
 raw.JD3_TRAMOSEATS_RSLTS <- function(
-        x, forecast = FALSE, backcast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    backcast = FALSE,
+    spec = NULL,
+    ...
+) {
     if (forecast) {
         x$final$series$fcasts
     } else if (backcast) {
@@ -451,14 +558,18 @@ raw.JD3_TRAMOSEATS_RSLTS <- function(
             forecast = FALSE,
             backast = TRUE
         )
-    }else {
+    } else {
         x$final$series$data
     }
 }
 #' @export
 raw.JD3_Object <- function(
-        x, forecast = FALSE, backcast = FALSE, spec = NULL, ...
-){
+    x,
+    forecast = FALSE,
+    backcast = FALSE,
+    spec = NULL,
+    ...
+) {
     if (forecast) {
         rjd3toolkit::result(x, "y_f")
     } else if (backcast) {
@@ -472,7 +583,12 @@ raw.JD3_Object <- function(
 # rjd3highfreq:
 #' @export
 seasonal.hf_decomposition <- function(
-        x, forecast = FALSE, calendar = FALSE, seas_freq = NULL,...){
+    x,
+    forecast = FALSE,
+    calendar = FALSE,
+    seas_freq = NULL,
+    ...
+) {
     if (!is.null(x$decomposition$s)) {
         x$decomposition$s
     } else {
@@ -490,27 +606,30 @@ seasonal.hf_decomposition <- function(
                 colnames(x$decomposition)
             )[1]
         }
-        
+
         x$decomposition[, i_seas]
     }
 }
 #' @export
-trendcycle.hf_decomposition <- function(x, forecast = FALSE, ...){
-    i_tc <- grep("^(ts_component\\.)*t$",colnames(x$decomposition))
-    x$decomposition[,i_tc]
+trendcycle.hf_decomposition <- function(x, forecast = FALSE, ...) {
+    i_tc <- grep("^(ts_component\\.)*t$", colnames(x$decomposition))
+    x$decomposition[, i_tc]
 }
 #' @export
-irregular.hf_decomposition <- function(x, forecast = FALSE, ...){
-    i_irr <- grep("^(ts_component\\.)*i$",colnames(x$decomposition))
-    x$decomposition[,i_irr]
+irregular.hf_decomposition <- function(x, forecast = FALSE, ...) {
+    i_irr <- grep("^(ts_component\\.)*i$", colnames(x$decomposition))
+    x$decomposition[, i_irr]
 }
 #' @export
 seasonaladj.hf_decomposition <- function(
-        x, forecast = FALSE, corrected = FALSE, ...
-){
+    x,
+    forecast = FALSE,
+    corrected = FALSE,
+    ...
+) {
     x$decomposition$sa
 }
 #' @export
-raw.hf_decomposition <- function(x, forecast = FALSE, backcast = FALSE, spec = NULL, ...){
+raw.hf_decomposition <- function(x, forecast = FALSE, backcast = FALSE, spec = NULL, ...) {
     x$decomposition$series
 }

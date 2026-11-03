@@ -1,7 +1,7 @@
 #' Industrial Production Indices in manufacturing in the European Union
 #'
-#' A dataset containing on monthly industrial production indices in manufacturing in the European Union 
-#' (from sts_inpr_m dataset of Eurostat). 
+#' A dataset containing on monthly industrial production indices in manufacturing in the European Union
+#' (from sts_inpr_m dataset of Eurostat).
 #' Data are based 100 in 2015 and are unadjusted, i.e. neither seasonally adjusted nor calendar adjusted.
 #'
 #' The dataset contains 34 time series corresponding to the following geographical area
@@ -65,7 +65,6 @@
 # ipi_c_eu_df <- ts2df(ipi_c_eu)
 # save(ipi_c_eu,file = "data/ipi_c_eu.rda", version = 2)
 # save(ipi_c_eu_df,file = "data/ipi_c_eu_df.rda", version = 2)
-
 
 #' US Claims
 #'

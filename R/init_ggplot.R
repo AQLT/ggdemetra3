@@ -14,7 +14,7 @@
 #'     geom_line(color = "#F0B400") +
 #'     geom_sa(component = "sa", color = "#155692")
 #' }
-#'     
+#'
 #' @return A \pkg{ggplot2} object that can be further customized.
 #' @export
 init_ggplot <- function(x, ...) {
@@ -23,7 +23,7 @@ init_ggplot <- function(x, ...) {
 
 #' @name init_ggplot
 #' @export
-init_ggplot.JD3_X13_OUTPUT<- function(x, context = NULL, ...) {
+init_ggplot.JD3_X13_OUTPUT <- function(x, context = NULL, ...) {
     spec <- x$result_spec
     y <- raw(x)
     d_y <- ts2dataframe(y)
@@ -34,10 +34,11 @@ init_ggplot.JD3_X13_OUTPUT<- function(x, context = NULL, ...) {
         context = context,
         frequency = frequency(y),
         message = FALSE,
-        new_data = TRUE)
+        new_data = TRUE
+    )
     ggplot2::ggplot(
-        data = d_y, 
-        ggplot2::aes(x = x, y = y), 
+        data = d_y,
+        ggplot2::aes(x = x, y = y),
         ...
     )
 }
@@ -54,16 +55,17 @@ init_ggplot.JD3_TRAMOSEATS_OUTPUT <- function(x, context = NULL, ...) {
         context = context,
         frequency = frequency(y),
         message = FALSE,
-        new_data = TRUE)
+        new_data = TRUE
+    )
     ggplot2::ggplot(
-        data = d_y, 
-        ggplot2::aes(x = x, y = y), 
+        data = d_y,
+        ggplot2::aes(x = x, y = y),
         ...
     )
 }
 #' @name init_ggplot
 #' @export
-init_ggplot.JD3_Object <- function(x, ...){
+init_ggplot.JD3_Object <- function(x, ...) {
     y <- raw(x)
     d_y <- data <- ts2dataframe(y)
     frequency <- frequency(y)
@@ -78,14 +80,14 @@ init_ggplot.JD3_Object <- function(x, ...){
     }
     .ggdemetra$data_ts <-
         dataframe2ts(data = data, frequency = frequency, message = message)
-    
+
     .ggdemetra$sa <- x
     .ggdemetra$spec <- spec
     .ggdemetra$method <- method
     .ggdemetra$data_y <- data$y
     ggplot2::ggplot(
-        data = d_y, 
-        ggplot2::aes(x = x, y = y), 
+        data = d_y,
+        ggplot2::aes(x = x, y = y),
         ...
     )
 }
@@ -96,9 +98,9 @@ is_jx13 <- function(x) {
         x <- x$internal
     }
     rJava::.jinstanceof(
-        x, 
+        x,
         "jdplus/x13/base/core/x13/X13Results"
-        )
+    )
 }
 #' @keywords internal
 #' @noRd
@@ -107,43 +109,43 @@ is_jtramoseats <- function(x) {
         x <- x$internal
     }
     rJava::.jinstanceof(
-        x, 
+        x,
         "jdplus/tramoseats/base/core/tramoseats/TramoSeatsResults"
-        )
+    )
 }
 #' @name init_ggplot
 #' @export
 init_ggplot.hf_decomposition <- function(
-        x, dates = NULL,
-        ...) {
-    
+    x,
+    dates = NULL,
+    ...
+) {
     y <- raw(x)
-    if (!is.null(x$parameters$series_time)){
+    if (!is.null(x$parameters$series_time)) {
         dates <- x$parameters$series_time
     } else if (is.null(dates)) {
         dates <- seq_along(raw(x))
     }
-    d_y <-  data.frame(x = dates,
-                       y = y)
+    d_y <- data.frame(x = dates, y = y)
     .ggdemetra$data_ts <- x
     .ggdemetra$sa <- x
     .ggdemetra$spec <- x$parameters
     .ggdemetra$data_y <- y
     # Method not important since no reestimation is done
-    .ggdemetra$method <- "hf_decomposition" 
-    
+    .ggdemetra$method <- "hf_decomposition"
+
     ggplot2::ggplot(
-        data = d_y, 
-        ggplot2::aes(x = x, y = y), 
+        data = d_y,
+        ggplot2::aes(x = x, y = y),
         ...
     )
 }
-# 
+#
 # guess_hf_method <- function(x, frequency = NULL, dates = NULL, spec = NULL, method = NULL){
 #     if (!is.null(method)) {
 #         return(method)
 #     }
-#     default_spec_warning <- 
+#     default_spec_warning <-
 #         paste0(
 #             "The 'spec' is not provided, the parameters of the model will be used as spec.",
 #             "The parameters being an incomplete list of the specification, the result might be different.",
@@ -187,7 +189,7 @@ init_ggplot.hf_decomposition <- function(
 #         }
 #         if (!tolower(method[1]) %in% c("istl", "mstl")) {
 #             stop("The method should be mstl or istl")
-#         } 
+#         }
 #         if (is.null(frequency)){
 #             stop("The frequency must be provided for MSTL/ISTL decomposition")
 #         }
@@ -196,13 +198,13 @@ init_ggplot.hf_decomposition <- function(
 #             warning(default_spec_warning)
 #         }
 #     }
-#     
+#
 #     list(
-#         method = method, 
-#         frequency = frequency, 
-#         dates = dates, 
+#         method = method,
+#         frequency = frequency,
+#         dates = dates,
 #         spec = spec
 #     )
-#     
+#
 # }
-# 
+#

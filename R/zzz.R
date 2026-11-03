@@ -14,7 +14,7 @@
     if (!requireNamespace("rjd3tramoseats", quietly = TRUE)) {
         stop("Loading {rjd3tramoseats} failed", call. = FALSE)
     }
-    
+
     # If java >= 21, then reload dictionnaries
     has_java <- rjd3jars::check_java_version(silent = TRUE)
     if (has_java) {
