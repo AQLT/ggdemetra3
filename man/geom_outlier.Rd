@@ -103,7 +103,7 @@ With \code{geom = "label"}, a rectangle is drawn behind the names of the outlier
 The same applies to \code{geom = "text_repel"} or \code{geom = "label_repel"}, but text labels are also repelled away from each other and away from the data points (see \code{\link[ggrepel:geom_label_repel]{ggrepel::geom_label_repel()}}).
 }
 \examples{
-\dontshow{if (rjd3jars::check_java_version(silent = TRUE) ) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 p_sa_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     geom_line() +
     labs(
@@ -111,16 +111,16 @@ p_sa_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
         x = "time", y = NULL
     ) +
     geom_sa(color = "red", message = FALSE)
-         
+
 # To add the outliers:
 p_sa_ipi_fr + geom_outlier(
     geom = "label",
     message = FALSE
 )
 
-# To have a more readable plot with outlier names repelled away from each other 
+# To have a more readable plot with outlier names repelled away from each other
 # and from the data points:
-p_sa_ipi_fr + 
+p_sa_ipi_fr +
     geom_outlier(
         geom = "label_repel",
         message = FALSE,
@@ -133,7 +133,7 @@ p_sa_ipi_fr +
     )
 
 # To only plot the outliers from a specific date (2009):
-p_sa_ipi_fr + 
+p_sa_ipi_fr +
     geom_outlier(
         geom = "label_repel",
         message = FALSE,

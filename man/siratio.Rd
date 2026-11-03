@@ -73,7 +73,7 @@ Computes and visualizes the Seasonal-Irregular (SI) ratio from a seasonal adjust
 (X-13 or TRAMO-SEATS).
 }
 \examples{
-\dontshow{if (rjd3jars::check_java_version(silent = TRUE) ) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 x <- rjd3x13::x13(ipi_c_eu[, "FR"])
 siratioplot(x)
 ggsiratioplot(x)

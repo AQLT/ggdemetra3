@@ -22,7 +22,7 @@ A \code{data.frame} object.
 Converts a \code{ts} or \code{mts} object into a \code{data.frame} that can be directly used in plotting functions.
 }
 \examples{
-\dontshow{if (rjd3jars::check_java_version(silent = TRUE) ) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 # To get the ipi_c_eu_df object:
 ts2df(ipi_c_eu)
 \dontshow{\}) # examplesIf}

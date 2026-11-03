@@ -81,7 +81,7 @@ Adds a table of diagnostics to the plot.
 Only available for X-13 (\code{\link[rjd3x13:x13]{rjd3x13::x13()}}) and TRAMO-SEATS (\code{\link[rjd3tramoseats:tramoseats]{rjd3tramoseats::tramoseats()}}) methods.
 }
 \examples{
-\dontshow{if (rjd3jars::check_java_version(silent = TRUE) ) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 p_sa_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     geom_line() +
     labs(
@@ -90,10 +90,10 @@ p_sa_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     ) +
     geom_sa(color = "red", message = FALSE)
 
-# To add a table of diagnostics with the result of the X-11 combined test 
+# To add a table of diagnostics with the result of the X-11 combined test
 # and the p-values of the residual seasonality QS and F-tests:
 diagnostics <- c("diagnostics.seas-sa-combined", "diagnostics.seas-sa-qs", "diagnostics.seas-sa-f")
-p_sa_ipi_fr + 
+p_sa_ipi_fr +
     geom_diagnostics(
         diagnostics = diagnostics,
         ymin = 58, ymax = 72, xmin = 2010,
@@ -107,7 +107,7 @@ diagnostics <- c(
     `Residual qs-test (p-value)` = "diagnostics.seas-sa-qs",
     `Residual f-test (p-value)` = "diagnostics.seas-sa-f"
 )
-p_sa_ipi_fr + 
+p_sa_ipi_fr +
     geom_diagnostics(
         diagnostics = diagnostics,
         ymin = 58, ymax = 72, xmin = 2010,
@@ -115,13 +115,13 @@ p_sa_ipi_fr +
         message = FALSE
     )
 
-# To add the table below the plot: 
+# To add the table below the plot:
 p_diag <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     geom_diagnostics(
         diagnostics = diagnostics,
         table_theme = gridExtra::ttheme_default(base_size = 8),
         message = FALSE
-    ) + 
+    ) +
     theme_void()
 
 gridExtra::grid.arrange(

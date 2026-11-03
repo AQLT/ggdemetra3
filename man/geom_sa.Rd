@@ -102,7 +102,7 @@ Performs a seasonal adjustment and plots a specific component of the decompositi
 Use \code{stat_sa()} if you want to display the results with a non-standard geom.
 }
 \examples{
-\dontshow{if (rjd3jars::check_java_version(silent = TRUE) ) withAutoprint(\{ # examplesIf}
+\dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
 p_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     geom_line() +
     labs(
@@ -116,9 +116,9 @@ p_ipi_fr +
 
 # To add the forecasts of the input data and the seasonally adjusted series:
 p_sa <- p_ipi_fr +
-    geom_sa(component = "y_f", linetype = 2, message = FALSE) + 
+    geom_sa(component = "y_f", linetype = 2, message = FALSE) +
     geom_sa(component = "sa", color = "red", message = FALSE) +
     geom_sa(component = "sa_f", color = "red", linetype = 2, message = FALSE)
-p_sa 
+p_sa
 \dontshow{\}) # examplesIf}
 }

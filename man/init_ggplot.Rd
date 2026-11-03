@@ -44,6 +44,5 @@ init_ggplot(mod) +
     geom_line(color = "#F0B400") +
     geom_sa(component = "sa", color = "#155692")
 }
-    
 \dontshow{\}) # examplesIf}
 }
