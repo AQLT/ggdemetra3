@@ -63,3 +63,5 @@ pom.xml.versionsBackup
 # Quarto related files
 **/.quarto/
 .quarto
+
+.vscode
