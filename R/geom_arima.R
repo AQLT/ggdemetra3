@@ -68,6 +68,7 @@ StatArima <- ggproto(
 #' With `geom = "label"`, a rectangle is drawn behind the ARIMA model text, making it easier to read.
 #'
 #' @examplesIf rjd3jars::check_java_version(silent = TRUE)
+#' \donttest{
 #' p_sa_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
 #'     geom_line() +
 #'     labs(
@@ -83,7 +84,8 @@ StatArima <- ggproto(
 #'         x_arima = -Inf, y_arima = -Inf, 
 #'         vjust = -1, hjust = -0.1,
 #'         message = FALSE
-#'     )       
+#'     )
+#' }   
 #' @importFrom ggplot2 GeomText GeomLabel
 #' @importFrom ggrepel GeomTextRepel GeomLabelRepel
 #' @return A \pkg{ggplot2} layer object to be added to a plot.

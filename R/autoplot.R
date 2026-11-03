@@ -23,10 +23,10 @@
 #' @importFrom stats ts.union
 #' @method autoplot JD3_X13_OUTPUT
 #' @examplesIf rjd3jars::check_java_version(silent = TRUE)
+#' \donttest{
 #' autoplot(rjd3x13::jx13(ipi_c_eu[, "FR"]))
 #' 
-#' \donttest{
-#' hf_data <- usclaims[usclaims$date <= "2019-12-01",]
+#' hf_data <- usclaims[usclaims$date <= "2019-12-01", ]
 #' mod_hf <- rjd3highfreq::fractional_airline_decomposition(
 #'   hf_data[, "Initial claims"], 
 #'   period = 52,

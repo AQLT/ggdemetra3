@@ -87,6 +87,7 @@ With \code{geom = "label"}, a rectangle is drawn behind the ARIMA model text, ma
 }
 \examples{
 \dontshow{if (rjd3jars::check_java_version(silent = TRUE)) withAutoprint(\{ # examplesIf}
+\donttest{
 p_sa_ipi_fr <- ggplot(data = ipi_c_eu_df, mapping = aes(x = date, y = FR)) +
     geom_line() +
     labs(
@@ -102,6 +103,7 @@ p_sa_ipi_fr +
         x_arima = -Inf, y_arima = -Inf, 
         vjust = -1, hjust = -0.1,
         message = FALSE
-    )       
+    )
+}   
 \dontshow{\}) # examplesIf}
 }
